@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MA Quantum IDEA | Login</title>
+  <title>GuruIDEA | Login</title>
   <link rel="shortcut icon" href="{{ asset('img/icon-quantum.png') }}" type="image/x-icon">
 
   <!-- Google Font: Source Sans Pro -->
