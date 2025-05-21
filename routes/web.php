@@ -6,9 +6,6 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
-// Route::get('/', function () {
-//     return view('index');
-// });
 
 Route::get("/", [DashboardController::class,"index"])->middleware("guest");
 Route::get("/dashboard", [DashboardController::class,"masuk"])->middleware("auth");
