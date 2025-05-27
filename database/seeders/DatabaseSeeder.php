@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -82,6 +83,158 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('rosmawati123'),
             ],
         ])->each(fn ($data) => User::factory()->create($data));
+
+        DB::table('indikator')->insert([
+            [
+                'nama_indikator' => 'capaian_pembelajaran',
+                'kategori' => '1'    
+            ],
+            [
+                'nama_indikator' => 'analisis_tujuan_pembelajaran',
+                'kategori' => '1'    
+            ],
+            [
+                'nama_indikator' => 'modul_ajar',
+                'kategori' => '1'    
+            ],
+            [
+                'nama_indikator' => 'modul_proyek_p5',
+                'kategori' => '1'    
+            ],
+            [
+                'nama_indikator' => 'kkpt',
+                'kategori' => '1'    
+            ],
+            [
+                'nama_indikator' => 'program_remedial_pengayaan',
+                'kategori' => '1'    
+            ],
+            [
+                'nama_indikator' => 'kode_etik_guru',
+                'kategori' => '2'
+            ],
+            [
+                'nama_indikator' => 'ikrar_guru',
+                'kategori' => '2'
+            ],
+            [
+                'nama_indikator' => 'tata_tertib',
+                'kategori' => '2'
+            ],
+            [
+                'nama_indikator' => 'pembiasaan_guru',
+                'kategori' => '2'
+            ],
+            [
+                'nama_indikator' => 'kalender_pendidikan',
+                'kategori' => '2'
+            ],
+            [
+                'nama_indikator' => 'analisis_alokasi_waktu',
+                'kategori' => '2'
+            ],
+            [
+                'nama_indikator' => 'prota',
+                'kategori' => '2'
+            ],
+            [
+                'nama_indikator' => 'promes',
+                'kategori' => '2'
+            ],
+            [
+                'nama_indikator' => 'jurnal_agenda',
+                'kategori' => '2'
+            ],
+            [
+                'nama_indikator' => 'daftar_hadir_siswa',
+                'kategori' => '3'
+            ],
+            [
+                'nama_indikator' => 'daftar_nilai',
+                'kategori' => '3'
+            ],
+            [
+                'nama_indikator' => 'penilaian_sikap',
+                'kategori' => '3'
+            ],
+            [
+                'nama_indikator' => 'analisis_hasil_penilaian',
+                'kategori' => '3'
+            ],
+            [
+                'nama_indikator' => 'daftar_buku_pegangan',
+                'kategori' => '3'
+            ],
+            [
+                'nama_indikator' => 'jadwal_mengajar',
+                'kategori' => '3'
+            ],
+            [
+                'nama_indikator' => 'daya_serap_siswa',
+                'kategori' => '3'
+            ],
+            [
+                'nama_indikator' => 'kisi_kisi_soal',
+                'kategori' => '3'
+            ],
+            [
+                'nama_indikator' => 'kumpulan_soal',
+                'kategori' => '3'
+            ],
+            [
+                'nama_indikator' => 'analisis_butir_soal',
+                'kategori' => '3'
+            ],
+            [
+                'nama_indikator' => 'perbaikan_soal',
+                'kategori' => '3'
+            ],
+            [
+                'nama_indikator' => 'refleksi_kinerja',
+                'kategori' => '4'
+            ],
+            [
+                'nama_indikator' => 'tindak_lanjut_kinerja',
+                'kategori' => '4'
+            ],
+            [
+                'nama_indikator' => 'sop_modul_ajar',
+                'kategori' => '4'
+            ],
+            [
+                'nama_indikator' => 'analisis_cp',
+                'kategori' => '4'
+            ],
+            [
+                'nama_indikator' => 'analisis_materi',
+                'kategori' => '4'
+            ],
+            [
+                'nama_indikator' => 'analisis_model_pembelajaran',
+                'kategori' => '4'
+            ],
+            [
+                'nama_indikator' => 'sop_modul_proyek',
+                'kategori' => '4'
+            ],
+            [
+                'nama_indikator' => 'analisis_proyek',
+                'kategori' => '4'
+            ],
+            [
+                'nama_indikator' => 'analisis_dimensi_pancasila',
+                'kategori' => '4'
+            ],
+            [
+                'nama_indikator' => 'analisis_model_pembelajaran_proyek',
+                'kategori' => '4'
+            ],
+            [
+                'nama_indikator' => 'analisis_asesmen_proyek',
+                'kategori' => '4'
+            ],
+        ]);
+
 
     }
 }

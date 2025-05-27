@@ -5,10 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Guru extends Model
+class BukuKerja extends Model
 {
-    /** @use HasFactory<\Database\Factories\GuruFactory> */
+    /** @use HasFactory<\Database\Factories\BukuKerjaFactory> */
     use HasFactory;
-
-    protected $guarded = [];
 }

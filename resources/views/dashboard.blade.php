@@ -501,12 +501,22 @@
                 @csrf
                 <div class="form-group">
                     <label for="judul">Judul Dokumen</label>
-                    <input type="text" name="judul" id="judul" class="form-control" placeholder="Contoh: RPP Bahasa Indonesia" required>
+                    <input type="text" name="judul" id="judul" class="form-control" placeholder="Contoh: Program Tahunan Fisika" required>
                 </div>
                 <div class="form-group">
                     <label for="kategori">Kategori</label>
                     <select name="kategori" id="kategori" class="form-control" required>
                     <option value="">-- Pilih Kategori --</option>
+                    <option value="RPP">RPP</option>
+                    <option value="Silabus">Silabus</option>
+                    <option value="Prota">Program Tahunan</option>
+                    <option value="Promes">Program Semester</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="indikator">Kategori</label>
+                    <select name="indikator" id="indikator" class="form-control" required>
+                    <option value="">-- Pilih Indikator --</option>
                     <option value="RPP">RPP</option>
                     <option value="Silabus">Silabus</option>
                     <option value="Prota">Program Tahunan</option>
