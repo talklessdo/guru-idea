@@ -9,4 +9,6 @@ class BukuKerja extends Model
 {
     /** @use HasFactory<\Database\Factories\BukuKerjaFactory> */
     use HasFactory;
+
+    protected $guard = [];
 }

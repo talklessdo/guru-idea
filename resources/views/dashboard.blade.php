@@ -497,37 +497,124 @@
                 <strong>📤 Unggah Dokumen Baru</strong>
             </div>
             <div class="card-body">
-                <form method="POST" action="/guru/upload-dokumen" enctype="multipart/form-data">
+                {{-- ALERT NOTIFIKASI --}}
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Berhasil!</strong> {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Gagal!</strong> {{ session('error') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+                <form method="POST" action="/upload" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
-                    <label for="judul">Judul Dokumen</label>
-                    <input type="text" name="judul" id="judul" class="form-control" placeholder="Contoh: Program Tahunan Fisika" required>
-                </div>
-                <div class="form-group">
-                    <label for="kategori">Kategori</label>
-                    <select name="kategori" id="kategori" class="form-control" required>
-                    <option value="">-- Pilih Kategori --</option>
-                    <option value="RPP">RPP</option>
-                    <option value="Silabus">Silabus</option>
-                    <option value="Prota">Program Tahunan</option>
-                    <option value="Promes">Program Semester</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="indikator">Kategori</label>
-                    <select name="indikator" id="indikator" class="form-control" required>
-                    <option value="">-- Pilih Indikator --</option>
-                    <option value="RPP">RPP</option>
-                    <option value="Silabus">Silabus</option>
-                    <option value="Prota">Program Tahunan</option>
-                    <option value="Promes">Program Semester</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="file">File Dokumen (PDF)</label>
-                    <input type="file" name="file" id="file" class="form-control-file" accept="application/pdf" required>
-                </div>
-                <button type="submit" class="btn btn-success"><i class="fas fa-upload"></i> Unggah Dokumen</button>
+                <input type="hidden" name="nama_guru" id="nama_guru" value="{{ auth()->user()->name }}">
+                    <div class="form-group">
+                        <label for="judul">Judul Dokumen</label>
+                        <input type="text" name="judul" id="judul" class="form-control" placeholder="Contoh: Program Tahunan Fisika" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mapel">Mata Pelajaran</label>
+                        <select name="mapel" id="mapel" class="form-control" required>
+                            <option value="">-- Pilih Mata Pelajaran --</option>
+                            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                            <option value="Bahasa Inggris">Bahasa Inggris</option>
+                            <option value="Matematika">Matematika</option>
+                            <option value="Fisika">Fisika</option>
+                            <option value="Kimia">Kimia</option>
+                            <option value="Biologi">Biologi</option>
+                            <option value="Ekonomi">Ekonomi</option>
+                            <option value="Geografi">Geografi</option>
+                            <option value="Sosiologi">Sosiologi</option>
+                            <option value="Sejarah">Sejarah</option>
+                            <option value="PJOK">PJOK</option>
+                            <option value="TIK">TIK</option>
+                            <option value="Seni Budaya">Seni Budaya</option>
+                            <option value="Agama Islam">Agama Islam</option>
+                            <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>
+                            <option value="Bahasa Arab">Bahasa Arab</option>
+                            <option value="Prakarya">Prakarya</option>
+                            <option value="BK">Bimbingan Konseling (BK)</option>
+                            <option value="Produktif RPL">Produktif RPL</option>
+                            <option value="Produktif TKJ">Produktif TKJ</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kelas</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="kelas" id="kelasX" value="x" required>
+                            <label class="form-check-label" for="kelasX">X (Sepuluh)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="kelas" id="kelasXI" value="xi">
+                            <label class="form-check-label" for="kelasXI">XI (Sebelas)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="kelas" id="kelasXII" value="xii">
+                            <label class="form-check-label" for="kelasXII">XII (Dua Belas)</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="kategori">Kategori</label>
+                        <select onchange="opsi()" name="kategori" id="kategori" class="form-control" required>
+                            <option value="">-- Pilih Kategori --</option>
+                            <option value="bk1">Buku Kerja 1</option>
+                            <option value="bk2">Buku Kerja 2</option>
+                            <option value="bk3">Buku Kerja 3</option>
+                            <option value="bk4">Buku Kerja 4</option>
+                        </select>
+                    </div>
+                    <div id="indikator1" class="form-group d-none">
+                        <label for="indikator1">Indikator</label>
+                        <select id="id_indikator1" class="form-control" required>
+                            <option value="">-- Pilih Indikator --</option>
+                            <option value="RPP">RPP</option>
+                        </select>
+                    </div>
+                    <div id="indikator2" class="form-group d-none">
+                        <label for="indikator2">Indikator</label>
+                        <select id="id_indikator2" class="form-control" required>
+                            <option value="">-- Pilih Indikator --</option>
+                            <option value="RPP">RPP</option>
+                            <option value="Silabus">Silabus</option>
+                        </select>
+                    </div>
+                    <div id="indikator3" class="form-group d-none">
+                        <label for="indikator3">Indikator</label>
+                        <select id="id_indikator3" class="form-control" required>
+                            <option value="">-- Pilih Indikator --</option>
+                            <option value="RPP">RPP</option>
+                            <option value="Silabus">Silabus</option>
+                            <option value="Prota">Program Tahunan</option>
+                        </select>
+                    </div>
+                    <div id="indikator4" class="form-group d-none">
+                        <label for="indikator4">Indikator</label>
+                        <select id="id_indikator4" class="form-control" required>
+                            <option value="">-- Pilih Indikator --</option>
+                            <option value="RPP">RPP</option>
+                            <option value="Silabus">Silabus</option>
+                            <option value="Prota">Program Tahunan</option>
+                            <option value="Promes">Program Semester</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="file">File Dokumen (PDF)</label>
+                        <input type="file" name="file" id="file" class="form-control-file" accept="application/pdf" required>
+                    </div>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-upload"></i> Unggah Dokumen</button>
                 </form>
             </div>
             </div>
@@ -593,9 +680,95 @@
 
         </section>
     </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    var indikator1 = document.getElementById('indikator1');
+    var indikator2 = document.getElementById('indikator2');
+    var indikator3 = document.getElementById('indikator3');
+    var indikator4 = document.getElementById('indikator4');
 
+    var indikators1 = document.getElementById('id_indikator1');
+    var indikators2 = document.getElementById('id_indikator2');
+    var indikators3 = document.getElementById('id_indikator3');
+    var indikators4 = document.getElementById('id_indikator4');
 
-    </x-layout>
+    function opsi(){
+        var kategori = document.getElementById('kategori');
+        var valueKategori = kategori.value;
+        if (valueKategori == 'bk1') {
+            indikator1.classList.remove('d-none');
+            indikator2.classList.add('d-none');
+            indikator3.classList.add('d-none');
+            indikator4.classList.add('d-none');
+
+            indikators1.setAttribute('name','indikator');
+            indikators2.removeAttribute('name');
+            indikators3.removeAttribute('name');
+            indikators4.removeAttribute('name');
+
+            indikators1.setAttribute('required','');
+            indikators2.removeAttribute('required');
+            indikators3.removeAttribute('required');
+            indikators4.removeAttribute('required');
+        }else if(valueKategori == 'bk2'){
+            indikator2.classList.remove('d-none');
+            indikator1.classList.add('d-none');
+            indikator3.classList.add('d-none');
+            indikator4.classList.add('d-none');
+
+            indikators2.setAttribute('name','indikator');
+            indikators1.removeAttribute('name');
+            indikators3.removeAttribute('name');
+            indikators4.removeAttribute('name');
+
+            indikators2.setAttribute('required','');
+            indikators1.removeAttribute('required');
+            indikators3.removeAttribute('required');
+            indikators4.removeAttribute('required');
+        }else if(valueKategori == 'bk3'){
+            indikator3.classList.remove('d-none');
+            indikator1.classList.add('d-none');
+            indikator2.classList.add('d-none');
+            indikator4.classList.add('d-none');
+
+            indikators3.setAttribute('name','indikator');
+            indikators1.removeAttribute('name');
+            indikators2.removeAttribute('name');
+            indikators4.removeAttribute('name');
+
+            indikators3.setAttribute('required','');
+            indikators1.removeAttribute('required');
+            indikators2.removeAttribute('required');
+            indikators4.removeAttribute('required');
+        }else if(valueKategori == 'bk4'){
+            indikator4.classList.remove('d-none');
+            indikator1.classList.add('d-none');
+            indikator2.classList.add('d-none');
+            indikator3.classList.add('d-none');
+            
+            indikators4.setAttribute('name','indikator');
+            indikators1.removeAttribute('name');
+            indikators2.removeAttribute('name');
+            indikators3.removeAttribute('name');
+
+            indikators4.setAttribute('required','');
+            indikators1.removeAttribute('required');
+            indikators2.removeAttribute('required');
+            indikators3.removeAttribute('required');
+        }else{
+            indikator1.classList.add('d-none');
+            indikator2.classList.add('d-none');
+            indikator3.classList.add('d-none');
+            indikator4.classList.add('d-none');
+
+            indikators1.removeAttribute('required');
+            indikators2.removeAttribute('required');
+            indikators3.removeAttribute('required');
+            indikators4.removeAttribute('required');
+        }
+    }
+</script>
+</x-layout>
 
 {{-- End Guru --}}
 @endif

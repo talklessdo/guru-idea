@@ -2,6 +2,14 @@
   $user = Auth::user();
   $role = $user->role ?? 'guru';
 @endphp
+<style>
+  .name-wrap {
+    word-wrap: break-word; /* untuk memotong kata panjang */
+    word-break: break-word; /* alternatif tambahan */
+    white-space: normal; /* pastikan teks bisa ke baris berikutnya */
+  }
+
+</style>
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand -->
@@ -17,7 +25,7 @@
         <img src="{{ asset('admin/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-        <a href="#" class="d-block">{{ $user->name }}</a>
+        <a href="#" class="d-block name-wrap">{{ $user->name }}</a>
       </div>
     </div>
 

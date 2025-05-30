@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('slug');
 
             // Jenis Buku Kerja: 1, 2, 3, atau 4
-            $table->enum('kategori', ['1', '2', '3', '4']);
-            $table->enum('status', ['approve', 'pending', 'decline']);
+            $table->enum('kategori', ['bk1', 'bk2', 'bk3', 'bk4']);
+            $table->enum('status', ['approve', 'pending', 'decline'])->default('pending');
             $table->enum('kelas', ['x', 'xi', 'xii']);
 
             $table->text('catatan')->nullable(); // isi dari indikator
