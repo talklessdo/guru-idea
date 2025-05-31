@@ -10,5 +10,17 @@ class BukuKerja extends Model
     /** @use HasFactory<\Database\Factories\BukuKerjaFactory> */
     use HasFactory;
 
-    protected $guard = [];
+    protected $table = 'buku_kerja';
+    protected $fillable = [
+        'nama_guru',
+        'judul',
+        'guru_id',
+        'slug',
+        'mata_pelajaran',
+        'kelas',
+        'indikator_id',
+        'nama_file',
+        'status',
+        'kategori',
+    ];
 }

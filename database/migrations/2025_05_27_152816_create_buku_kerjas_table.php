@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('buku_kerja', function (Blueprint $table) {
             $table->id();
             $table->string('nama_guru');
-            $table->string('mata_pelajaran')->nullable();
+            $table->string('judul');
+            $table->string('mata_pelajaran');
             $table->string('slug');
 
             // Jenis Buku Kerja: 1, 2, 3, atau 4
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->enum('status', ['approve', 'pending', 'decline'])->default('pending');
             $table->enum('kelas', ['x', 'xi', 'xii']);
 
+            $table->text('nama_file');
             $table->text('catatan')->nullable(); // isi dari indikator
             $table->foreignId('guru_id')->constrained(
                 table: 'users', indexName: 'buker_guru_id' //indexName bebas

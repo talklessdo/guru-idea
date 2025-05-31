@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BukuKerja;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class DokumenController extends Controller
 {
@@ -26,13 +27,14 @@ class DokumenController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    
+     
+     public function store(Request $request)
     {
         // Validasi input
         $validated = $request->validate([
             'judul'    => 'required|string|max:255',
             'mapel'    => 'required|string',
-            'indikator'=> 'required|string',
             'kelas'    => 'required|string|in:x,xi,xii',
             'kategori' => 'required|string|in:bk1,bk2,bk3,bk4',
             'file'     => 'required|mimes:pdf|max:2048', // max 2MB
@@ -41,19 +43,24 @@ class DokumenController extends Controller
         // Cek apakah file berhasil diunggah
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
             $file = $request->file('file');
-            $filePath = $file->store('dokumen', 'public');
+            $fileName = $file->getClientOriginalName();
+            $filePath = $file->storeAs('dokumen', $fileName,'public');
 
             // Cek apakah file path tersimpan
             if ($filePath) {
                 // Simpan ke database
                 $saved = BukuKerja::create([
-                    'judul'     => $validated['judul'],
-                    'mapel'     => $validated['mapel'],
+                    'nama_guru'   => $request->nama_guru,
+                    'judul'     => $request->judul,
+                    'guru_id'     => $request->id_guru,
+                    'indikator_id'     => $request->indikator,
+                    'mata_pelajaran'     => $validated['mapel'],
+                    'slug'     => Str::slug($request->judul),
                     'kelas'     => strtoupper($validated['kelas']),
                     'kategori'  => $validated['kategori'],
                     'file_path' => $filePath,
-                    'nama_guru'   => $request->nama_guru,
                     'status'    => 'pending',
+                    'nama_file'    => $fileName ,
                 ]);
 
                 if ($saved) {

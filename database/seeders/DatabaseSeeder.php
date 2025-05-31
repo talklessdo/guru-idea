@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'GUNTUR NURROHMAN S.Kom, ',
                 'email' => 'gunturnurrohman2021@gmail.com',
                 'password' => bcrypt('guntur123'),
+                'role'=> 'kurikulum',
             ],
             [
                 'name' => 'MUHAMMAD ALWI S. PD. I.',
@@ -56,6 +57,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'MUHAMMAD AMIN TAHMID S.AG., M.M.',
                 'email' => 'amintahmid.007@gmail.com',
                 'password' => bcrypt('amin123'),
+                'role' => 'kepsek'
             ],
             [
                 'name' => 'Eliza Tiara Dwiyanti',
@@ -86,151 +88,151 @@ class DatabaseSeeder extends Seeder
 
         DB::table('indikator')->insert([
             [
-                'nama_indikator' => 'capaian_pembelajaran',
+                'nama_indikator' => 'Capaian Pembelajaran',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'analisis_tujuan_pembelajaran',
+                'nama_indikator' => 'Analisis Tujuan Pembelajaran',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'modul_ajar',
+                'nama_indikator' => 'Modul Ajar',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'modul_proyek_p5',
+                'nama_indikator' => 'Modul Proyek P5',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'kkpt',
+                'nama_indikator' => 'Kriteria Ketercapaian Tujuan Pembelajaran',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'program_remedial_pengayaan',
+                'nama_indikator' => 'Program Remedial Pengayaan',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'kode_etik_guru',
+                'nama_indikator' => 'Kode Etik Guru',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'ikrar_guru',
+                'nama_indikator' => 'Ikrar Guru',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'tata_tertib',
+                'nama_indikator' => 'Tata Tertib',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'pembiasaan_guru',
+                'nama_indikator' => 'Pembiasaan Guru',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'kalender_pendidikan',
+                'nama_indikator' => 'Kalender Pendidikan',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'analisis_alokasi_waktu',
+                'nama_indikator' => 'Analisis Alokasi Waktu',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'prota',
+                'nama_indikator' => 'Prota',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'promes',
+                'nama_indikator' => 'Promes',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'jurnal_agenda',
+                'nama_indikator' => 'Jurnal Agenda',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'daftar_hadir_siswa',
+                'nama_indikator' => 'Daftar Hadir Siswa',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'daftar_nilai',
+                'nama_indikator' => 'Daftar Nilai',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'penilaian_sikap',
+                'nama_indikator' => 'Penilaian Sikap',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'analisis_hasil_penilaian',
+                'nama_indikator' => 'Analisis Hasil Penilaian',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'daftar_buku_pegangan',
+                'nama_indikator' => 'Daftar Buku Pegangan',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'jadwal_mengajar',
+                'nama_indikator' => 'Jadwal Mengajar',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'daya_serap_siswa',
+                'nama_indikator' => 'Daya Serap Siswa',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'kisi_kisi_soal',
+                'nama_indikator' => 'Kisi Kisi Soal',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'kumpulan_soal',
+                'nama_indikator' => 'Kumpulan Soal',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'analisis_butir_soal',
+                'nama_indikator' => 'Analisis Butir Soal',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'perbaikan_soal',
+                'nama_indikator' => 'Perbaikan Soal',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'refleksi_kinerja',
+                'nama_indikator' => 'Refleksi Kinerja',
                 'kategori' => '4'
             ],
             [
-                'nama_indikator' => 'tindak_lanjut_kinerja',
+                'nama_indikator' => 'Tindak Lanjut Kinerja',
                 'kategori' => '4'
             ],
             [
-                'nama_indikator' => 'sop_modul_ajar',
+                'nama_indikator' => 'Sop Modul Ajar',
                 'kategori' => '4'
             ],
             [
-                'nama_indikator' => 'analisis_cp',
+                'nama_indikator' => 'Analisis Cp',
                 'kategori' => '4'
             ],
             [
-                'nama_indikator' => 'analisis_materi',
+                'nama_indikator' => 'Analisis Materi',
                 'kategori' => '4'
             ],
             [
-                'nama_indikator' => 'analisis_model_pembelajaran',
+                'nama_indikator' => 'Analisis Model Pembelajaran',
                 'kategori' => '4'
             ],
             [
-                'nama_indikator' => 'sop_modul_proyek',
+                'nama_indikator' => 'Sop Modul Proyek',
                 'kategori' => '4'
             ],
             [
-                'nama_indikator' => 'analisis_proyek',
+                'nama_indikator' => 'Analisis Proyek',
                 'kategori' => '4'
             ],
             [
-                'nama_indikator' => 'analisis_dimensi_pancasila',
+                'nama_indikator' => 'Analisis Dimensi Pancasila',
                 'kategori' => '4'
             ],
             [
-                'nama_indikator' => 'analisis_model_pembelajaran_proyek',
+                'nama_indikator' => 'Analisis Model Pembelajaran Proyek',
                 'kategori' => '4'
             ],
             [
-                'nama_indikator' => 'analisis_asesmen_proyek',
+                'nama_indikator' => 'Analisis Asesmen Proyek',
                 'kategori' => '4'
             ],
         ]);

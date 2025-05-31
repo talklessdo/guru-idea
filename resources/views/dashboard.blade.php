@@ -497,28 +497,10 @@
                 <strong>📤 Unggah Dokumen Baru</strong>
             </div>
             <div class="card-body">
-                {{-- ALERT NOTIFIKASI --}}
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Berhasil!</strong> {{ session('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Gagal!</strong> {{ session('error') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-
                 <form method="POST" action="/upload" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="nama_guru" id="nama_guru" value="{{ auth()->user()->name }}">
+                <input type="hidden" name="id_guru" id="id_guru" value="{{ auth()->user()->id }}">
                     <div class="form-group">
                         <label for="judul">Judul Dokumen</label>
                         <input type="text" name="judul" id="judul" class="form-control" placeholder="Contoh: Program Tahunan Fisika" required>
@@ -580,34 +562,36 @@
                         <label for="indikator1">Indikator</label>
                         <select id="id_indikator1" class="form-control" required>
                             <option value="">-- Pilih Indikator --</option>
-                            <option value="RPP">RPP</option>
+                            @foreach ($indikator1 as $item)
+                                <option value="{{ $item->kategori }}">{{ $item->nama_indikator }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div id="indikator2" class="form-group d-none">
                         <label for="indikator2">Indikator</label>
                         <select id="id_indikator2" class="form-control" required>
                             <option value="">-- Pilih Indikator --</option>
-                            <option value="RPP">RPP</option>
-                            <option value="Silabus">Silabus</option>
+                            @foreach ($indikator2 as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama_indikator }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div id="indikator3" class="form-group d-none">
                         <label for="indikator3">Indikator</label>
                         <select id="id_indikator3" class="form-control" required>
                             <option value="">-- Pilih Indikator --</option>
-                            <option value="RPP">RPP</option>
-                            <option value="Silabus">Silabus</option>
-                            <option value="Prota">Program Tahunan</option>
+                            @foreach ($indikator3 as $item)
+                                <option value="{{ $item->kategori }}">{{ $item->nama_indikator }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div id="indikator4" class="form-group d-none">
                         <label for="indikator4">Indikator</label>
                         <select id="id_indikator4" class="form-control" required>
                             <option value="">-- Pilih Indikator --</option>
-                            <option value="RPP">RPP</option>
-                            <option value="Silabus">Silabus</option>
-                            <option value="Prota">Program Tahunan</option>
-                            <option value="Promes">Program Semester</option>
+                            @foreach ($indikator4 as $item)
+                                <option value="{{ $item->kategori }}">{{ $item->nama_indikator }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
@@ -682,6 +666,14 @@
     </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    @if(session('success'))
+        alert("{{ session('success') }}");
+    @endif
+
+    @if(session('error'))
+        alert("{{ session('error') }}");
+    @endif
+
     var indikator1 = document.getElementById('indikator1');
     var indikator2 = document.getElementById('indikator2');
     var indikator3 = document.getElementById('indikator3');
