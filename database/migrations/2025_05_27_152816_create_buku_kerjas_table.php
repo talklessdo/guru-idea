@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_guru');
             $table->string('judul');
             $table->string('mata_pelajaran');
+            $table->enum('semester', ['Ganjil','Genap']);
             $table->string('slug');
 
             // Jenis Buku Kerja: 1, 2, 3, atau 4

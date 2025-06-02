@@ -13,7 +13,7 @@ class DokumenController extends Controller
      */
     public function index()
     {
-        //
+        return view("dokumen");
     }
 
     /**
@@ -43,8 +43,13 @@ class DokumenController extends Controller
         // Cek apakah file berhasil diunggah
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
             $file = $request->file('file');
-            $fileName = $file->getClientOriginalName();
-            $filePath = $file->storeAs('dokumen', $fileName,'public');
+            $slug = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+        
+            // Menambahkan ekstensi file
+            $fileName = $slug . '.' . $file->getClientOriginalExtension();
+            
+            // Tentukan lokasi penyimpanan file di folder 'public/uploads'
+            $filePath = $file->storeAs('dokumen', $fileName, 'public');
 
             // Cek apakah file path tersimpan
             if ($filePath) {
@@ -55,6 +60,7 @@ class DokumenController extends Controller
                     'guru_id'     => $request->id_guru,
                     'indikator_id'     => $request->indikator,
                     'mata_pelajaran'     => $validated['mapel'],
+                    'semester'     => $request->semester,
                     'slug'     => Str::slug($request->judul),
                     'kelas'     => strtoupper($validated['kelas']),
                     'kategori'  => $validated['kategori'],

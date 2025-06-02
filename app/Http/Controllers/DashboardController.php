@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
 
 class DashboardController extends Controller
 {
@@ -19,29 +18,8 @@ class DashboardController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function masuk()
-    {
-        $indikator1 = DB::table("indikator")->select('*')
-        ->where('kategori','=','1')->get();
-        $indikator2 = DB::table("indikator")->select('*')
-        ->where('kategori','=','2')->get();
-        $indikator3 = DB::table("indikator")->select('*')
-        ->where('kategori','=','3')->get();
-        $indikator4 = DB::table("indikator")->select('*')
-        ->where('kategori','=','4')->get();
-        if (Auth::user()->role == 'guru') {
-
-            return view("dashboard", 
-            [
-                "indikator1"=> $indikator1,
-                "indikator2"=> $indikator2,
-                "indikator3"=> $indikator3,
-                "indikator4"=> $indikator4
-            ]);
-        }else{
-            return view("index");
-
-        }
+    public function dashboard(){
+        return view("dashboard");
     }
 
     /**

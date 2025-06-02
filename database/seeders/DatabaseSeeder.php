@@ -70,6 +70,12 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('wahyu123'),
             ],
             [
+                'name' => 'MUHAMMAD ISA DAUD',
+                'email' => 'isadaud2018@gmail.com',
+                'password' => bcrypt('isa123'),
+                'role' => 'admin'
+            ],
+            [
                 'name' => 'Ibrahim Umar',
                 'email' => 'baimwungunbelen@gmail.com',
                 'password' => bcrypt('ibrahim123'),
@@ -88,19 +94,19 @@ class DatabaseSeeder extends Seeder
 
         DB::table('indikator')->insert([
             [
-                'nama_indikator' => 'Capaian Pembelajaran',
+                'nama_indikator' => 'Capaian Pembelajaran (CP)',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'Analisis Tujuan Pembelajaran',
+                'nama_indikator' => 'Tujuan Pembelajaran (TP)',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'Modul Ajar',
+                'nama_indikator' => 'Alur Tujuan Pembelajaran (ATP)',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'Modul Proyek P5',
+                'nama_indikator' => 'Modul Pembelajaran',
                 'kategori' => '1'    
             ],
             [
@@ -136,15 +142,15 @@ class DatabaseSeeder extends Seeder
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'Prota',
+                'nama_indikator' => 'Program Tahunan',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'Promes',
+                'nama_indikator' => 'Program Semester',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'Jurnal Agenda',
+                'nama_indikator' => 'Jurnal Agenda Guru',
                 'kategori' => '2'
             ],
             [
@@ -156,7 +162,7 @@ class DatabaseSeeder extends Seeder
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Penilaian Sikap',
+                'nama_indikator' => 'Penilaian Kepribadian Siswa',
                 'kategori' => '3'
             ],
             [
@@ -164,7 +170,11 @@ class DatabaseSeeder extends Seeder
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Daftar Buku Pegangan',
+                'nama_indikator' => 'Program Remedial dan Pengayaan',
+                'kategori' => '3'
+            ],
+            [
+                'nama_indikator' => 'Daftar Buku Guru & Siswa',
                 'kategori' => '3'
             ],
             [
@@ -176,7 +186,7 @@ class DatabaseSeeder extends Seeder
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Kisi Kisi Soal',
+                'nama_indikator' => 'Kumpulan Kisi Kisi Soal',
                 'kategori' => '3'
             ],
             [
@@ -192,47 +202,11 @@ class DatabaseSeeder extends Seeder
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Refleksi Kinerja',
+                'nama_indikator' => 'Daftar Evaluasi Diri Kerja Guru',
                 'kategori' => '4'
             ],
             [
-                'nama_indikator' => 'Tindak Lanjut Kinerja',
-                'kategori' => '4'
-            ],
-            [
-                'nama_indikator' => 'Sop Modul Ajar',
-                'kategori' => '4'
-            ],
-            [
-                'nama_indikator' => 'Analisis Cp',
-                'kategori' => '4'
-            ],
-            [
-                'nama_indikator' => 'Analisis Materi',
-                'kategori' => '4'
-            ],
-            [
-                'nama_indikator' => 'Analisis Model Pembelajaran',
-                'kategori' => '4'
-            ],
-            [
-                'nama_indikator' => 'Sop Modul Proyek',
-                'kategori' => '4'
-            ],
-            [
-                'nama_indikator' => 'Analisis Proyek',
-                'kategori' => '4'
-            ],
-            [
-                'nama_indikator' => 'Analisis Dimensi Pancasila',
-                'kategori' => '4'
-            ],
-            [
-                'nama_indikator' => 'Analisis Model Pembelajaran Proyek',
-                'kategori' => '4'
-            ],
-            [
-                'nama_indikator' => 'Analisis Asesmen Proyek',
+                'nama_indikator' => 'Program Tindak Lanjut Kinerja',
                 'kategori' => '4'
             ],
         ]);

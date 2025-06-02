@@ -168,7 +168,7 @@
         <img class="logo" src="{{ 'img' }}/icon-quantum.png" alt="Quantum Idea Logo" />
         <h1>GuruIDEA</h1>
         <p>GuruIDEA mendukung guru dalam menyusun administrasi dan perencanaan pembelajaran secara mudah dan efektif.</p>
-        <button class="btn-primary" onclick="window.location.href='/login'">Pelajari Lebih Lanjut</button>
+        <button class="btn-primary" onclick="window.location.href='/login'">Ayo Mulai</button>
     </header>
 
     <section class="features container">

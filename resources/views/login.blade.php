@@ -14,13 +14,41 @@
   <link rel="stylesheet" href="{{ 'admin' }}/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ 'css' }}/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.0/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.0/dist/sweetalert2.all.min.js"></script>
 </head>
+
+<style>
+  /* Pastikan card login tetap berada di atas halaman */
+  .login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 400px; /* Sesuaikan ukuran card */
+  }
+
+  /* Set z-index tinggi untuk SweetAlert */
+  .swal2-popup {
+    z-index: 9999999 !important;  /* Pastikan SweetAlert berada di atas form login */
+  }
+
+  /* Jika SweetAlert modal menutupi halaman, setel posisi body */
+  body {
+    overflow: hidden; /* Mencegah body bergulir saat SweetAlert muncul */
+}
+
+
+
+
+</style>
 <body class="hold-transition login-page">
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <div class="pt-3 pb-3"><img src="{{ asset('img/icon-quantum.png') }}" alt="" width="85"></div>
+      <div class="pt-3 pb-3" onclick="testing()"><img src="{{ asset('img/icon-quantum.png') }}" alt="" width="85"></div>
       <h3><b>MA Quantum IDEA</b></h3>
     </div>
     <div class="card-body">
@@ -76,5 +104,18 @@
 <script src="{{ 'admin' }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="{{ 'admin' }}/dist/js/adminlte.min.js"></script>
+ @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal Login',
+                text: '{{ session('error') }}',
+                willClose: () => {
+                // Optional: Set focus back to email input after alert is closed
+                document.querySelector('input[name="email"]').focus();
+            }
+            });
+        </script>
+  @endif
 </body>
 </html>

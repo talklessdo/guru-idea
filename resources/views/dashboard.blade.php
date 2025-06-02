@@ -1,3 +1,9 @@
+@php
+    $no = 1;
+    // Set locale untuk bahasa Indonesia
+    setlocale(LC_TIME, 'id_ID.utf8', 'id_ID');
+
+@endphp
 @if (auth()->user()->role == 'admin')
     
     {{-- Admin --}}
@@ -452,315 +458,166 @@
 {{-- End Kepsek --}}
 @else
 {{-- Guru --}}
-    <x-layout>
-    <style>
-        .app-wrapper {
-        font-family: 'Poppins', sans-serif;
-        background: #f4f7ff;
-        min-height: 100vh;
-        padding: 30px 20px;
-        }
-        .dashboard-header h1 {
-        font-weight: 600;
-        font-size: 2rem;
-        color: #3f51b5;
-        }
-        .dashboard-header p {
-        color: #666;
-        margin-bottom: 30px;
-        }
-        table.table th,
-        table.table td {
-        vertical-align: middle;
-        }
-        .btn-approve {
-        background-color: #4caf50;
-        color: white;
-        }
-        .btn-reject {
-        background-color: #f44336;
-        color: white;
-        }
-    </style>
-
-    <div class="app-wrapper">
-        <section class="content">
-        <div class="container-fluid">
-            <div class="dashboard-header text-center">
-            <h1>Dashboard Guru</h1>
-            <p>Unggah dan pantau status buku kerja Anda</p>
+<x-layout>
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Info Boxes for Buku Kerja Guru -->
+      <div class="row" style="cursor: pointer">
+        <!-- Info Box: Dokumen Disetujui -->
+        <div class="col-12 col-sm-6 col-md-4">
+          <div class="info-box">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check-circle"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Disetujui</span>
+              <span class="info-box-number">8 Dokumen</span>
+              
             </div>
+          </div>
+        </div>
 
-            {{-- Form Upload Dokumen --}}
-            <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                <strong>📤 Unggah Dokumen Baru</strong>
+        <!-- Info Box: Dokumen Menunggu Persetujuan -->
+        <div class="col-12 col-sm-6 col-md-4">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-clock"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Menunggu</span>
+              <span class="info-box-number">5 Dokumen</span>
+              
+            </div>
+          </div>
+        </div>
+
+        <!-- Info Box: Dokumen Ditolak -->
+        <div class="col-12 col-sm-6 col-md-4">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times-circle"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Ditolak</span>
+              <span class="info-box-number">2 Dokumen</span>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Additional row for interactive components -->
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Grafik Penilaian Siswa -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Grafik Penilaian Kompetensi Siswa</h3>
             </div>
             <div class="card-body">
-                <form method="POST" action="/upload" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="nama_guru" id="nama_guru" value="{{ auth()->user()->name }}">
-                <input type="hidden" name="id_guru" id="id_guru" value="{{ auth()->user()->id }}">
-                    <div class="form-group">
-                        <label for="judul">Judul Dokumen</label>
-                        <input type="text" name="judul" id="judul" class="form-control" placeholder="Contoh: Program Tahunan Fisika" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mapel">Mata Pelajaran</label>
-                        <select name="mapel" id="mapel" class="form-control" required>
-                            <option value="">-- Pilih Mata Pelajaran --</option>
-                            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-                            <option value="Bahasa Inggris">Bahasa Inggris</option>
-                            <option value="Matematika">Matematika</option>
-                            <option value="Fisika">Fisika</option>
-                            <option value="Kimia">Kimia</option>
-                            <option value="Biologi">Biologi</option>
-                            <option value="Ekonomi">Ekonomi</option>
-                            <option value="Geografi">Geografi</option>
-                            <option value="Sosiologi">Sosiologi</option>
-                            <option value="Sejarah">Sejarah</option>
-                            <option value="PJOK">PJOK</option>
-                            <option value="TIK">TIK</option>
-                            <option value="Seni Budaya">Seni Budaya</option>
-                            <option value="Agama Islam">Agama Islam</option>
-                            <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>
-                            <option value="Bahasa Arab">Bahasa Arab</option>
-                            <option value="Prakarya">Prakarya</option>
-                            <option value="BK">Bimbingan Konseling (BK)</option>
-                            <option value="Produktif RPL">Produktif RPL</option>
-                            <option value="Produktif TKJ">Produktif TKJ</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Kelas</label><br>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="kelas" id="kelasX" value="x" required>
-                            <label class="form-check-label" for="kelasX">X (Sepuluh)</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="kelas" id="kelasXI" value="xi">
-                            <label class="form-check-label" for="kelasXI">XI (Sebelas)</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="kelas" id="kelasXII" value="xii">
-                            <label class="form-check-label" for="kelasXII">XII (Dua Belas)</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="kategori">Kategori</label>
-                        <select onchange="opsi()" name="kategori" id="kategori" class="form-control" required>
-                            <option value="">-- Pilih Kategori --</option>
-                            <option value="bk1">Buku Kerja 1</option>
-                            <option value="bk2">Buku Kerja 2</option>
-                            <option value="bk3">Buku Kerja 3</option>
-                            <option value="bk4">Buku Kerja 4</option>
-                        </select>
-                    </div>
-                    <div id="indikator1" class="form-group d-none">
-                        <label for="indikator1">Indikator</label>
-                        <select id="id_indikator1" class="form-control" required>
-                            <option value="">-- Pilih Indikator --</option>
-                            @foreach ($indikator1 as $item)
-                                <option value="{{ $item->kategori }}">{{ $item->nama_indikator }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div id="indikator2" class="form-group d-none">
-                        <label for="indikator2">Indikator</label>
-                        <select id="id_indikator2" class="form-control" required>
-                            <option value="">-- Pilih Indikator --</option>
-                            @foreach ($indikator2 as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama_indikator }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div id="indikator3" class="form-group d-none">
-                        <label for="indikator3">Indikator</label>
-                        <select id="id_indikator3" class="form-control" required>
-                            <option value="">-- Pilih Indikator --</option>
-                            @foreach ($indikator3 as $item)
-                                <option value="{{ $item->kategori }}">{{ $item->nama_indikator }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div id="indikator4" class="form-group d-none">
-                        <label for="indikator4">Indikator</label>
-                        <select id="id_indikator4" class="form-control" required>
-                            <option value="">-- Pilih Indikator --</option>
-                            @foreach ($indikator4 as $item)
-                                <option value="{{ $item->kategori }}">{{ $item->nama_indikator }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="file">File Dokumen (PDF)</label>
-                        <input type="file" name="file" id="file" class="form-control-file" accept="application/pdf" required>
-                    </div>
-                    <button type="submit" class="btn btn-success"><i class="fas fa-upload"></i> Unggah Dokumen</button>
-                </form>
+              <canvas id="gradingChart" height="180"></canvas>
             </div>
-            </div>
+          </div>
+        </div>
+      </div>
 
-            {{-- Daftar Dokumen Guru --}}
-            <div class="card">
-            <div class="card-header bg-secondary text-white">
-                <strong>📚 Dokumen Saya</strong>
+      <!-- Row for Lesson Plan & Activity Section -->
+      <div class="row">
+        <div class="col-md-6">
+          <!-- Daftar Rencana Pembelajaran -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Rencana Pembelajaran (RPP)</h3>
             </div>
-            <div class="card-body table-responsive">
-                <table class="table table-bordered table-hover">
+            <div class="card-body">
+              <ul>
+                <li>Matematika - Pembahasan Persamaan Linear</li>
+                <li>Bahasa Indonesia - Menulis Esai Naratif</li>
+                <li>IPA - Eksperimen Pengaruh Cahaya terhadap Tumbuhan</li>
+                <li>IPS - Diskusi Sejarah Perjuangan Nasional</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <!-- Aktivitas Kelas -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Aktivitas Kelas</h3>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered">
                 <thead>
-                    <tr>
+                  <tr>
                     <th>#</th>
-                    <th>Judul</th>
-                    <th>Kategori</th>
-                    <th>Tanggal Upload</th>
-                    <th>Status</th>
-                    <th>Catatan</th>
-                    </tr>
+                    <th>Nama Kegiatan</th>
+                    <th>Durasi</th>
+                  </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                  <tr>
                     <td>1</td>
-                    <td>RPP Bahasa Indonesia</td>
-                    <td>RPP</td>
-                    <td>2025-05-17</td>
-                    <td><span class="badge badge-success">Disahkan</span></td>
-                    <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal" data-catatan="Dokumen sudah baik dan lengkap.">Lihat</button></td>
-                    </tr>
-                    <tr>
+                    <td>Pemaparan Materi</td>
+                    <td>60 Menit</td>
+                  </tr>
+                  <tr>
                     <td>2</td>
-                    <td>Silabus IPS</td>
-                    <td>Silabus</td>
-                    <td>2025-05-15</td>
-                    <td><span class="badge badge-warning">Menunggu Verifikasi</span></td>
-                    <td>-</td>
-                    </tr>
+                    <td>Diskusi Kelompok</td>
+                    <td>30 Menit</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Tugas Mandiri</td>
+                    <td>15 Menit</td>
+                  </tr>
                 </tbody>
-                </table>
+              </table>
             </div>
-            </div>
+          </div>
         </div>
-            <!-- Modal Catatan -->
-        <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="noteModalLabel">Catatan / Komentar</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span>&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                <p id="catatan-text" class="text-dark font-weight-normal"></p>
-                </div>
-                <div class="modal-footer">
-                <button class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                </div>
+      </div>
+
+      <!-- Row for Reflection and Evaluation -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Refleksi Pembelajaran</h3>
             </div>
+            <div class="card-body">
+              <textarea class="form-control" rows="4" placeholder="Tuliskan refleksi mengenai pembelajaran hari ini..."></textarea>
             </div>
+          </div>
         </div>
+      </div>
 
-        </section>
-    </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    @if(session('success'))
-        alert("{{ session('success') }}");
-    @endif
+    </div><!--/. container-fluid -->
+  </section>
 
-    @if(session('error'))
-        alert("{{ session('error') }}");
-    @endif
-
-    var indikator1 = document.getElementById('indikator1');
-    var indikator2 = document.getElementById('indikator2');
-    var indikator3 = document.getElementById('indikator3');
-    var indikator4 = document.getElementById('indikator4');
-
-    var indikators1 = document.getElementById('id_indikator1');
-    var indikators2 = document.getElementById('id_indikator2');
-    var indikators3 = document.getElementById('id_indikator3');
-    var indikators4 = document.getElementById('id_indikator4');
-
-    function opsi(){
-        var kategori = document.getElementById('kategori');
-        var valueKategori = kategori.value;
-        if (valueKategori == 'bk1') {
-            indikator1.classList.remove('d-none');
-            indikator2.classList.add('d-none');
-            indikator3.classList.add('d-none');
-            indikator4.classList.add('d-none');
-
-            indikators1.setAttribute('name','indikator');
-            indikators2.removeAttribute('name');
-            indikators3.removeAttribute('name');
-            indikators4.removeAttribute('name');
-
-            indikators1.setAttribute('required','');
-            indikators2.removeAttribute('required');
-            indikators3.removeAttribute('required');
-            indikators4.removeAttribute('required');
-        }else if(valueKategori == 'bk2'){
-            indikator2.classList.remove('d-none');
-            indikator1.classList.add('d-none');
-            indikator3.classList.add('d-none');
-            indikator4.classList.add('d-none');
-
-            indikators2.setAttribute('name','indikator');
-            indikators1.removeAttribute('name');
-            indikators3.removeAttribute('name');
-            indikators4.removeAttribute('name');
-
-            indikators2.setAttribute('required','');
-            indikators1.removeAttribute('required');
-            indikators3.removeAttribute('required');
-            indikators4.removeAttribute('required');
-        }else if(valueKategori == 'bk3'){
-            indikator3.classList.remove('d-none');
-            indikator1.classList.add('d-none');
-            indikator2.classList.add('d-none');
-            indikator4.classList.add('d-none');
-
-            indikators3.setAttribute('name','indikator');
-            indikators1.removeAttribute('name');
-            indikators2.removeAttribute('name');
-            indikators4.removeAttribute('name');
-
-            indikators3.setAttribute('required','');
-            indikators1.removeAttribute('required');
-            indikators2.removeAttribute('required');
-            indikators4.removeAttribute('required');
-        }else if(valueKategori == 'bk4'){
-            indikator4.classList.remove('d-none');
-            indikator1.classList.add('d-none');
-            indikator2.classList.add('d-none');
-            indikator3.classList.add('d-none');
-            
-            indikators4.setAttribute('name','indikator');
-            indikators1.removeAttribute('name');
-            indikators2.removeAttribute('name');
-            indikators3.removeAttribute('name');
-
-            indikators4.setAttribute('required','');
-            indikators1.removeAttribute('required');
-            indikators2.removeAttribute('required');
-            indikators3.removeAttribute('required');
-        }else{
-            indikator1.classList.add('d-none');
-            indikator2.classList.add('d-none');
-            indikator3.classList.add('d-none');
-            indikator4.classList.add('d-none');
-
-            indikators1.removeAttribute('required');
-            indikators2.removeAttribute('required');
-            indikators3.removeAttribute('required');
-            indikators4.removeAttribute('required');
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Grafik Penilaian Kompetensi Siswa
+    var ctx = document.getElementById('gradingChart').getContext('2d');
+    var gradingChart = new Chart(ctx, {
+      type: 'line', // Grafik garis
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Penilaian Kompetensi Siswa (%)',
+          data: [75, 80, 85, 90, 88, 92],
+          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+          }
         }
-    }
-</script>
+      }
+    });
+  </script>
 </x-layout>
+
 
 {{-- End Guru --}}
 @endif
