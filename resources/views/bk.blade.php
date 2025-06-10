@@ -1,4 +1,5 @@
 <x-layout>
+
     <style>
         .app-wrapper {
         font-family: 'Poppins', sans-serif;
@@ -80,7 +81,7 @@
             </div>
             <div class="card-body table-responsive">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover" style="table-layout: auto;">
+                    <table id="example1" class="table table-bordered table-hover" >
                     <thead>
                         <tr class="text-center">
                             <th>#</th>
@@ -177,6 +178,25 @@
 
         </section>
     </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+<script>
+    $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
 </x-layout>
 
