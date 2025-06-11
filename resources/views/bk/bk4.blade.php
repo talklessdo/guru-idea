@@ -4,7 +4,7 @@
 
         <!-- Kelas dan Semester Filter -->
         <div class="filters">
-            <select id="kelas" onchange="filter()">
+            <select id="kelas">
                 <option value="X">Kelas X</option>
                 <option value="XI">Kelas XI</option>
                 <option value="XII">Kelas XII</option>
@@ -18,30 +18,72 @@
 
         <!-- Daftar Komponen -->
         <div  id="konten-buku-kerja" class="cards">
-            <div id="point1" style="cursor: pointer" class="card" data-toggle="modal" data-target="#poin1" onclick="poin1()">📋Daftar Evaluasi Diri Kerja Guru</div>
-            <div style="cursor: pointer" class="card">🛠️Program Tindak Lanjut Kinerja</div>
+            <div id="point1" style="cursor: pointer" class="card" onclick="openPoin1()">📋Daftar Evaluasi Diri Kerja Guru</div>
+            <div style="cursor: pointer" class="card" id="point2" onclick="openPoin2()">🛠️Program Tindak Lanjut Kinerja</div>
         </div>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="poin1" tabindex="-1" role="dialog" aria-labelledby="poin1Label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="poin1Label">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
+    <div class="modal fade" id="poin" tabindex="-1" role="dialog" aria-labelledby="poinLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="poinLabel">Modal title</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-2">
+                    {{-- <div class="table-responsive mb-0">
+                        <table id="tables" class="table table-bordered table-hover" >
+                            <thead>
+                                <tr class="text-center">
+                                    <th>#</th>
+                                    <th>Judul</th>
+                                    <th>Mata Pelajaran</th>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                    <th>Tindakan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. A, necessitatibus?</td>
+                                    <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro incidunt natus odio sapiente, rem excepturi.</td>
+                                    <td>tannggal</td>
+                                    <td><span class="badge badge-warning">Menunggu</span></td>                                    
+                                    <td style="width: 15%" class="text-center">
+                                        <!-- Tombol Lihat -->
+                                        <a href="" target="_blank" class="btn btn-info btn-sm" title="Lihat">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        
+                                        <!-- Tombol Edit -->
+                                        <a href="" class="btn btn-warning btn-sm" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+            
+                                        <!-- Tombol Hapus -->
+                                        <form action="" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> 
+
+                    </div> --}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-            <h1 id="test"></h1>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-        </div>
-    </div>
     </div>
     <!-- CSS -->
     <style>
@@ -101,24 +143,23 @@
 
     <!-- JavaScript -->
     <script>
-        
-        
-        
-        function filter() {
-            var point1 = document.getElementById("point1").innerHTML;
-            var semester = document.getElementById("semester").value;
-            var tests = document.getElementById('test');
-            var poin1Label = document.getElementById('poin1Label');
-            var kelas = document.getElementById("kelas").value;
-            console.log("Filter aktif:", kelas, semester);
-
-             tests.innerHTML = semester;
-            poin1Label.innerHTML = point1 + " (" + kelas + " " + semester + ")";
-
-            // Di sini kamu bisa menambahkan AJAX atau dinamisasi isi sesuai kelas/semester
-            // Untuk contoh ini hanya console log
+        // Indikator 1
+        const poinLabel = document.getElementById('poinLabel');
+        const point1 = document.getElementById('point1').innerHTML;
+        const point2 = document.getElementById('point2').innerHTML;
+        function openPoin1(){
+            const kelas = document.getElementById('kelas').value;
+            const semester = document.getElementById('semester').value;
+            const modal = new bootstrap.Modal(document.getElementById('poin'));
+            modal.show();
+            poinLabel.innerHTML = point1 + " " + "(" + kelas + "/" + semester + ")";
         }
-
-        
+        function openPoin2(){
+            const kelas = document.getElementById('kelas').value;
+            const semester = document.getElementById('semester').value;
+            const modal = new bootstrap.Modal(document.getElementById('poin'));
+            modal.show();
+            poinLabel.innerHTML = point2 + " " + "(" + kelas + "/" + semester + ")";
+        }
     </script>
 </x-layout>

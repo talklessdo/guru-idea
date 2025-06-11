@@ -42,7 +42,7 @@
 
         {{-- ADMIN --}}
         @if($role === 'admin')
-          <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-users"></i><p>Manajemen Guru</p></a></li>
+          <li class="nav-item"><x-sidelink href="/manage_guru" :active="request()->is('manage_guru')"><i class="nav-icon fas fa-users"></i><p>Manajemen Guru</p></x-sidelink></li>
           <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-book"></i><p>Buku Kerja</p></a></li>
           <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-check-square"></i><p>Penilaian</p></a></li>
           <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-cogs"></i><p>Pengaturan</p></a></li>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\BukuKerjaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DokumenController;
+use App\Http\Controllers\GuruController;
 use App\Http\Controllers\KurikulumController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -15,9 +16,12 @@ Route::get("/login", [LoginController::class,"index"])->name("login")->middlewar
 Route::post('/login', [LoginController::class,'otentikasi']);
 Route::get('logout', [LoginController::class,'logout']);
 Route::post('/upload', [DokumenController::class,'store']);
-Route::get('/upload_dokumen', [BukuKerjaController::class,'dokumen']);
-Route::get('/bk', [BukuKerjaController::class,'index']);
-Route::get('/bk-1', [BukuKerjaController::class,'showBk1']);
-Route::get('/bk-2', [BukuKerjaController::class,'showBk2']);
-Route::get('/bk-3', [BukuKerjaController::class,'showBk3']);
-Route::get('/bk-4', [BukuKerjaController::class,'showBk4']);
+Route::get('/upload_dokumen', [BukuKerjaController::class,'dokumen'])->middleware('auth');
+Route::get('/bk', [BukuKerjaController::class,'index'])->middleware('auth');
+Route::get('/bk-1', [BukuKerjaController::class,'showBk1'])->middleware('auth');
+Route::get('/bk-2', [BukuKerjaController::class,'showBk2'])->middleware('auth');
+Route::get('/bk-3', [BukuKerjaController::class,'showBk3'])->middleware('auth');
+Route::get('/bk-4', [BukuKerjaController::class,'showBk4'])->middleware('auth');
+Route::get('/manage_guru', [GuruController::class,'index'])->middleware('auth');
+Route::get('/detail_guru-{id}', [GuruController::class,'show'])->name('detail_akun')->middleware('auth');
+Route::get('/akun', [GuruController::class,'detail'])->middleware('auth');

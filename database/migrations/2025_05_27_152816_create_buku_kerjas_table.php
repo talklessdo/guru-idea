@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('judul');
             $table->string('mata_pelajaran');
             $table->enum('semester', ['Ganjil','Genap']);
+            $table->enum('tp', ['2024/2025','2025/2026','2026/2027','2027/2028']);
             $table->string('slug');
 
             // Jenis Buku Kerja: 1, 2, 3, atau 4

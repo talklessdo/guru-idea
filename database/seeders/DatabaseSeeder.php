@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Guru;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,7 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        collect([
+        $users = collect([
             [
                 'name' => 'GUNTUR NURROHMAN S.Kom, ',
                 'email' => 'gunturnurrohman2021@gmail.com',
@@ -89,9 +90,15 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Rosmawati M',
                 'email' => 'biapunya2021@gmail.com',
                 'password' => bcrypt('rosmawati123'),
-            ],
-        ])->each(fn ($data) => User::factory()->create($data));
+            ],]);
+        // ])->each(fn ($data) => User::factory()->create($data));
+        $users->each(function ($data) {
+            $user = User::factory()->create($data);
 
+            Guru::create([
+                'user_id' => $user->id,
+            ]);
+        });
         DB::table('indikator')->insert([
             [
                 'nama_indikator' => 'Capaian Pembelajaran (CP)',
