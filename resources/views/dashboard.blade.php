@@ -1,13 +1,14 @@
 @php
-    $no = 1;
-    // Set locale untuk bahasa Indonesia
-    setlocale(LC_TIME, 'id_ID.utf8', 'id_ID');
+        $nomor = 1;
+        // Set locale untuk bahasa Indonesia
+        setlocale(LC_TIME, 'id_ID.utf8', 'id_ID');
 
-@endphp
+    @endphp
 @if (auth()->user()->role == 'admin')
     
     {{-- Admin --}}
     <x-layout>
+      
     <style>
         .app-wrapper {
         font-family: 'Poppins', sans-serif;
@@ -39,6 +40,7 @@
         transition: all 0.3s ease;
         }
         .card:hover {
+          cursor: pointer;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
         .card-icon {
@@ -50,7 +52,7 @@
         justify-content: center;
         font-size: 20px;
         color: #fff;
-        margin-right: 15px;
+        /* margin-right: 15px; */
         }
         .card-content {
         flex-grow: 1;
@@ -70,6 +72,7 @@
         vertical-align: middle;
         }
     </style>
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
@@ -82,12 +85,12 @@
             </div>
 
             {{-- Cards --}}
-            <div class="dashboard-cards">
-            <div class="card">
-                <div class="card-icon" style="background: #4caf50;"><i class="fas fa-users"></i></div>
+            <div class="dashboard-cards text-center">
+            <div class="card" onclick="totalGuru()">
+                <div class="card-icon" style="background: #6c757d;"><i class="fas fa-users"></i></div>
                 <div class="card-content">
                 <p class="card-title">Total Guru</p>
-                <p class="card-value">125</p>
+                <p class="card-value">{{ $jmlGuru }}</p>
                 </div>
             </div>
 
@@ -95,23 +98,23 @@
                 <div class="card-icon" style="background: #2196f3;"><i class="fas fa-book"></i></div>
                 <div class="card-content">
                 <p class="card-title">Buku Kerja</p>
-                <p class="card-value">340</p>
+                <p class="card-value">{{ $jmlBk }}</p>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-icon" style="background: #ff9800;"><i class="fas fa-tasks"></i></div>
+                <div class="card-icon" style="background: #4caf50;"><i class="fas fa-tasks"></i></div>
                 <div class="card-content">
                 <p class="card-title">Tugas Selesai</p>
-                <p class="card-value">288</p>
+                <p class="card-value">{{ $jml_tugas_selesai }}</p>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-icon" style="background: #f44336;"><i class="fas fa-hourglass-half"></i></div>
+                <div class="card-icon" style="background: #ff9800;"><i class="fas fa-hourglass-half"></i></div>
                 <div class="card-content">
                 <p class="card-title">Menunggu Persetujuan</p>
-                <p class="card-value">12</p>
+                <p class="card-value">{{ $jml_waiting }}</p>
                 </div>
             </div>
             </div>
@@ -120,32 +123,34 @@
             <div class="mt-5">
             <h4>Dokumen Terkini</h4>
             <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                <thead class="thead-light">
+                <table id="myTable" class="table table-bordered table-hover">
+                  <thead class="thead-light">
+                      <tr>
+                      <th>#</th>
+                      <th>Nama Guru</th>
+                      <th>Mata Pelajaran</th>
+                      <th>Kategori</th>
+                      <th>Kelas</th>
+                      <th>Status</th>
+                      <th>Tanggal</th>
+                      <th>Tindakan</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($dataBk as $data)
+                        
                     <tr>
-                    <th>#</th>
-                    <th>Nama Guru</th>
-                    <th>Judul Buku</th>
-                    <th>Status</th>
-                    <th>Terakhir Diperbarui</th>
+                      <td>{{ $nomor++ }}</td>
+                      <td>{{ $data->nama_guru }}</td>
+                      <td>{{ $data->mata_pelajaran }}</td>
+                      <td>{{ $data->kategori }}</td>
+                      <td>{{ $data->kelas }}</td>
+                      <td><span class="badge badge-warning">{{ $data->status }}</span></td>
+                      <td>{{ $data->created_at }}</td>
+                      <td>2025-05-18</td>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <td>1</td>
-                    <td>Andi Saputra</td>
-                    <td>RPP Semester Ganjil</td>
-                    <td><span class="badge badge-warning">Menunggu</span></td>
-                    <td>2025-05-18</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Siti Rahma</td>
-                    <td>Silabus PJOK</td>
-                    <td><span class="badge badge-success">Disetujui</span></td>
-                    <td>2025-05-17</td>
-                    </tr>
-                </tbody>
+                    @endforeach
+                  </tbody>
                 </table>
             </div>
             </div>
@@ -153,6 +158,15 @@
         </div>
         </section>
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="//cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+    <script>
+      let table = new DataTable('#myTable');
+      function totalGuru(){
+        window.location.href = '/manage_guru';
+      }
+      
+    </script>
     </x-layout>
     {{-- End Admin --}}
 @elseif (auth()->user()->role == 'kurikulum')
@@ -615,6 +629,8 @@
         }
       }
     });
+
+    
   </script>
 </x-layout>
 

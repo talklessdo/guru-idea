@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BukuKerja;
+use App\Models\Guru;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
@@ -19,7 +21,22 @@ class DashboardController extends Controller
      * Show the form for creating a new resource.
      */
     public function dashboard(){
-        return view("dashboard");
+        $kemarin = Carbon::today()->subDays(1); // Kemarin
+        Carbon::today()->addDays(1); // Besok
+
+        $jmlGuru = Guru::count();
+        $jmlBk = BukuKerja::count();
+        $dataBk = BukuKerja::whereDate('created_at', Carbon::today())->get();
+        $jml_tugas_selesai = BukuKerja::where('status', '=', 'approve')->count();
+        $jml_waiting = BukuKerja::where('status', '=', 'pending')->count();
+        return view("dashboard", 
+        compact(
+            "jmlGuru", 
+        "jmlBk",
+        "jml_tugas_selesai",
+        "jml_waiting",
+        "dataBk",
+        ));
     }
 
     /**
