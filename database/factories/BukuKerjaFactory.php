@@ -75,7 +75,7 @@ class BukuKerjaFactory extends Factory
             'kelas' => $this->faker->randomElement(['x', 'xi', 'xii']),
             'nama_file' => $this->faker->word() . '.pdf',
             'catatan' => $this->faker->text(100),
-            'guru_id' => $guruId, //kecuali 1, 8 dan 11
+            'guru_id' => $guruId, 
             'indikator_id' => $indikatorId,
         ];
     }

@@ -48,7 +48,7 @@
                 rgba(17, 24, 39, 0.65),
                 rgba(17, 24, 39, 0.65)
               ),
-              url('https://watermark.lovepik.com/photo/40056/0880.jpg_wh1200.jpg');
+              url('img/bg-kelas.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -60,21 +60,23 @@
             font-size: 3.5rem;
             line-height: 1.1;
             margin-bottom: 1rem;
-            color: #ffffff;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+            color: #fef3ec; /* Warna putih krem lembut, senada dengan #873e23 */
+            text-shadow: 0 2px 10px rgba(135, 62, 35, 0.6); /* Bayangan senada */
         }
+
         .hero p {
             font-weight: 400;
             font-size: 1.25rem;
             max-width: 600px;
             margin: 0 auto;
-            color: #d1d5db;
-            text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+            color: #f0dbd3; /* Abu kecoklatan lembut */
+            text-shadow: 0 1px 8px rgba(135, 62, 35, 0.5); /* Bayangan senada */
         }
+
         .hero button {
             margin-top: 2.5rem;
-            background-color: #ffffffcc;
-            color: #111827;
+            background-color: #873e23; /* Warna utama */
+            color: #ffffff; /* Warna teks putih agar kontras */
             font-weight: 700;
             font-size: 1.125rem;
             padding: 0.75rem 2.5rem;
@@ -82,11 +84,12 @@
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255 255 255 / 0.7);
+            box-shadow: 0 5px 15px rgba(135, 62, 35, 0.4); /* Bayangan senada */
+
         }
         .hero button:hover,
         .hero button:focus {
-            background-color: #f3f4f6cc;
+            background-color: #a64a2c; /* Versi lebih terang dari #873e23 */
             outline: none;
         }
 
@@ -190,15 +193,25 @@
         }
 
         /* Teacher Table */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* untuk smooth scrolling di iOS */
+            border-radius: 0.5rem; /* opsional supaya agak rounded */
+        /* Bisa juga tambahkan padding bawah jika ingin */
+        }
+
         table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 0.75rem;
+            border-collapse: collapse;
+            min-width: 600px; /* buat tabel minimal lebar agar scroll muncul saat perlu */
         }
         thead tr {
             background: transparent;
         }
         th, td {
+            border-bottom: 1px solid #ddd;
+            white-space: nowrap; /* agar konten kolom tidak wrap */
             text-align: left;
             padding: 1rem 1rem 1rem 1.25rem;
             font-weight: 600;
@@ -276,10 +289,10 @@
         <section class="hero" aria-label="Page introduction">
             <h1>Manajemen Guru</h1>
             <p>Kelola data guru MA Quantum IDEA</p>
-            <button type="button" aria-label="Add new teacher" id="addTeacherBtn">Tambah Guru</button>
+            <button type="button" aria-label="Add new teacher" id="addTeacherBtn">Lihat Guru</button>
         </section>
 
-        <section class="card" aria-labelledby="teacher-management-title">
+        <section id="tableSection" class="card" aria-labelledby="teacher-management-title">
             <div class="card-header">
                 <h2 id="teacher-management-title">
                     <svg class="icon-teacher" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -305,20 +318,23 @@
                 </button>
             </div>
 
-            <table role="table" aria-describedby="teacher-management-title">
-                <thead>
-                    <tr>
-                        <th scope="col" id="th-no">No</th>
-                        <th scope="col" id="th-name">Nama</th>
-                        <th scope="col" id="th-email">Email</th>
-                        <th scope="col" id="th-role">Role</th>
-                        <th scope="col" id="th-actions">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="teacherTableBody">
-                    <!-- Rows inserted by JS -->
-                </tbody>
-            </table>
+            <div class="table-wrapper" style="overflow-x: auto;">
+  <table role="table" aria-describedby="teacher-management-title">
+      <thead>
+          <tr>
+              <th scope="col" id="th-no">No</th>
+              <th scope="col" id="th-name">Nama</th>
+              <th scope="col" id="th-email">Email</th>
+              <th scope="col" id="th-role">Role</th>
+              <th scope="col" id="th-actions">Aksi</th>
+          </tr>
+      </thead>
+      <tbody id="teacherTableBody">
+          <!-- Rows inserted by JS -->
+      </tbody>
+  </table>
+</div>
+
         </section>
     </main>
 
@@ -408,7 +424,10 @@
                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
                     `;
-                    btnDetail.addEventListener('click', () => alert('{{ 'hai' }}'));
+                    function detailGuru(){
+                        window.location.href = `/detail_guru-${teacher.no}`;
+                    }
+                    btnDetail.addEventListener('click', detailGuru);
                     tdActions.appendChild(btnDetail);
 
                     // Delete button
@@ -441,16 +460,15 @@
             }
 
             // Add new teacher
+            function scrollTeacher() {
+                const target = document.getElementById("tableSection");
+                    if (target) {
+                        target.scrollIntoView({ behavior: "smooth" });
+                    }
+            }
+
             function addTeacher() {
-                const data = promptTeacherData();
-                if (!data || !data.name || !data.subject || !data.email) {
-                    alert('Data tidak lengkap, tambah guru dibatalkan.');
-                    return;
-                }
-                // Generate new ID
-                const newId = teachers.length > 0 ? Math.max(...teachers.map(t => t.id)) + 1 : 1;
-                teachers.push({ id: newId, ...data });
-                applyFilter();
+                alert('hai');
             }
 
             // Edit teacher by ID
@@ -493,7 +511,7 @@
             }
 
             // Bind buttons
-            document.getElementById('addTeacherBtn').addEventListener('click', addTeacher);
+            document.getElementById('addTeacherBtn').addEventListener('click', scrollTeacher);
             document.getElementById('addTeacherBtn2').addEventListener('click', addTeacher);
 
             // Bind search input
