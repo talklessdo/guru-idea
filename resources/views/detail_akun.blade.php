@@ -2,7 +2,7 @@
   <style>
     /* Container */
     .container {
-      max-width: 900px;
+      width: 90%;
       margin: 0 auto;
       padding: 3rem 1.5rem 4rem;
       font-family: 'Inter', sans-serif;
@@ -21,7 +21,7 @@
       box-shadow: 0 6px 20px rgba(0,0,0,0.08);
       padding: 2.5rem 3rem;
       width: 100%;
-      max-width: 850px;
+      max-width: 950px;
       display: grid;
       grid-template-columns: 220px 1fr;
       gap: 3rem 2.5rem;
@@ -36,6 +36,7 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.12);
       border: 4px solid #e28743; /* Indigo-600 */
       aspect-ratio: 1 / 1;
+      cursor: pointer;
     }
 
     /* Profile info panel */
@@ -245,13 +246,6 @@
         <span class="close" onclick="closeModal(event)">&times;</span>
         <img class="modal-content" id="modalImage">
 
-        <!-- Tombol Ganti Foto -->
-        <div style="text-align: center; margin-top: 1rem;">
-          <button type="button" class="change-photo-btn">
-            <i class="fas fa-camera"></i> Ganti Foto
-          </button>
-        </div>
-
       </div>
 
 
@@ -317,7 +311,7 @@
             <span class="detail-value">{{ $guru->total_jtm }}</span>
           </div>
         </div>
-        <a href="/manage_guru" class="btn-edit" aria-label="Edit">
+        <a href="/edit_guru-{{ $guru->id }}" class="btn-edit" aria-label="Edit">
           <i class="fas fa-edit" style="margin-right: 0.5rem;"></i> Edit
         </a>
     
@@ -325,7 +319,7 @@
       <a href="/manage_guru" class="btn-back" aria-label="Kembali"><i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i> Kembali</a>    
     </section>
   </main>
-  <script>
+<script>
     function openModal(src) {
       const modal = document.getElementById("imgModal");
       const modalImg = document.getElementById("modalImage");
@@ -337,6 +331,5 @@
       document.getElementById("imgModal").style.display = "none";
     }
   </script>
-
 </x-layout>
 

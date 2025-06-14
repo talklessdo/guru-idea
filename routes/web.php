@@ -24,4 +24,6 @@ Route::get('/bk-3', [BukuKerjaController::class,'showBk3'])->middleware('auth');
 Route::get('/bk-4', [BukuKerjaController::class,'showBk4'])->middleware('auth');
 Route::get('/manage_guru', [GuruController::class,'index'])->middleware('auth');
 Route::get('/detail_guru-{id}', [GuruController::class,'show'])->name('detail_akun')->middleware('auth');
+Route::get('/edit_guru-{id}', [GuruController::class,'edit'])->name('edit_akun')->middleware('auth');
+Route::post('/update_guru/{id}', [GuruController::class,'update'])->middleware('auth');
 Route::get('/akun', [GuruController::class,'detail'])->middleware('auth');
