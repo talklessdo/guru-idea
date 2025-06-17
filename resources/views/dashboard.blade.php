@@ -89,7 +89,7 @@
             <div class="card" onclick="totalGuru()">
                 <div class="card-icon" style="background: #6c757d;"><i class="fas fa-users"></i></div>
                 <div class="card-content">
-                <p class="card-title">Total Guru</p>
+                <p class="card-title">Total Akun</p>
                 <p class="card-value">{{ $jmlGuru }}</p>
                 </div>
             </div>
@@ -163,7 +163,7 @@
     <script>
       let table = new DataTable('#myTable');
       function totalGuru(){
-        window.location.href = '/manage_guru';
+        window.location.href = '/manage_akun';
       }
       
     </script>

@@ -6,6 +6,7 @@ use App\Models\Guru;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class GuruController extends Controller
 {
@@ -14,9 +15,9 @@ class GuruController extends Controller
      */
     public function index()
     {
-        $user = User::all();
+        $user = User::where('role', '!=','admin')->get();
         // dd($user);
-        return view("operator.manage_guru", compact("user"));
+        return view("operator.manage_akun", compact("user"));
     }
 
     /**
@@ -24,7 +25,7 @@ class GuruController extends Controller
      */
     public function create()
     {
-        //
+        return view('operator.add_akun');
     }
 
     /**
@@ -32,7 +33,40 @@ class GuruController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
+            'role'     => 'required|in:guru,kepsek,kurikulum',
+        ], [
+            'name.required'     => 'Nama wajib diisi.',
+            'name.max'          => 'Nama tidak boleh lebih dari 255 karakter.',
+            'email.required'    => 'Email wajib diisi.',
+            'email.email'       => 'Format email tidak valid.',
+            'email.unique'      => 'Email ini sudah digunakan.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min'      => 'Password minimal 6 karakter.',
+            'password.confirmed'=> 'Konfirmasi password tidak cocok.',
+            'role.required'     => 'Role harus dipilih.',
+            'role.in'           => 'Role harus salah satu dari: guru, kepsek, atau kurikulum.',
+        ]);
+
+
+        // Simpan user
+        $user = User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+            'role'     => $request->role,
+        ]);
+
+        Guru::create([
+            'user_id' => $user->id
+        ]);
+
+        return redirect('/manage_akun')->with('store', 'Akun berhasil ditambahkan.');
+        
     }
 
     /**
@@ -74,7 +108,7 @@ class GuruController extends Controller
     public function update(Request $request, $id)
 {
     // Ambil user_id dari tabel guru
-    $userId = DB::table('guru')->where('id', $id)->value('user_id');
+    $userId = DB::table('guru')->where('user_id', $id)->value('user_id');
 
     // Validasi data
     $request->validate([
@@ -105,7 +139,7 @@ class GuruController extends Controller
 
     
     // Update tabel guru
-    DB::table('guru')->where('id', $id)->update([
+    DB::table('guru')->where('user_id', $id)->update([
         'status_pegawai' => $request->status_pegawai,
         'jk' => $request->jk,
         'nip' => $request->nip,
@@ -125,18 +159,32 @@ class GuruController extends Controller
         'name' => $request->name,
         'email' => $request->email,
     ]);
-    $guru = Guru::find($id);
 
     // Redirect ke dashboard dengan notifikasi
-    return redirect()->route('detail_akun', ['id'=> $guru->id])->with('success', 'Data guru berhasil diperbarui.');
+    return redirect()->route('detail_akun', ['id'=> $userId])->with('success', 'Data guru berhasil diperbarui.');
 }
 
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        // Ambil data guru berdasarkan ID
+        $akun = User::findOrFail($id);
+
+        // Hapus guru yang terkait jika ada
+        if ($akun->id) {
+            $guru = Guru::where('user_id', $akun->id)->first();
+            if ($guru) {
+                $guru->delete();
+            }
+        }
+
+        // Hapus data akun
+        $akun->delete();
+
+        return redirect('/manage_akun')->with('hapus','berhasil dihapus');
+        // dd($id);
     }
 }

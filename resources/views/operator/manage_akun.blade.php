@@ -287,9 +287,9 @@
 
     <main class="container" role="main">
         <section class="hero" aria-label="Page introduction">
-            <h1>Manajemen Guru</h1>
-            <p>Kelola data guru MA Quantum IDEA</p>
-            <button type="button" aria-label="Add new teacher" id="addTeacherBtn">Lihat Guru</button>
+            <h1>Manajemen Akun</h1>
+            <p>Kelola data akun MA Quantum IDEA</p>
+            <button type="button" aria-label="Add new teacher" id="addTeacherBtn">Lihat Akun</button>
         </section>
 
         <section id="tableSection" class="card" aria-labelledby="teacher-management-title">
@@ -299,11 +299,11 @@
                       <circle cx="12" cy="7" r="4"></circle>
                       <path d="M5.5 21a7.5 7.5 0 0 1 13 0"></path>
                     </svg>
-                    Daftar Guru
+                    Daftar Akun
                 </h2>
                 <div class="search-wrapper">
                     {{-- <label for="teacherSearchInput">Cari Guru</label> --}}
-                    <input type="search" id="teacherSearchInput" class="search-input" placeholder="Cari berdasarkan nama, mata pelajaran, atau email" aria-describedby="teacherSearchDesc" aria-label="Cari guru" autocomplete="off" />
+                    <input type="search" id="teacherSearchInput" class="search-input" placeholder="Cari berdasarkan nama, email, atau role" aria-describedby="teacherSearchDesc" aria-label="Cari guru" autocomplete="off" />
                     <svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
                         <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
                         <line x1="16.6569" y1="16.6569" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -314,36 +314,62 @@
                         <line x1="12" y1="5" x2="12" y2="19" />
                         <line x1="5" y1="12" x2="19" y2="12" />
                     </svg>
-                    Tambah Guru
+                    Tambah Akun
                 </button>
             </div>
 
             <div class="table-wrapper" style="overflow-x: auto;">
-  <table role="table" aria-describedby="teacher-management-title">
-      <thead>
-          <tr>
-              <th scope="col" id="th-no">No</th>
-              <th scope="col" id="th-name">Nama</th>
-              <th scope="col" id="th-email">Email</th>
-              <th scope="col" id="th-role">Role</th>
-              <th scope="col" id="th-actions">Aksi</th>
-          </tr>
-      </thead>
-      <tbody id="teacherTableBody">
-          <!-- Rows inserted by JS -->
-      </tbody>
-  </table>
-</div>
+                <table role="table" aria-describedby="teacher-management-title">
+                    <thead>
+                        <tr>
+                            <th scope="col" id="th-no">No</th>
+                            <th scope="col" id="th-name">Nama</th>
+                            <th scope="col" id="th-email">Email</th>
+                            <th scope="col" id="th-role">Role</th>
+                            <th scope="col" id="th-actions">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teacherTableBody">
+                        <!-- Rows inserted by JS -->
+                    </tbody>
+                </table>
+            </div>
 
         </section>
     </main>
 
+    {{-- Notif Hapus --}}
+        {{-- <script>
+            Swal.fire({
+                title: "Good job!",
+                text: `sample`,
+                icon: "success"
+            });
+        </script> --}}
+    @if (session('delete'))
+        <script>
+            Swal.fire({
+                title: "Good job!",
+                text: `{{ session('hapus') }}`,
+                icon: "success"
+            });
+        </script>
+    @elseif(session('store'))
+        <script>
+            Swal.fire({
+                title: "Good job!",
+                text: `{{ session('store') }}`,
+                icon: "success"
+            });
+        </script>
+
+    @endif
     <script>
         (() => {
             // Sample initial data
             let teachers = [
                 @foreach ($user as $no =>$item)
-                    { no: '{{ $item->id }}', name: '{{ $item->name }}', role: '{{ $item->role }}', email: '{{ $item->email }}' },
+                    {nomor: '{{ $no + 1 }}', no: '{{ $item->id }}', name: '{{ $item->name }}', role: '{{ $item->role }}', email: '{{ $item->email }}' },
                 @endforeach
             ];
 
@@ -362,7 +388,7 @@
                     td.style.textAlign = 'center';
                     td.style.fontStyle = 'italic';
                     td.style.color = '#9ca3af';
-                    td.textContent = 'Data guru tidak ditemukan.';
+                    td.textContent = 'Data akun tidak ditemukan.';
                     tr.appendChild(td);
                     tableBody.appendChild(tr);
                     return;
@@ -372,7 +398,7 @@
 
                     // Nomor
                     const tdNo = document.createElement('td');
-                    tdNo.textContent = teacher.no;
+                    tdNo.textContent = teacher.nomor;
                     tdNo.setAttribute('data-label', 'No');
                     tr.appendChild(tdNo);
 
@@ -408,7 +434,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5h2m-1-1v2m-8 8v6a2 2 0 002 2h6l5-5 4-4-5-5-4 4z"/>
                         </svg>
                     `;
-                    btnEdit.addEventListener('click', () => editTeacher(teacher.id));
+                    btnEdit.addEventListener('click', () => editTeacher(teacher.no));
                     tdActions.appendChild(btnEdit);
 
                     // Detail
@@ -440,7 +466,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     `;
-                    btnDelete.addEventListener('click', () => deleteTeacher(teacher.id));
+                    btnDelete.addEventListener('click', () => deleteTeacher(teacher.no, teacher.name));
                     tdActions.appendChild(btnDelete);
 
                     tr.appendChild(tdActions);
@@ -448,16 +474,7 @@
                 });
             }
 
-            // Add / Edit form prompt
-            function promptTeacherData(existing = null) {
-                const name = prompt('Masukkan nama guru:', existing ? existing.name : '');
-                if (name === null) return null;
-                const subject = prompt('Masukkan mata pelajaran:', existing ? existing.subject : '');
-                if (subject === null) return null;
-                const email = prompt('Masukkan email:', existing ? existing.email : '');
-                if (email === null) return null;
-                return { name: name.trim(), subject: subject.trim(), email: email.trim() };
-            }
+            
 
             // Add new teacher
             function scrollTeacher() {
@@ -468,31 +485,40 @@
             }
 
             function addTeacher() {
-                alert('hai');
+                window.location.href = '/add_akun';
             }
 
             // Edit teacher by ID
             function editTeacher(id) {
-                const teacher = teachers.find(t => t.id === id);
-                if (!teacher) return;
-                const data = promptTeacherData(teacher);
-                if (!data) return;
-                if (!data.name || !data.subject || !data.email) {
-                    alert('Data tidak lengkap, edit guru dibatalkan.');
-                    return;
-                }
-                teacher.name = data.name;
-                teacher.subject = data.subject;
-                teacher.email = data.email;
-                applyFilter();
+                window.location.href = `/edit_guru-`+id;
             }
 
             // Delete teacher by ID
-            function deleteTeacher(id) {
-                if (confirm('Apakah Anda yakin ingin menghapus guru ini?')) {
-                    teachers = teachers.filter(t => t.id !== id);
-                    applyFilter();
-                }
+            function deleteTeacher(id, nama) {
+                Swal.fire({
+                    title: "Apakah Anda Yakin?",
+                    text: nama + " akan Dihapus",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Ya, hapus!"
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/delete_akun/' + id;
+                        // alert(id);
+                        // Swal.fire({
+                        //     title: "Terhapus!",
+                        //     text: "Data guru telah dihapus.",
+                        //     icon: "success",
+                        //     timer: 1500,
+                        //     showConfirmButton: false,
+                        //     willClose: () => {
+                        //         window.location.href = `/delete_guru/` + id;
+                        //     }
+                        // });
+                    }
+                });
             }
 
             // Filter teachers based on search input
@@ -521,7 +547,9 @@
 
             // Initial render
             renderTeachers();
+
+            
         })();
-    </script>
+        </script>
 </x-layout>
 

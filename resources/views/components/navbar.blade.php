@@ -26,7 +26,7 @@
       <div class="dropdown-divider"></div>
 
       <!-- Link ke edit profil -->
-      <a href="/" class="dropdown-item">
+      <a href="/profile" class="dropdown-item">
         <i class="fas fa-user-edit mr-2"></i> Edit Profil
       </a>
 

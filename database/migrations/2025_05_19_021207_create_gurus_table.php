@@ -26,29 +26,30 @@ return new class extends Migration
             // $table->string('email')->nullable();
             // $table->string('password')->nullable();
             $table->string('tugas')->nullable();
-            $table->enum('mata_pelajaran',[
-                'Bahasa Indonesia',
-                'Bahasa Inggris',
-                'Matematika',
-                'Matematika Tingkat Lanjut',
-                'Fisika',
-                'Kimia',
-                'Biologi',
-                'Ekonomi',
-                'Akidah Akhlak',
-                'Fiqih',
-                'Al-Qur\'an Hadits',
-                'Bahasa Arab',
-                'Penjaskes',
-                'Informatika',
-                'Seni Budaya',
-                'Sejarah Kebudayaan Islam',
-                'Sejarah Indonesia',
-                'Pendidikan Pancasila',
-                'Prakarya',
-                'Bahasa Sunda',
+            // $table->enum('mata_pelajaran',[
+            //     'Bahasa Indonesia',
+            //     'Bahasa Inggris',
+            //     'Matematika',
+            //     'Matematika Tingkat Lanjut',
+            //     'Fisika',
+            //     'Kimia',
+            //     'Biologi',
+            //     'Ekonomi',
+            //     'Akidah Akhlak',
+            //     'Fiqih',
+            //     'Al-Qur\'an Hadits',
+            //     'Bahasa Arab',
+            //     'Penjaskes',
+            //     'Informatika',
+            //     'Seni Budaya',
+            //     'Sejarah Kebudayaan Islam',
+            //     'Sejarah Indonesia',
+            //     'Pendidikan Pancasila',
+            //     'Prakarya',
+            //     'Bahasa Sunda',
 
-            ])->nullable();
+            // ])->nullable();
+            $table->string('mata_pelajaran')->nullable();
             $table->string('penempatan')->nullable();
             $table->integer('total_jtm')->nullable();
             $table->timestamps();

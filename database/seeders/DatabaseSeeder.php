@@ -87,6 +87,11 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('sadarman123'),
             ],
             [
+                'name' => 'Sample 1',
+                'email' => 'sample@gmail.com',
+                'password' => bcrypt('sample123'),
+            ],
+            [
                 'name' => 'Rosmawati M',
                 'email' => 'biapunya2021@gmail.com',
                 'password' => bcrypt('rosmawati123'),
@@ -95,9 +100,12 @@ class DatabaseSeeder extends Seeder
         $users->each(function ($data) {
             $user = User::factory()->create($data);
 
-            Guru::create([
-                'user_id' => $user->id,
-            ]);
+            $role = $user->role;
+            if ($role !== 'admin') {
+                Guru::create([
+                    'user_id' => $user->id,
+                ]);
+            }
         });
         DB::table('indikator')->insert([
             [

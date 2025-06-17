@@ -249,73 +249,96 @@
       </div>
 
 
+      @if (auth()->user()->role == 'guru')
+          {{-- Guru --}}
       <div class="profile-info">
-        <h1 class="profile-name" id="desc-detail-akun">Detail Akun</h1>
-        <p class="profile-email">{{ $guru->role }}</p>    
+        <h1 class="profile-name" id="desc-detail-akun">Profile</h1>
 
         <div class="details-grid" role="list">
           <div class="detail-item" role="listitem">
             <span class="detail-label">Nama</span>
-            <span class="detail-value">{{ $guru->name }}</span>
+            <span class="detail-value">{{ $akun->name }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Email</span>
-            <span class="detail-value">{{ $guru->email }}</span>
+            <span class="detail-value">{{ $akun->email }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">NIK</span>
-            <span class="detail-value">{{ $guru->nik }}</span>
+            <span class="detail-value">{{ $akun->nik }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">NUPTK</span>
-            <span class="detail-value">{{ $guru->nuptk }}</span>
+            <span class="detail-value">{{ $akun->nuptk }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Status Pegawai</span>
-            <span class="detail-value">{{ $guru->status_pegawai }}</span>
+            <span class="detail-value">{{ $akun->status_pegawai }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">NIP</span>
-            <span class="detail-value">{{ $guru->nip }}</span>
+            <span class="detail-value">{{ $akun->nip }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Jenis Kelamin</span>
-            <span class="detail-value">{{ $guru->jk }}</span>
+            <span class="detail-value">{{ $akun->jk }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Tempat Lahir</span>
-            <span class="detail-value">{{ $guru->tempat_lahir }}</span>
+            <span class="detail-value">{{ $akun->tempat_lahir }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Tanggal Lahir</span>
-            <span class="detail-value">{{ $guru->tanggal_lahir }}</span>
+            <span class="detail-value">{{ $akun->tanggal_lahir }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Nomor HP</span>
-            <span class="detail-value">{{ $guru->nomor_hp }}</span>
+            <span class="detail-value">{{ $akun->nomor_hp }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Tugas</span>
-            <span class="detail-value">{{ $guru->tugas }}</span>
+            <span class="detail-value">{{ $akun->tugas }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Mata Pelajaran</span>
-            <span class="detail-value">{{ $guru->mata_pelajaran }}</span>
+            <span class="detail-value">{{ $akun->mata_pelajaran }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Penempatan</span>
-            <span class="detail-value">{{ $guru->penempatan }}</span>
+            <span class="detail-value">{{ $akun->penempatan }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Total Jam</span>
-            <span class="detail-value">{{ $guru->total_jtm }}</span>
+            <span class="detail-value">{{ $akun->total_jtm }}</span>
           </div>
         </div>
-        <a href="/edit_guru-{{ $guru->user_id }}" class="btn-edit" aria-label="Edit">
+        <a href="/edit_guru-{{ $akun->id }}" class="btn-edit" aria-label="Edit">
           <i class="fas fa-edit" style="margin-right: 0.5rem;"></i> Edit
         </a>
     
       </div>
+      @else
+      {{-- Selain Guru --}}
+      <div class="profile-info">
+        <h1 class="profile-name" id="desc-detail-akun">Profile</h1>
+
+        <div class="details-grid" role="list">
+          <div class="detail-item" role="listitem">
+            <span class="detail-label">Nama</span>
+            <span class="detail-value">{{ $akun->name }}</span>
+          </div>
+          <div class="detail-item" role="listitem">
+            <span class="detail-label">Email</span>
+            <span class="detail-value">{{ $akun->email }}</span>
+          </div>
+        </div>
+        <a href="/edit_guru-{{ $akun->id }}" class="btn-edit" aria-label="Edit">
+          <i class="fas fa-edit" style="margin-right: 0.5rem;"></i> Edit
+        </a>
+    
+      </div>
+          
+      @endif
       <a href="/manage_akun" class="btn-back" aria-label="Kembali"><i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i> Kembali</a>    
     </section>
   </main>
