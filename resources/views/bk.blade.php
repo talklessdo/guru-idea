@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Buku Kerja">
 
     <style>
         .app-wrapper {
@@ -126,7 +126,7 @@
                             @else
                                 <td><span class="badge badge-danger">Ditolak</span></td>
                             @endif
-                            <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal" data-catatan="Dokumen sudah baik dan lengkap.">Lihat</button></td>
+                            <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal"  onclick="catatan('{{ $item->catatan }}')">Lihat</button></td>
                             <td>
                                 <!-- Tombol Lihat -->
                                 <a href="{{ Storage::url('dokumen/'.$item->nama_file) }}" target="_blank" class="btn btn-info btn-sm" title="Lihat">
@@ -156,7 +156,7 @@
             </div>
             </div>
         </div>
-            <!-- Modal Catatan -->
+        <!-- Modal Catatan -->
         <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -197,6 +197,11 @@
       "responsive": true,
     });
   });
+
+  function catatan(data){
+    const modalBody = document.getElementById("catatan-text");
+    modalBody.textContent = data || 'Tidak ada catatan.';
+  }
 </script>
 </x-layout>
 

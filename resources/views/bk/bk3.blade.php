@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="BuKer 3">
     <div class="container card bg-white">
         <h1 class="title text-warning">📘 Buku Kerja 3</h1>
 
@@ -18,18 +18,9 @@
 
         <!-- Daftar Komponen -->
         <div  id="konten-buku-kerja" class="cards">
-                <div style="cursor: pointer" class="card">📋Daftar Hadir Siswa</div>
-                <div style="cursor: pointer" class="card">🗒️Daftar Nilai</div>
-                <div style="cursor: pointer" class="card">🧠Penilaian Kepribadian Siswa</div>
-                <div style="cursor: pointer" class="card">📊Analisis Hasil Penilaian</div>
-                <div style="cursor: pointer" class="card">🔁Program Remedial dan Pengayaan</div>
-                <div style="cursor: pointer" class="card">📚Daftar Buku Guru &amp; Siswa</div>
-                <div style="cursor: pointer" class="card">🗓️Jadwal Mengajar</div>
-                <div style="cursor: pointer" class="card">📈Daya Serap Siswa</div>
-                <div style="cursor: pointer" class="card">📝Kumpulan Kisi Kisi Soal</div>
-                <div style="cursor: pointer" class="card">📄Kumpulan Soal</div>
-                <div style="cursor: pointer" class="card">🔍Analisis Butir Soal</div>
-                <div style="cursor: pointer" class="card">✏️Perbaikan Soal</div>
+            @foreach ($bk as $item)
+            <div style="cursor: pointer" class="card">{{ $item->nama_indikator }}</div>
+            @endforeach
         </div>
     </div>
 

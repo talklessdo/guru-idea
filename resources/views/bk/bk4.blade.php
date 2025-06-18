@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="BuKer 4">
     <div class="container card bg-white">
         <h1 class="title text-warning">📘 Buku Kerja 4</h1>
 
@@ -28,8 +28,9 @@
 
         <!-- Daftar Komponen -->
         <div  id="konten-buku-kerja" class="cards">
-            <div id="point1" style="cursor: pointer" class="card cardPoint d-none" onclick="openPoin1()">📋Daftar Evaluasi Diri Kerja Guru</div>
-            <div style="cursor: pointer" class="card cardPoint d-none" id="point2" onclick="openPoin2()">🛠️Program Tindak Lanjut Kinerja</div>
+            @foreach ($bk as $item)
+                <div id="point" style="cursor: pointer" class="card cardPoint d-none" onclick="openPoin('{{ $item->nama_indikator }}')">{{ $item->nama_indikator }}</div>
+            @endforeach
         </div>
     </div>
 
@@ -45,48 +46,22 @@
                 </div>
                 <div class="modal-body p-2">
                     <div class="table-responsive mb-0">
-                            <table id="tables" class="table table-bordered table-hover" >
-                                <thead>
-                                    <tr class="text-center">
-                                        <th>#</th>
-                                        <th>Judul</th>
-                                        <th>Mata Pelajaran</th>
-                                        <th>Tanggal</th>
-                                        <th>Status</th>
-                                        <th>Tindakan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. A, necessitatibus?</td>
-                                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro incidunt natus odio sapiente, rem excepturi.</td>
-                                        <td>tannggal</td>
-                                        <td><span class="badge badge-warning">Menunggu</span></td>                                    
-                                        <td style="width: 15%" class="text-center">
-                                            <!-- Tombol Lihat -->
-                                            <a href="" target="_blank" class="btn btn-info btn-sm" title="Lihat">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            
-                                            <!-- Tombol Edit -->
-                                            <a href="" class="btn btn-warning btn-sm" title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                
-                                            <!-- Tombol Hapus -->
-                                            <form action="" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');">
-                                                @csrf
-                                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table> 
-
-                        </div>
+                        <table id="tables" class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>#</th>
+                                    <th>Judul</th>
+                                    <th>Mata Pelajaran</th>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                    <th>Tindakan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                                <!-- Akan diisi lewat JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -161,58 +136,71 @@
     <script>
         // Indikator 1
         const poinLabel = document.getElementById('poinLabel');
-        const point1 = document.getElementById('point1').innerHTML;
-        const point2 = document.getElementById('point2').innerHTML;
+        const point = document.getElementById('point').innerHTML;
 
-        // const kelas = document.getElementById('kelas').value;
-        // const semester = document.getElementById('semester').value;
-        // const tp = document.getElementById('tp').value;
-        const indikators = document.querySelectorAll(".cardPoint");
         const opsi = document.querySelectorAll(".opsi");
+        const indikators = document.querySelectorAll(".cardPoint"); // <- Perbaikan di sini
+
         opsi.forEach(pilih => {
             pilih.addEventListener('change', () => {
-                // Cek apakah semua select sudah memiliki nilai
-                // .every mengembalikan semua nilai menjadi true
-                // .some mengembalikan sebagian nilai menjadi true
+                const semuaTerisi = Array.from(opsi).every(select => select.value !== "");
 
-                // catatan
-                const nilaiTerisi = Array.from(opsi)
-                .filter(select => select.value !== "")    // hanya yang terisi
-                .map(select => select.value);             // ambil nilainya
-                
-                
-                const semuaTerisi = Array.from(opsi).every(nilaiPoin => nilaiPoin.value !== "");
-                
-                
-                
-                if (semuaTerisi) {
-                    indikators.forEach(element => {
-                        element.classList.remove('d-none');
-                    });
-                }else{
-                    indikators.forEach(element => {
-                        element.classList.add('d-none');
-                    });
+                indikators.forEach(card => {
+                    card.classList.toggle('d-none', !semuaTerisi); 
+                });
+            });
+        });
+        function openPoin(nama){
+            const kelas = document.getElementById('kelas').value;
+            const semester = document.getElementById('semester').value;
+            const tp = document.getElementById('tp').value;
+            const modal = new bootstrap.Modal(document.getElementById('poin'));
+            modal.show();
+            poinLabel.innerHTML = nama + " " + "(" + kelas + "/" + semester + ") " + tp;
+        }
 
-                }
+        // Tabel
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            // Contoh data
+            
+            const data = @json($data);
+
+            const tbody = document.getElementById('table-body');
+
+            data.forEach((item, index) => {
+                const badgeClass = item.status === "Menunggu" ? "badge-warning" :
+                                item.status === "Disetujui" ? "badge-success" :
+                                "badge-secondary";
+
+                const row = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${item.judul}</td>
+                        <td>${item.mapel}</td>
+                        <td>${item.tanggal}</td>
+                        <td><span class="badge ${badgeClass}">${item.status}</span></td>
+                        <td class="text-center" style="width: 15%">
+                            <a href="${item.lihatUrl}" target="_blank" class="btn btn-info btn-sm" title="Lihat">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="${item.editUrl}" class="btn btn-warning btn-sm" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form action="${item.hapusUrl}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                `;
+
+                tbody.insertAdjacentHTML('beforeend', row);
             });
         });
 
-        function openPoin1(){
-            const kelas = document.getElementById('kelas').value;
-            const semester = document.getElementById('semester').value;
-            const tp = document.getElementById('tp').value;
-            const modal = new bootstrap.Modal(document.getElementById('poin'));
-            modal.show();
-            poinLabel.innerHTML = point1 + " " + "(" + kelas + "/" + semester + ") " + tp;
-        }
-        function openPoin2(){
-            const kelas = document.getElementById('kelas').value;
-            const semester = document.getElementById('semester').value;
-            const tp = document.getElementById('tp').value;
-            const modal = new bootstrap.Modal(document.getElementById('poin'));
-            modal.show();
-            poinLabel.innerHTML = point2 + " " + "(" + kelas + "/" + semester + ") " + tp;
-        }
+        
     </script>
 </x-layout>

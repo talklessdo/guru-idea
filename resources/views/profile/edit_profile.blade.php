@@ -359,7 +359,7 @@
             </div>
 
             {{-- Mata Pelajaran --}}
-            <div class="detail-item">
+            {{-- <div class="detail-item">
                 <label class="detail-label">Mata Pelajaran</label>
                 <select name="mata_pelajaran" class="detail-value" disabled>
                     <option value="">-- Pilih Mapel --</option>
@@ -380,7 +380,7 @@
                 @error('mata_pelajaran')
                     <span style="color: red" class="text-sm">{{ $message }}</span>
                 @enderror
-            </div>
+            </div> --}}
 
             <div class="detail-item">
                 <label class="detail-label">Penempatan</label>

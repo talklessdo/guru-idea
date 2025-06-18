@@ -483,7 +483,7 @@
             <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check-circle"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">Disetujui</span>
-              <span class="info-box-number">8 Dokumen</span>
+              <span class="info-box-number">{{ $jmlBkGuruApprove }} Dokumen</span>
               
             </div>
           </div>
@@ -495,7 +495,7 @@
             <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-clock"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">Menunggu</span>
-              <span class="info-box-number">5 Dokumen</span>
+              <span class="info-box-number">{{ $jmlBkGuruPending }} Dokumen</span>
               
             </div>
           </div>
@@ -507,7 +507,7 @@
             <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times-circle"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">Ditolak</span>
-              <span class="info-box-number">2 Dokumen</span>
+              <span class="info-box-number">{{ $jmlBkGuruDecline }} Dokumen</span>
               
             </div>
           </div>

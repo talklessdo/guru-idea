@@ -109,119 +109,119 @@ class DatabaseSeeder extends Seeder
         });
         DB::table('indikator')->insert([
             [
-                'nama_indikator' => 'Capaian Pembelajaran (CP)',
+                'nama_indikator' => '📌Capaian Pembelajaran (CP)',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'Tujuan Pembelajaran (TP)',
+                'nama_indikator' => '🎯Tujuan Pembelajaran (TP)',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'Alur Tujuan Pembelajaran (ATP)',
+                'nama_indikator' => '🔗Alur Tujuan Pembelajaran (ATP)',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'Modul Pembelajaran',
+                'nama_indikator' => '📂Modul Pembelajaran',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'Kriteria Ketercapaian Tujuan Pembelajaran',
+                'nama_indikator' => '📏Kriteria Ketercapaian Tujuan Pembelajaran',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'Program Remedial Pengayaan',
+                'nama_indikator' => '📈Program Remedial Pengayaan',
                 'kategori' => '1'    
             ],
             [
-                'nama_indikator' => 'Kode Etik Guru',
+                'nama_indikator' => '📜Kode Etik Guru',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'Ikrar Guru',
+                'nama_indikator' => '🤝Ikrar Guru',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'Tata Tertib',
+                'nama_indikator' => '📋Tata Tertib',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'Pembiasaan Guru',
+                'nama_indikator' => '🔄Pembiasaan Guru',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'Kalender Pendidikan',
+                'nama_indikator' => '📅Kalender Pendidikan',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'Analisis Alokasi Waktu',
+                'nama_indikator' => '⏰Analisis Alokasi Waktu',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'Program Tahunan',
+                'nama_indikator' => '📆Program Tahunan',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'Program Semester',
+                'nama_indikator' => '🗓️Program Semester',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'Jurnal Agenda Guru',
+                'nama_indikator' => '📝Jurnal Agenda Guru',
                 'kategori' => '2'
             ],
             [
-                'nama_indikator' => 'Daftar Hadir Siswa',
+                'nama_indikator' => '📋Daftar Hadir Siswa',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Daftar Nilai',
+                'nama_indikator' => '🗒️Daftar Nilai',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Penilaian Kepribadian Siswa',
+                'nama_indikator' => '🧠Penilaian Kepribadian Siswa',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Analisis Hasil Penilaian',
+                'nama_indikator' => '📊Analisis Hasil Penilaian',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Program Remedial dan Pengayaan',
+                'nama_indikator' => '🔁Program Remedial dan Pengayaan',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Daftar Buku Guru & Siswa',
+                'nama_indikator' => '📚Daftar Buku Guru dan Siswa',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Jadwal Mengajar',
+                'nama_indikator' => '🗓️Jadwal Mengajar',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Daya Serap Siswa',
+                'nama_indikator' => '📈Daya Serap Siswa',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Kumpulan Kisi Kisi Soal',
+                'nama_indikator' => '📝Kumpulan Kisi Kisi Soal',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Kumpulan Soal',
+                'nama_indikator' => '📄Kumpulan Soal',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Analisis Butir Soal',
+                'nama_indikator' => '🔍Analisis Butir Soal',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Perbaikan Soal',
+                'nama_indikator' => '✏️Perbaikan Soal',
                 'kategori' => '3'
             ],
             [
-                'nama_indikator' => 'Daftar Evaluasi Diri Kerja Guru',
+                'nama_indikator' => '📋Daftar Evaluasi Diri Kerja Guru',
                 'kategori' => '4'
             ],
             [
-                'nama_indikator' => 'Program Tindak Lanjut Kinerja',
+                'nama_indikator' => '🛠️Program Tindak Lanjut Kinerja',
                 'kategori' => '4'
             ],
         ]);

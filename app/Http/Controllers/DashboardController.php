@@ -6,6 +6,7 @@ use App\Models\BukuKerja;
 use App\Models\Guru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -24,8 +25,26 @@ class DashboardController extends Controller
         $kemarin = Carbon::today()->subDays(1); // Kemarin
         Carbon::today()->addDays(1); // Besok
 
+        $idGuru = Auth::user()->id;
         $jmlGuru = Guru::count();
         $jmlBk = BukuKerja::count();
+
+        // Data Guru
+        $jmlBkGuruApprove = BukuKerja::where('guru_id', $idGuru)
+        ->where('status','approve')
+        ->count();
+        $jmlBkGuruPending = BukuKerja::where('guru_id', $idGuru)
+        ->where('status','pending')
+        ->count();
+        $jmlBkGuruDecline = BukuKerja::where('guru_id', $idGuru)
+        ->where('status','decline')
+        ->count();
+
+
+
+
+
+
         $dataBk = BukuKerja::whereDate('created_at', Carbon::today())->get();
         $jml_tugas_selesai = BukuKerja::where('status', '=', 'approve')->count();
         $jml_waiting = BukuKerja::where('status', '=', 'pending')->count();
@@ -36,6 +55,9 @@ class DashboardController extends Controller
         "jml_tugas_selesai",
         "jml_waiting",
         "dataBk",
+        "jmlBkGuruApprove",
+        "jmlBkGuruPending",
+        "jmlBkGuruDecline",
         ));
     }
 

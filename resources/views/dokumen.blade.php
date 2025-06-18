@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Upload Dokumen">
     <style>
         .app-wrapper {
         font-family: 'Poppins', sans-serif;

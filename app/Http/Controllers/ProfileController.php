@@ -93,7 +93,6 @@ class ProfileController extends Controller
             'tanggal_lahir' => 'nullable|date',
             'nomor_hp' => 'nullable|string|max:15',
             'tugas' => 'nullable|string|max:100',
-            'mata_pelajaran' => 'string',
             'penempatan' => 'nullable|string|max:100',
             'total_jtm' => 'numeric|min:0',
         ], [
@@ -117,7 +116,6 @@ class ProfileController extends Controller
             'tanggal_lahir' => $request->tanggal_lahir,
             'nomor_hp' => $request->nomor_hp,
             'tugas' => $request->tugas,
-            'mata_pelajaran' => $request->mata_pelajaran,
             'penempatan' => $request->penempatan,
             'total_jtm' => $request->total_jtm,
         ]);

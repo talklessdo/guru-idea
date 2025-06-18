@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {{-- <link rel="shortcut icon" href="{{ asset('img/icon-quantum.png') }}" type="image/x-icon"> --}}
   <link rel="shortcut icon" href="{{ asset('admin') }}/img/icon-quantum.png" type="image/x-icon">
-  <title>MA Quantum IDEA | Dashboard</title>
+  <title>GuruIDEA | {{ $title ?? 'Dashboard' }}</title>
   <link rel="shortcut icon" href="{{ asset('img/icon-quantum.png') }}" type="image/x-icon">
 
   <!-- Google Font: Source Sans Pro -->

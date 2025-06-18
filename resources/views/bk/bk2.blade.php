@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="BuKer 2">
     <div class="container card bg-white">
         <h1 class="title text-warning">📘 Buku Kerja 2</h1>
 
@@ -18,15 +18,9 @@
 
         <!-- Daftar Komponen -->
         <div  id="konten-buku-kerja" class="cards">
-            <div style="cursor: pointer" class="card">📜Kode Etik Guru</div>
-            <div style="cursor: pointer" class="card">🤝Ikrar Guru</div>
-            <div style="cursor: pointer" class="card">📋Tata Tertib</div>
-            <div style="cursor: pointer" class="card">🔄Pembiasaan Guru</div>
-            <div style="cursor: pointer" class="card">📅Kalender Pendidikan</div>
-            <div style="cursor: pointer" class="card">⏰Analisis Alokasi Waktu</div>
-            <div style="cursor: pointer" class="card">📆Program Tahunan</div>
-            <div style="cursor: pointer" class="card">🗓️Program Semester</div>
-            <div style="cursor: pointer" class="card">📝Jurnal Agenda Guru</div>
+            @foreach ($bk as $item)
+            <div style="cursor: pointer" class="card">{{ $item->nama_indikator }}</div>
+            @endforeach
         </div>
     </div>
 

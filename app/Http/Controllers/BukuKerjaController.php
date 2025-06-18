@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Indikator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -61,19 +62,46 @@ class BukuKerjaController extends Controller
      */
     public function showBk1()
     {
-        return view("bk.bk1");
+        $bk = Indikator::where('kategori', '1')->get();
+        return view("bk.bk1", compact('bk'));
     }
     public function showBk2()
     {
-        return view("bk.bk2");
+        $bk = Indikator::where('kategori', '2')->get();
+        return view("bk.bk2", compact('bk'));
     }
     public function showBk3()
     {
-        return view("bk.bk3");
+        $bk = Indikator::where('kategori', '3')->get();
+        return view("bk.bk3", compact('bk'));
     }
     public function showBk4()
     {
-        return view("bk.bk4");
+        $bk = Indikator::where('kategori', '4')->get();
+        $data = [
+            [
+                'id' => 1,
+                'judul' => 'Contoh Judul 1',
+                'mapel' => 'Matematika',
+                'tanggal' => '2025-06-18',
+                'status' => 'Menunggu',
+                'lihatUrl' => '/dokumen/1',
+                'editUrl' => '/dokumen/1/edit',
+                'hapusUrl' => '/dokumen/1/delete'
+            ],
+            [
+                'id' => 2,
+                'judul' => 'Contoh Judul 2',
+                'mapel' => 'Bahasa Indonesia',
+                'tanggal' => '2025-06-17',
+                'status' => 'Disetujui',
+                'lihatUrl' => '/dokumen/2',
+                'editUrl' => '/dokumen/2/edit',
+                'hapusUrl' => '/dokumen/2/delete'
+            ]
+        ];
+
+        return view("bk.bk4", compact('bk', 'data'));
     }
     public function store(Request $request)
     {

@@ -299,10 +299,10 @@
             <span class="detail-label">Tugas</span>
             <span class="detail-value">{{ $akun->tugas }}</span>
           </div>
-          <div class="detail-item" role="listitem">
+          {{-- <div class="detail-item" role="listitem">
             <span class="detail-label">Mata Pelajaran</span>
             <span class="detail-value">{{ $akun->mata_pelajaran }}</span>
-          </div>
+          </div> --}}
           <div class="detail-item" role="listitem">
             <span class="detail-label">Penempatan</span>
             <span class="detail-value">{{ $akun->penempatan }}</span>
@@ -347,7 +347,7 @@
       </div>
           
       @endif
-      <a href="/manage_akun" class="btn-back" aria-label="Kembali"><i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i> Kembali</a>    
+      <a href="/dashboard" class="btn-back" aria-label="Kembali"><i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i> Kembali</a>    
     </section>
   </main>
 <script>

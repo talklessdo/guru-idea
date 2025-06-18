@@ -38,7 +38,7 @@ class DokumenController extends Controller
             'mapel'    => 'required|string',
             'kelas'    => 'required|string|in:x,xi,xii',
             'kategori' => 'required|string|in:bk1,bk2,bk3,bk4',
-            'file'     => 'required|mimes:pdf|max:1000',
+            'file'     => 'required|mimes:pdf|max:5000',
         ], [
             'judul.required'    => 'Judul dokumen wajib diisi.',
             'judul.string'      => 'Judul harus berupa teks.',
@@ -66,6 +66,7 @@ class DokumenController extends Controller
         
             // Menambahkan ekstensi file
             $fileName = $slug . '.' . $file->getClientOriginalExtension();
+            
             
             // Cek apakah file dengan nama tersebut sudah ada di storage
             if (Storage::disk('public')->exists('dokumen/' . $fileName)) {

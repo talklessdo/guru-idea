@@ -49,7 +49,7 @@ return new class extends Migration
             //     'Bahasa Sunda',
 
             // ])->nullable();
-            $table->string('mata_pelajaran')->nullable();
+            // $table->string('mata_pelajaran')->nullable();
             $table->string('penempatan')->nullable();
             $table->integer('total_jtm')->nullable();
             $table->timestamps();
