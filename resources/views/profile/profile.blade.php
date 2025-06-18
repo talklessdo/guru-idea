@@ -312,10 +312,18 @@
             <span class="detail-value">{{ $akun->total_jtm }}</span>
           </div>
         </div>
-        <a href="/edit_guru-{{ $akun->id }}" class="btn-edit" aria-label="Edit">
+        <a href="/edit-profile" class="btn-edit" aria-label="Edit">
           <i class="fas fa-edit" style="margin-right: 0.5rem;"></i> Edit
         </a>
-    
+        @if (session('profile'))
+            <script>
+              Swal.fire({
+                title: "Berhasil",
+                text: "Data berhasil diubah",
+                icon: "success"
+              });
+            </script>
+        @endif
       </div>
       @else
       {{-- Selain Guru --}}
@@ -332,7 +340,7 @@
             <span class="detail-value">{{ $akun->email }}</span>
           </div>
         </div>
-        <a href="/edit_guru-{{ $akun->id }}" class="btn-edit" aria-label="Edit">
+        <a href="/edit-profile/{{ $akun->id }}" class="btn-edit" aria-label="Edit">
           <i class="fas fa-edit" style="margin-right: 0.5rem;"></i> Edit
         </a>
     

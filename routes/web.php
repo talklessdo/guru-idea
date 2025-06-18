@@ -34,3 +34,5 @@ Route::post('/store_akun', [GuruController::class,'store'])->middleware('auth');
 
 // profile
 Route::get('/profile', [ProfileController::class,'index'])->middleware('auth');
+Route::get('/edit-profile', [ProfileController::class,'edit'])->middleware('auth');
+Route::post('/update-profile', [ProfileController::class,'update'])->middleware('auth');

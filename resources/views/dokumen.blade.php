@@ -195,6 +195,16 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="tp">Tahun Pelajaran</label>
+                        <select name="tp" id="tp" class="form-control" required>
+                            <option value="">-- Pilih Tahun Pelajaran --</option>
+                            <option value="2024/2025">2024/2025</option>
+                            <option value="2025/2026">2025/2026</option>
+                            <option value="2026/2027">2026/2027</option>
+                            <option value="2027/2028">2027/2028</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Kelas</label><br>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="kelas" id="kelasX" value="x" required>
@@ -259,6 +269,12 @@
                     <div class="form-group">
                         <label for="file">File Dokumen (PDF)</label>
                         <input type="file" name="file" id="file" class="form-control-file" accept="application/pdf" required>
+                        @error('file')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                        @if(session('error'))
+                            <div class="text-danger">{{ session('error') }}</div>
+                        @endif
                     </div>
                     <button type="submit" class="btn btn-success"><i class="fas fa-upload"></i> Unggah Dokumen</button>
                 </form>
@@ -273,11 +289,6 @@
         alert("{{ session('success') }}");
         window.location.href = "/bk";
     </script>
-    @endif
-    @if(session('error'))
-        <script>
-            alert("{{ session('error') }}");
-        </script>
     @endif
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
