@@ -53,7 +53,6 @@
                                     <th>Judul</th>
                                     <th>Mata Pelajaran</th>
                                     <th>Tanggal</th>
-                                    <th>Status</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
@@ -179,9 +178,9 @@
                         <td>${item.judul}</td>
                         <td>${item.mapel}</td>
                         <td>${item.tanggal}</td>
-                        <td><span class="badge ${badgeClass}">${item.status}</span></td>
+                        
                         <td class="text-center" style="width: 15%">
-                            <a href="${item.lihatUrl}" target="_blank" class="btn btn-info btn-sm" title="Lihat">
+                            <a href="{{ Storage::url('dokumen/') }}${item.lihat}" target="_blank" class="btn btn-info btn-sm" title="Lihat">
                                 <i class="fas fa-eye"></i>
                             </a>
                             <a href="${item.editUrl}" class="btn btn-warning btn-sm" title="Edit">

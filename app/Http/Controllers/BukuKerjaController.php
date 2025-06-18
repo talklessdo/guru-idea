@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BukuKerja;
 use App\Models\Indikator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -78,28 +79,23 @@ class BukuKerjaController extends Controller
     public function showBk4()
     {
         $bk = Indikator::where('kategori', '4')->get();
-        $data = [
-            [
-                'id' => 1,
-                'judul' => 'Contoh Judul 1',
-                'mapel' => 'Matematika',
-                'tanggal' => '2025-06-18',
-                'status' => 'Menunggu',
-                'lihatUrl' => '/dokumen/1',
-                'editUrl' => '/dokumen/1/edit',
-                'hapusUrl' => '/dokumen/1/delete'
-            ],
-            [
-                'id' => 2,
-                'judul' => 'Contoh Judul 2',
-                'mapel' => 'Bahasa Indonesia',
-                'tanggal' => '2025-06-17',
-                'status' => 'Disetujui',
-                'lihatUrl' => '/dokumen/2',
-                'editUrl' => '/dokumen/2/edit',
-                'hapusUrl' => '/dokumen/2/delete'
-            ]
-        ];
+        $id = Auth::user()->id;
+        $dataBk = BukuKerja::where('guru_id', $id)
+        ->where('kategori','bk4')
+        ->get();
+        $data = [];
+
+        foreach ($dataBk as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'judul' => $item->judul ?? 'Judul Tidak Tersedia',
+                'mapel' => $item->mata_pelajaran ?? 'Belum Diisi',
+                'tanggal' => $item->created_at->format('Y-m-d'),
+                'lihat' => $item->nama_file,
+                'editUrl' => '',
+                'hapusUrl' => '',
+            ];
+        }   
 
         return view("bk.bk4", compact('bk', 'data'));
     }
