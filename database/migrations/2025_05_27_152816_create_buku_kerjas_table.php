@@ -22,7 +22,7 @@ return new class extends Migration
 
             // Jenis Buku Kerja: 1, 2, 3, atau 4
             $table->enum('kategori', ['bk1', 'bk2', 'bk3', 'bk4']);
-            $table->enum('status', ['approve', 'pending', 'decline'])->default('pending');
+            $table->enum('status', ['approve', 'pending', 'decline', 'validate'])->default('pending');
             $table->enum('kelas', ['x', 'xi', 'xii']);
 
             $table->text('nama_file');

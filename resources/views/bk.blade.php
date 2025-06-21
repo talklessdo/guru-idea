@@ -122,7 +122,9 @@
                             @if ($item->status == "pending")
                                 <td><span class="badge badge-warning">Menunggu</span></td>
                             @elseif ($item->status == "approve")
-                                <td><span class="badge badge-success">Disahkan</span></td>
+                                <td><span class="badge badge-success">Disetujui</span></td>
+                            @elseif ($item->status == "validate")
+                                <td><span class="badge badge-primary">Disahkan</span></td>
                             @else
                                 <td><span class="badge badge-danger">Ditolak</span></td>
                             @endif

@@ -29,7 +29,7 @@
         <!-- Daftar Komponen -->
         <div  id="konten-buku-kerja" class="cards">
             @foreach ($bk as $item)
-                <div id="point" style="cursor: pointer" class="card cardPoint d-none" onclick="openPoin('{{ $item->nama_indikator }}')">{{ $item->nama_indikator }}</div>
+                <div id="point" style="cursor: pointer" data-poin="{{ $item->id }}" data-nama="{{ $item->nama_indikator }}" class="card cardPoint d-none" onclick="openPoin(this)">{{ $item->nama_indikator }}</div>
             @endforeach
         </div>
     </div>
@@ -52,6 +52,7 @@
                                     <th>#</th>
                                     <th>Judul</th>
                                     <th>Mata Pelajaran</th>
+                                    <th>Kelas</th>
                                     <th>Tanggal</th>
                                     <th>Tindakan</th>
                                 </tr>
@@ -133,12 +134,17 @@
 
     <!-- JavaScript -->
     <script>
-        // Indikator 1
+        let selectedPoin = null;
+        let selectedNama = '';
+        let kelas = '';
+        let semester = '';
+        let tp = '';
+
         const poinLabel = document.getElementById('poinLabel');
         const point = document.getElementById('point').innerHTML;
 
         const opsi = document.querySelectorAll(".opsi");
-        const indikators = document.querySelectorAll(".cardPoint"); // <- Perbaikan di sini
+        const indikators = document.querySelectorAll(".cardPoint"); 
 
         opsi.forEach(pilih => {
             pilih.addEventListener('change', () => {
@@ -147,36 +153,47 @@
                 indikators.forEach(card => {
                     card.classList.toggle('d-none', !semuaTerisi); 
                 });
+
+                
             });
         });
-        function openPoin(nama){
-            const kelas = document.getElementById('kelas').value;
-            const semester = document.getElementById('semester').value;
-            const tp = document.getElementById('tp').value;
+
+        function openPoin(el){
+            selectedPoin = el.dataset.poin;
+            selectedNama = el.dataset.nama;
+            kelas = document.getElementById('kelas').value;
+            semester = document.getElementById('semester').value;
+            tp = document.getElementById('tp').value;
             const modal = new bootstrap.Modal(document.getElementById('poin'));
             modal.show();
-            poinLabel.innerHTML = nama + " " + "(" + kelas + "/" + semester + ") " + tp;
-        }
+            poinLabel.innerHTML = selectedNama + " " + "(" + kelas + "/" + semester + ") " + tp;
 
-        // Tabel
-        
-        document.addEventListener('DOMContentLoaded', function () {
-            // Contoh data
             
+             // Ambil data
             const data = @json($data);
 
             const tbody = document.getElementById('table-body');
 
-            data.forEach((item, index) => {
-                const badgeClass = item.status === "Menunggu" ? "badge-warning" :
-                                item.status === "Disetujui" ? "badge-success" :
-                                "badge-secondary";
+            // Hapus data lama sebelum isi ulang
+            tbody.innerHTML = '';
 
+            // Filter hanya data yang cocok dengan selectedPoin
+            const filteredData = data.filter(item =>
+                item.indikator == selectedPoin && item.semester == semester
+                && item.tp == tp && item.kelas == kelas.toLowerCase()
+            );
+
+            filteredData.forEach((item, index) => {
+                // const badgeClass = item.status === "Menunggu" ? "badge-warning" :
+                //                 item.status === "Disetujui" ? "badge-success" :
+                //                 "badge-secondary";
+    
                 const row = `
                     <tr>
                         <td>${index + 1}</td>
                         <td>${item.judul}</td>
                         <td>${item.mapel}</td>
+                        <td>${item.kelas}</td>
                         <td>${item.tanggal}</td>
                         
                         <td class="text-center" style="width: 15%">
@@ -195,10 +212,17 @@
                         </td>
                     </tr>
                 `;
-
+    
                 tbody.insertAdjacentHTML('beforeend', row);
             });
+        }
+        // Tabel
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            // Contoh data
+            
         });
+
 
         
     </script>

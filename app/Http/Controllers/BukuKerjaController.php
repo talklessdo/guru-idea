@@ -64,17 +64,83 @@ class BukuKerjaController extends Controller
     public function showBk1()
     {
         $bk = Indikator::where('kategori', '1')->get();
-        return view("bk.bk1", compact('bk'));
+        $id = Auth::user()->id;
+        $dataBk = BukuKerja::where('guru_id', $id)
+        ->where('kategori','bk1')
+        ->get();
+        $data = [];
+
+        foreach ($dataBk as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'judul' => $item->judul ?? 'Judul Tidak Tersedia',
+                'mapel' => $item->mata_pelajaran ?? 'Belum Diisi',
+                'tanggal' => $item->created_at->format('Y-m-d'),
+                'lihat' => $item->nama_file,
+                'indikator' => $item->indikator_id,
+                'kelas' => $item->kelas,
+                'semester' => $item->semester,
+                'tp' => $item->tp,
+                'editUrl' => '',
+                'hapusUrl' => '',
+            ];
+        }   
+
+        return view("bk.bk1", compact('bk', 'data'));
     }
     public function showBk2()
     {
         $bk = Indikator::where('kategori', '2')->get();
-        return view("bk.bk2", compact('bk'));
+        $id = Auth::user()->id;
+        $dataBk = BukuKerja::where('guru_id', $id)
+        ->where('kategori','bk2')
+        ->get();
+        $data = [];
+
+        foreach ($dataBk as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'judul' => $item->judul ?? 'Judul Tidak Tersedia',
+                'mapel' => $item->mata_pelajaran ?? 'Belum Diisi',
+                'tanggal' => $item->created_at->format('Y-m-d'),
+                'lihat' => $item->nama_file,
+                'indikator' => $item->indikator_id,
+                'kelas' => $item->kelas,
+                'semester' => $item->semester,
+                'tp' => $item->tp,
+                'editUrl' => '',
+                'hapusUrl' => '',
+            ];
+        }   
+
+        return view("bk.bk2", compact('bk', 'data'));
     }
     public function showBk3()
     {
         $bk = Indikator::where('kategori', '3')->get();
-        return view("bk.bk3", compact('bk'));
+        $id = Auth::user()->id;
+        $dataBk = BukuKerja::where('guru_id', $id)
+        ->where('kategori','bk3')
+        ->get();
+        $data = [];
+
+        foreach ($dataBk as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'judul' => $item->judul ?? 'Judul Tidak Tersedia',
+                'mapel' => $item->mata_pelajaran ?? 'Belum Diisi',
+                'tanggal' => $item->created_at->format('Y-m-d'),
+                'lihat' => $item->nama_file,
+                'indikator' => $item->indikator_id,
+                'kelas' => $item->kelas,
+                'semester' => $item->semester,
+                'tp' => $item->tp,
+                'editUrl' => '',
+                'hapusUrl' => '',
+            ];
+        }   
+
+        return view("bk.bk3", compact('bk', 'data'));
     }
     public function showBk4()
     {
@@ -92,6 +158,10 @@ class BukuKerjaController extends Controller
                 'mapel' => $item->mata_pelajaran ?? 'Belum Diisi',
                 'tanggal' => $item->created_at->format('Y-m-d'),
                 'lihat' => $item->nama_file,
+                'indikator' => $item->indikator_id,
+                'kelas' => $item->kelas,
+                'semester' => $item->semester,
+                'tp' => $item->tp,
                 'editUrl' => '',
                 'hapusUrl' => '',
             ];
