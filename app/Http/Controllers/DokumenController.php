@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\BukuKerja;
+use App\Models\Indikator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -86,7 +88,7 @@ class DokumenController extends Controller
                     'mata_pelajaran'     => $validated['mapel'],
                     'semester'     => $request->semester,
                     'tp'     => $request->tp,
-                    'slug'     => Str::slug($request->judul),
+                    'slug'     => Str::slug($request->judul . '-' . uniqid()),
                     'kelas'     => strtoupper($validated['kelas']),
                     'kategori'  => $validated['kategori'],
                     'file_path' => $filePath,
@@ -112,17 +114,87 @@ class DokumenController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($slug)
     {
-        //
+        $dokumen = BukuKerja::where('slug', $slug)->firstOrFail();
+
+        // Data indikator per kategori, pastikan sudah dibuat di model/DB
+        $indikator1 = Indikator::where('kategori', '1')->get();
+        $indikator2 = Indikator::where('kategori', '2')->get();
+        $indikator3 = Indikator::where('kategori', '3')->get();
+        $indikator4 = Indikator::where('kategori', '4')->get();
+
+
+        return view('document.edit_dokumen', compact('dokumen', 'indikator1', 'indikator2', 'indikator3', 'indikator4'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+
+     public function updats(Request $request, $slug){
+        $id = Auth::user()->id;
+        $dokumen = BukuKerja::where('slug', $slug)
+        ->where('guru_id',$id)->get();
+        dd($dokumen);
+     }
+    public function update(Request $request, $slug)
+{
+        // Ambil dokumen berdasarkan slug
+        $id = Auth::user()->id;
+        $dokumen = BukuKerja::where('slug', $slug)
+        ->where('guru_id',$id)->firstOrFail();
+
+        $validatedData = $request->validate([
+            'judul'    => 'required|string|max:255',
+            'mata_pelajaran'    => 'required|string',
+            'kelas'    => 'required|string|in:x,xi,xii',
+            'semester' => 'required',
+            'tp' => 'required',
+            'kategori' => 'required|string|in:bk1,bk2,bk3,bk4',
+            'file'     => 'mimes:pdf|max:5000',
+            'indikator_id' => 'required',
+        ], [
+            'judul.required'    => 'Judul dokumen wajib diisi.',
+            'judul.string'      => 'Judul harus berupa teks.',
+            'judul.max'         => 'Judul maksimal 255 karakter.',
+            
+            'mata_pelajaran.required'    => 'Mata pelajaran wajib dipilih.',
+            'mata_pelajaran.string'      => 'Mata pelajaran tidak valid.',
+
+            'kelas.required'    => 'Kelas wajib dipilih.',
+            'kelas.in'          => 'Kelas harus salah satu dari: X, XI, atau XII.',
+
+            'kategori.required' => 'Kategori wajib dipilih.',
+            'kategori.in'       => 'Kategori harus salah satu dari: Buku Kerja 1, 2, 3, atau 4.',
+
+            'file.mimes'        => 'File harus berformat PDF.',
+            'file.max'          => 'Ukuran file maksimal 5MB.',
+        ]);
+       
+
+        // Update slug jika judul berubah
+        if ($dokumen->judul !== $request->judul) {
+            $validatedData['slug'] = Str::slug($request->judul . '-' . uniqid());
+        }
+
+        // Jika file baru diunggah, hapus file lama
+        if ($request->hasFile('file')) {
+            if ($dokumen->file && Storage::exists('dokumen/' . $dokumen->file)) {
+                Storage::delete('dokumen/' . $dokumen->file);
+            }
+
+            // Simpan file baru
+            $filename = time() . '-' . $request->file('file')->getClientOriginalName();
+            $request->file('file')->storeAs('dokumen', $filename);
+            $validatedData['file'] = $filename;
+        }
+
+        // // Update data ke database
+        $dokumen->update($validatedData);
+        
+        // // Redirect dengan pesan sukses
+        return redirect('/bk')->with('success', 'Dokumen berhasil diperbarui!');
     }
 
     /**

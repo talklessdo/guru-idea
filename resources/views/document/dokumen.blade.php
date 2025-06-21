@@ -207,7 +207,7 @@
                     <div class="form-group">
                         <label>Kelas</label><br>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="kelas" id="kelasX" value="x" required>
+                            <input class="form-check-input" type="radio" name="kelas" id="kelasX" value="x">
                             <label class="form-check-label" for="kelasX">X (Sepuluh)</label>
                         </div>
                         <div class="form-check form-check-inline">
@@ -235,7 +235,7 @@
                         <select id="id_indikator1" class="form-control" required>
                             <option value="">-- Pilih Indikator --</option>
                             @foreach ($indikator1 as $item)
-                                <option value="{{ $item->kategori }}">{{ $item->nama_indikator }}</option>
+                                <option value="{{ $item->id }}">{{ $item->nama_indikator }}</option>
                             @endforeach
                         </select>
                     </div>

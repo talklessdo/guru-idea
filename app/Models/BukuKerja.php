@@ -22,5 +22,7 @@ class BukuKerja extends Model
         'nama_file',
         'status',
         'kategori',
+        'tp',
+        'semester',
     ];
 }

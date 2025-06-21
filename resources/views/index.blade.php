@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="{{ asset('img/icon-quantum.png') }}" type="image/x-icon">
-    <title>Buku Kerja Guru - Landing Page</title>
+    <title>Buku Kerja Guru MA Quantum IDEA</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 

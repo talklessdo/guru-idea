@@ -136,7 +136,7 @@
                                 </a>
                                 
                                 <!-- Tombol Edit -->
-                                <a href="" class="btn btn-warning btn-sm" title="Edit">
+                                <a href="{{ route('edit_dokumen', ['slug' => $item->slug]) }}" class="btn btn-warning btn-sm" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
     

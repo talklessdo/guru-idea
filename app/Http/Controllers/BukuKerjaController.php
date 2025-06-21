@@ -49,7 +49,7 @@ class BukuKerjaController extends Controller
         $indikator4 = DB::table("indikator")->select('*')
         ->where('kategori','=','4')->get();
 
-        return view("dokumen", 
+        return view("document.dokumen", 
             [
                 "indikator1"=> $indikator1,
                 "indikator2"=> $indikator2,
