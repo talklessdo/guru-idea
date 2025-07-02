@@ -141,8 +141,9 @@
                                 </a>
     
                                 <!-- Tombol Hapus -->
-                                <form action="" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');">
+                                <form action="{{ route('delete_dokumen', ['id' => $item->id]) }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?{{ $item->id }}');" enctype="multipart/form-data">
                                     @csrf
+                                    @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
                                         <i class="fas fa-trash"></i>
                                     </button>
@@ -181,9 +182,26 @@
         </section>
     </div>
 
-
+@if (session('error'))
+    <script>
+        Swal.fire({
+            title: "Good job!",
+            text: "{{ session('error') }}",
+            icon: "success"
+        });
+    </script>
+    @elseif (session('warning'))
+    <script>
+        Swal.fire({
+            title: "Good job!",
+            text: "{{ session('warning') }}",
+            icon: "success"
+        });
+    </script>
+@endif
 
 <script>
+    
     $(function () {
     $("#example1").DataTable({
       "responsive": true, "lengthChange": false, "autoWidth": false,

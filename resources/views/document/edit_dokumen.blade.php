@@ -80,9 +80,10 @@
                                 @endforeach
                             </div>
 
+                            {{-- Kategori --}}
                             <div class="form-group">
                                 <label for="kategori">Kategori</label>
-                                <select onchange="opsi()" name="kategori" id="kategori" class="form-control" required>
+                                <select id="kategori" name="kategori" class="form-control" onchange="updateIndikator()" required>
                                     <option value="">-- Pilih Kategori --</option>
                                     <option value="bk1" {{ $dokumen->kategori == 'bk1' ? 'selected' : '' }}>Buku Kerja 1</option>
                                     <option value="bk2" {{ $dokumen->kategori == 'bk2' ? 'selected' : '' }}>Buku Kerja 2</option>
@@ -92,40 +93,11 @@
                             </div>
 
                             {{-- Indikator --}}
-                            <div id="indikator1" class="form-group {{ $dokumen->kategori == 'bk1' ? '' : 'd-none' }}">
-                                <label for="indikator1">Indikator</label>
-                                <select id="id_indikator1" class="form-control" required>
+                            <div class="form-group">
+                                <label for="indikator_id">Indikator</label>
+                                <select id="indikator_id" name="indikator_id" class="form-control" required>
                                     <option value="">-- Pilih Indikator --</option>
-                                    @foreach ($indikator1 as $item)
-                                        <option value="{{ $item->id }}" {{ $dokumen->kategori == 'bk1' ? 'selected' : '' }}>{{ $item->id }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div id="indikator2" class="form-group {{ $dokumen->kategori == 'bk2' ? '' : 'd-none' }}">
-                                <label for="indikator2">Indikator</label>
-                                <select id="id_indikator2" class="form-control" required>
-                                    <option value="">-- Pilih Indikator --</option>
-                                    @foreach ($indikator2 as $item)
-                                        <option value="{{ $item->id }}" {{ $dokumen->kategori == 'bk2' ? 'selected' : '' }}>{{ $item->id }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div id="indikator3" class="form-group {{ $dokumen->kategori == 'bk3' ? '' : 'd-none' }}">
-                                <label for="indikator3">Indikator</label>
-                                <select id="id_indikator3" class="form-control" required>
-                                    <option value="">-- Pilih Indikator --</option>
-                                    @foreach ($indikator3 as $item)
-                                        <option value="{{ $item->id }}" {{ $dokumen->kategori == 'bk3' ? 'selected' : '' }}>{{ $item->id }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div id="indikator4" class="form-group {{ $dokumen->kategori == 'bk4' ? '' : 'd-none' }}">
-                                <label for="indikator4">Indikator</label>
-                                <select id="id_indikator4" class="form-control" required>
-                                    <option value="">-- Pilih Indikator --</option>
-                                    @foreach ($indikator4 as $item)
-                                        <option value="{{ $item->id }}" {{ $dokumen->kategori == 'bk4' ? 'selected' : '' }}>{{ $item->id }}</option>
-                                    @endforeach
+                                    {{-- Isi otomatis via JavaScript --}}
                                 </select>
                             </div>
 
@@ -157,93 +129,40 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+    const indikatorData = {
+        bk1: @json($indikator1),
+        bk2: @json($indikator2),
+        bk3: @json($indikator3),
+        bk4: @json($indikator4),
+    };
 
+    const selectedKategori = "{{ $dokumen->kategori }}";
+    const selectedIndikatorId = "{{ $dokumen->indikator_id }}";
 
+    function updateIndikator() {
+        const kategori = document.getElementById('kategori').value;
+        const indikatorSelect = document.getElementById('indikator_id');
 
-        var indikator1 = document.getElementById('indikator1');
-        var indikator2 = document.getElementById('indikator2');
-        var indikator3 = document.getElementById('indikator3');
-        var indikator4 = document.getElementById('indikator4');
+        // Kosongkan dulu isi select
+        indikatorSelect.innerHTML = '<option value="">-- Pilih Indikator --</option>';
 
-        var indikators1 = document.getElementById('id_indikator1');
-        var indikators2 = document.getElementById('id_indikator2');
-        var indikators3 = document.getElementById('id_indikator3');
-        var indikators4 = document.getElementById('id_indikator4');
+        if (kategori && indikatorData[kategori]) {
+            indikatorData[kategori].forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = item.nama_indikator;
 
-        function opsi(){
-            var kategori = document.getElementById('kategori');
-            var valueKategori = kategori.value;
-            if (valueKategori == 'bk1') {
-                indikator1.classList.remove('d-none');
-                indikator2.classList.add('d-none');
-                indikator3.classList.add('d-none');
-                indikator4.classList.add('d-none');
+                // jika sedang edit dan cocok, tandai selected
+                if (item.id == selectedIndikatorId) {
+                    option.selected = true;
+                }
 
-                indikators1.setAttribute('name','indikator_id');
-                indikators2.removeAttribute('name');
-                indikators3.removeAttribute('name');
-                indikators4.removeAttribute('name');
-
-                indikators1.setAttribute('required','');
-                indikators2.removeAttribute('required');
-                indikators3.removeAttribute('required');
-                indikators4.removeAttribute('required');
-            }else if(valueKategori == 'bk2'){
-                indikator2.classList.remove('d-none');
-                indikator1.classList.add('d-none');
-                indikator3.classList.add('d-none');
-                indikator4.classList.add('d-none');
-
-                indikators2.setAttribute('name','indikator_id');
-                indikators1.removeAttribute('name');
-                indikators3.removeAttribute('name');
-                indikators4.removeAttribute('name');
-
-                indikators2.setAttribute('required','');
-                indikators1.removeAttribute('required');
-                indikators3.removeAttribute('required');
-                indikators4.removeAttribute('required');
-            }else if(valueKategori == 'bk3'){
-                indikator3.classList.remove('d-none');
-                indikator1.classList.add('d-none');
-                indikator2.classList.add('d-none');
-                indikator4.classList.add('d-none');
-
-                indikators3.setAttribute('name','indikator_id');
-                indikators1.removeAttribute('name');
-                indikators2.removeAttribute('name');
-                indikators4.removeAttribute('name');
-
-                indikators3.setAttribute('required','');
-                indikators1.removeAttribute('required');
-                indikators2.removeAttribute('required');
-                indikators4.removeAttribute('required');
-            }else if(valueKategori == 'bk4'){
-                indikator4.classList.remove('d-none');
-                indikator1.classList.add('d-none');
-                indikator2.classList.add('d-none');
-                indikator3.classList.add('d-none');
-                
-                indikators4.setAttribute('name','indikator_id');
-                indikators1.removeAttribute('name');
-                indikators2.removeAttribute('name');
-                indikators3.removeAttribute('name');
-
-                indikators4.setAttribute('required','');
-                indikators1.removeAttribute('required');
-                indikators2.removeAttribute('required');
-                indikators3.removeAttribute('required');
-            }else{
-                indikator1.classList.add('d-none');
-                indikator2.classList.add('d-none');
-                indikator3.classList.add('d-none');
-                indikator4.classList.add('d-none');
-
-                indikators1.removeAttribute('required');
-                indikators2.removeAttribute('required');
-                indikators3.removeAttribute('required');
-                indikators4.removeAttribute('required');
-            }
+                indikatorSelect.appendChild(option);
+            });
         }
-    </script>
+    }
+
+    // Panggil saat halaman pertama kali dimuat (untuk edit data)
+    document.addEventListener('DOMContentLoaded', updateIndikator);
+</script>
 </x-layout>

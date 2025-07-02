@@ -16,20 +16,27 @@ Route::get("/dashboard", [DashboardController::class,"dashboard"])->middleware("
 Route::get("/login", [LoginController::class,"index"])->name("login")->middleware('guest');
 Route::post('/login', [LoginController::class,'otentikasi']);
 Route::get('logout', [LoginController::class,'logout']);
+
+// dokumen
 Route::post('/upload', [DokumenController::class,'store']);
 Route::get('/dokumen-{slug}', [DokumenController::class,'edit'])->name(name: "edit_dokumen")->middleware('auth');;
 Route::post('/update_dokumen/{slug}', [DokumenController::class,'update'])->name(name: "update_dokumen")->middleware('auth');
 Route::get('/upload_dokumen', [BukuKerjaController::class,'dokumen'])->name(name: "dokumen")->middleware('auth');
+Route::delete('/delete_dokumen/{id}', [DokumenController::class,'destroy'])->name(name: "delete_dokumen")->middleware('auth');
 Route::get('/bk', [BukuKerjaController::class,'index'])->middleware('auth');
 Route::get('/bk-1', [BukuKerjaController::class,'showBk1'])->middleware('auth');
 Route::get('/bk-2', [BukuKerjaController::class,'showBk2'])->middleware('auth');
 Route::get('/bk-3', [BukuKerjaController::class,'showBk3'])->middleware('auth');
 Route::get('/bk-4', [BukuKerjaController::class,'showBk4'])->middleware('auth');
+
+// Guru
 Route::get('/manage_akun', [GuruController::class,'index'])->middleware('auth');
 Route::get('/detail_guru-{id}', [GuruController::class,'show'])->name('detail_akun')->middleware('auth');
 Route::get('/edit_guru-{id}', [GuruController::class,'edit'])->name('edit_akun')->middleware('auth');
 Route::get('/delete_akun/{id}', [GuruController::class,'destroy'])->middleware('auth');
 Route::post('/update_guru/{id}', [GuruController::class,'update'])->middleware('auth');
+
+
 // Route::get('/akun', [GuruController::class,'detail'])->middleware('auth');
 Route::get('/add_akun', [GuruController::class,'create'])->middleware('auth');
 Route::post('/store_akun', [GuruController::class,'store'])->middleware('auth');

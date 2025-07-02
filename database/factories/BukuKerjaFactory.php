@@ -19,8 +19,8 @@ class BukuKerjaFactory extends Factory
      */
     public function definition(): array
     {
-        // $guruId = 2;
-        $guruId = Arr::random(array_diff(range(5, 10), [1, 8, 11]));
+        $guruId = 4;
+        // $guruId = Arr::random(array_diff(range(5, 10), [1, 8, 11]));
         $indikatorId = rand(1, 29);
         $kategoriKode = Indikator::find($indikatorId)?->kategori;
 
@@ -64,7 +64,8 @@ class BukuKerjaFactory extends Factory
             },
             'status' => $this->faker->randomElement(['approve', 'pending', 'decline']),
             'kelas' => $this->faker->randomElement(['x', 'xi', 'xii']),
-            'nama_file' => $this->faker->word() . '.pdf',
+            // 'nama_file' => $this->faker->word() . '.pdf',
+            'nama_file' => 'uts-inggris-m-isa-daud-202222011.pdf',
             'catatan' => $this->faker->text(100),
             'guru_id' => $guruId, 
             'indikator_id' => $indikatorId,
@@ -74,4 +75,4 @@ class BukuKerjaFactory extends Factory
 }
 
 // jalankan dengan php artisan tinker
-// App\Models\BukuKerja::factory()->count(300)->create();
+// App\Models\BukuKerja::factory()->count(4)->create();
