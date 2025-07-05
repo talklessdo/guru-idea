@@ -197,18 +197,15 @@
                         <td>${item.tanggal}</td>
                         
                         <td class="text-center" style="width: 15%">
-                            <a href="{{ Storage::url('dokumen/') }}${item.lihat}" target="_blank" class="btn btn-info btn-sm" title="Lihat">
+                            <a href="{{ asset('uploads/dokumen') }}/${item.lihat}" target="_blank" class="btn btn-info btn-sm" title="Lihat">
                                 <i class="fas fa-eye"></i>
                             </a>
                             <a href="${item.editUrl}" class="btn btn-warning btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="${item.hapusUrl}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
+                            <a href="${item.hapusUrl}" class="btn btn-danger btn-sm" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
                 `;

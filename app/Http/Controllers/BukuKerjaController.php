@@ -71,6 +71,8 @@ class BukuKerjaController extends Controller
         $data = [];
 
         foreach ($dataBk as $item) {
+            $edit = route('edit_dokumen', ['slug' => $item->slug]);
+            $hapus = route('delete_dokumen', ['id' => $item->id]);
             $data[] = [
                 'id' => $item->id,
                 'judul' => $item->judul ?? 'Judul Tidak Tersedia',
@@ -81,8 +83,8 @@ class BukuKerjaController extends Controller
                 'kelas' => $item->kelas,
                 'semester' => $item->semester,
                 'tp' => $item->tp,
-                'editUrl' => '',
-                'hapusUrl' => '',
+                'editUrl' => $edit,
+                'hapusUrl' => $hapus,
             ];
         }   
 

@@ -146,8 +146,20 @@
                       <td>{{ $data->kategori }}</td>
                       <td>{{ $data->kelas }}</td>
                       <td><span class="badge badge-warning">{{ $data->status }}</span></td>
-                      <td>{{ $data->created_at }}</td>
-                      <td>2025-05-18</td>
+                      <td>{{ \Carbon\Carbon::parse($data->created_at)->translatedFormat('d F Y') }}</td>
+                      <td>
+                        <div class="dropdown show">
+                          <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Aksi
+                          </a>
+
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item text-info" href="#">Detail</a>
+                            <a class="dropdown-item text-danger" href="#">Hapus</a>
+                          </div>
+                        </div>
+                      </td>
+
                     </tr>
                     @endforeach
                   </tbody>

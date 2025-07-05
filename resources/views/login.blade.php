@@ -84,13 +84,13 @@
               </span>
           @enderror
         </div>
+        <div class="social-auth-links text-center mt-2 mb-3">
+          <button type="submit" class="btn btn-block btn-primary" onclick="document.getElementById('login-form').submit();">
+            <i class="fas fa-sign-in-alt mr-2"></i> Masuk
+          </button>
+        </div>
       </form>
 
-      <div class="social-auth-links text-center mt-2 mb-3">
-        <button type="submit" class="btn btn-block btn-primary" onclick="document.getElementById('login-form').submit();">
-          <i class="fas fa-sign-in-alt mr-2"></i> Masuk
-        </button>
-      </div>
     </div>
     <!-- /.card-body -->
   </div>

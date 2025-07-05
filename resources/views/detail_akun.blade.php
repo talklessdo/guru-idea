@@ -298,10 +298,10 @@
             <span class="detail-label">Tugas</span>
             <span class="detail-value">{{ $guru->tugas }}</span>
           </div>
-          <div class="detail-item" role="listitem">
+          {{-- <div class="detail-item" role="listitem">
             <span class="detail-label">Mata Pelajaran</span>
             <span class="detail-value">{{ $guru->mata_pelajaran }}</span>
-          </div>
+          </div> --}}
           <div class="detail-item" role="listitem">
             <span class="detail-label">Penempatan</span>
             <span class="detail-value">{{ $guru->penempatan }}</span>
