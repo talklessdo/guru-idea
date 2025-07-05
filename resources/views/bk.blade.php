@@ -131,7 +131,7 @@
                             <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal"  onclick="catatan('{{ $item->catatan }}')">Lihat</button></td>
                             <td>
                                 <!-- Tombol Lihat -->
-                                <a href="{{ Storage::url('dokumen/'.$item->nama_file) }}" target="_blank" class="btn btn-info btn-sm" title="Lihat">
+                                <a href="{{ asset('uploads/dokumen/' . $item->nama_file) }}" target="_blank" class="btn btn-info btn-sm" title="Lihat">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 
@@ -141,13 +141,9 @@
                                 </a>
     
                                 <!-- Tombol Hapus -->
-                                <form action="{{ route('delete_dokumen', ['id' => $item->id]) }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?{{ $item->id }}');" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                                <a href="{{ route('delete_dokumen', ['id' => $item->id]) }}" class="btn btn-danger btn-sm" title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
                             

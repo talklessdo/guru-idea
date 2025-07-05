@@ -64,44 +64,52 @@ class DokumenController extends Controller
 
         // Cek apakah file berhasil diunggah
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
-            $file = $request->file('file');
-            $slug = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
-        
-            // Menambahkan ekstensi file
-            $fileName = $slug . '.' . $file->getClientOriginalExtension();
-            
-            
-            // Cek apakah file dengan nama tersebut sudah ada di storage
-            if (Storage::disk('public')->exists('dokumen/' . $fileName)) {
-                return redirect()->back()->with('error', 'Dokumen sudah pernah diunggah');
-            }
-            // Tentukan lokasi penyimpanan file di folder 'public/uploads'
-            $filePath = $file->storeAs('dokumen', $fileName, 'public');
+        $file = $request->file('file');
+        $originalName = $file->getClientOriginalName();
+        $cleanName = preg_replace('/\s+/', '-', $originalName);
+        $filename = time() . '_' . $cleanName;
 
-            // Cek apakah file path tersimpan
-            if ($filePath) {
-                // Simpan ke database
-                $saved = BukuKerja::create([
-                    'nama_guru'   => $request->nama_guru,
-                    'judul'     => $request->judul,
-                    'guru_id'     => $request->id_guru,
-                    'indikator_id'     => $request->indikator,
-                    'mata_pelajaran'     => $validated['mapel'],
-                    'semester'     => $request->semester,
-                    'tp'     => $request->tp,
-                    'slug'     => Str::slug($request->judul . '-' . uniqid()),
-                    'kelas'     => strtoupper($validated['kelas']),
-                    'kategori'  => $validated['kategori'],
-                    'file_path' => $filePath,
-                    'status'    => 'pending',
-                    'nama_file'    => $fileName,
-                ]);
 
-                if ($saved) {
-                    return redirect()->back()->with('success', 'Dokumen berhasil diunggah!');
-                } 
-            } 
-        } 
+        $destinationPath = public_path('uploads/dokumen');
+
+        // Buat folder jika belum ada
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
+        // Cek apakah file dengan nama tersebut sudah ada
+        if (file_exists($destinationPath . '/' . $filename)) {
+            return redirect()->back()->with('error', 'Dokumen sudah pernah diunggah');
+        }
+
+        // Pindahkan file ke folder public/uploads/dokumen
+        $file->move($destinationPath, $filename);
+
+        // Path relatif untuk disimpan di database
+        $relativePath = 'uploads/dokumen/' . $filename;
+
+        // Simpan ke database
+        $saved = BukuKerja::create([
+            'nama_guru'      => $request->nama_guru,
+            'judul'          => $request->judul,
+            'guru_id'        => $request->id_guru,
+            'indikator_id'   => $request->indikator,
+            'mata_pelajaran' => $validated['mapel'],
+            'semester'       => $request->semester,
+            'tp'             => $request->tp,
+            'slug'           => Str::slug($request->judul . '-' . uniqid()),
+            'kelas'          => strtoupper($validated['kelas']),
+            'kategori'       => $validated['kategori'],
+            'file_path'      => $relativePath,
+            'nama_file'      => $filename,
+            'status'         => 'pending',
+        ]);
+
+        if ($saved) {
+            return redirect()->back()->with('success', 'Dokumen berhasil diunggah!');
+        }
+    }
+
     }
 
     /**
@@ -141,19 +149,21 @@ class DokumenController extends Controller
 
     public function update(Request $request, $slug)
     {
-        $id = Auth::user()->id;
+        $id = Auth::id();
+
         $dokumen = BukuKerja::where('slug', $slug)
-            ->where('guru_id', $id)->firstOrFail();
+            ->where('guru_id', $id)
+            ->firstOrFail();
 
         $validatedData = $request->validate([
-            'judul'           => 'required|string|max:255',
-            'mata_pelajaran'  => 'required|string',
-            'kelas'           => 'required|string|in:x,xi,xii',
-            'semester'        => 'required',
-            'tp'              => 'required',
-            'kategori'        => 'required|string|in:bk1,bk2,bk3,bk4',
-            'nama_file'       => 'mimes:pdf|max:5000',
-            'indikator_id'    => 'required',
+            'judul'          => 'required|string|max:255',
+            'mata_pelajaran' => 'required|string',
+            'kelas'          => 'required|string|in:x,xi,xii',
+            'semester'       => 'required',
+            'tp'             => 'required',
+            'kategori'       => 'required|string|in:bk1,bk2,bk3,bk4',
+            'file'           => 'nullable|mimes:pdf|max:5000', // gunakan "file" sesuai input form
+            'indikator_id'   => 'required',
         ]);
 
         // Update slug jika judul berubah
@@ -164,14 +174,23 @@ class DokumenController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
 
-            // Buat nama file baru
-            $slugName = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
-            $fileName = $slugName . '.' . $file->getClientOriginalExtension();
-            $targetPath = 'dokumen/' . $fileName;
+            // Buat nama file baru: ganti spasi jadi strip (-)
+            $originalName = $file->getClientOriginalName();
+            $cleanName = preg_replace('/\s+/', '-', $originalName);
+            $fileName =  time() . '_' . $cleanName;
 
-            // Cek duplikat berdasarkan konten
-            if (Storage::disk('public')->exists($targetPath)) {
-                $existingContent = Storage::disk('public')->get($targetPath);
+            $destinationPath = public_path('uploads/dokumen');
+
+            // Buat folder jika belum ada
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            $targetPath = $destinationPath . DIRECTORY_SEPARATOR . $fileName;
+
+            // Cek duplikat berdasarkan isi file jika file dengan nama sama ada
+            if (file_exists($targetPath)) {
+                $existingContent = file_get_contents($targetPath);
                 $newContent = file_get_contents($file->getRealPath());
 
                 if ($existingContent === $newContent) {
@@ -179,16 +198,17 @@ class DokumenController extends Controller
                 }
             }
 
-            // Hapus file lama
-            $oldPath = $dokumen->file_path;
-            if ($oldPath && Storage::disk('public')->exists($oldPath)) {
-                Storage::disk('public')->delete($oldPath);
+            // Hapus file lama jika ada
+            $oldPath = public_path('uploads/dokumen/' . $dokumen->nama_file);
+            if ($dokumen->nama_file && file_exists($oldPath)) {
+                unlink($oldPath);
             }
 
-            // Simpan file baru
-            $filePath = $file->storeAs('dokumen', $fileName, 'public');
+            // Pindahkan file baru ke folder public/uploads/dokumen
+            $file->move($destinationPath, $fileName);
 
-            $validatedData['file_path'] = $filePath;
+            // Simpan path relatif ke database
+            $validatedData['file_path'] = 'uploads/dokumen/' . $fileName;
             $validatedData['nama_file'] = $fileName;
             $validatedData['status'] = 'pending'; // reset status jika diperbarui
         }
@@ -200,6 +220,7 @@ class DokumenController extends Controller
     }
 
 
+
     /**
      * Remove the specified resource from storage.
      */
@@ -208,27 +229,28 @@ class DokumenController extends Controller
         // Ambil data guru berdasarkan ID
         $bk = BukuKerja::findOrFail($id);
 
+dd($bk);
+        // // Hapus data
+        // $bk->delete();
 
-        // Hapus data
-        $bk->delete();
 
-
-        return redirect('/bk')->with('hapus','berhasil dihapus');
+        // return redirect('/bk')->with('hapus','berhasil dihapus');
     }
 
-    public function destroy($id)
+   public function destroy($id)
     {
-        // Cari data BukuKerja berdasarkan ID
         $bukuKerja = BukuKerja::find($id);
 
         if (!$bukuKerja) {
             return redirect()->back()->with('error', 'Dokumen tidak ditemukan.');
         }
 
-        // Cek apakah file ada di storage
-        if (Storage::disk('public')->exists($bukuKerja->file_path)) {
-            // Hapus file dari storage
-            Storage::disk('public')->delete($bukuKerja->file_path);
+        // Path relatif ke folder public
+        $filePath = public_path('uploads/dokumen/' . $bukuKerja->nama_file);
+
+        // Hapus file jika ada
+        if (file_exists($filePath)) {
+            unlink($filePath);
         }
 
         // Hapus data dari database
@@ -236,6 +258,9 @@ class DokumenController extends Controller
 
         return redirect()->back()->with('success', 'Dokumen berhasil dihapus.');
     }
+
+
+
 
 
 }

@@ -22,7 +22,7 @@ Route::post('/upload', [DokumenController::class,'store']);
 Route::get('/dokumen-{slug}', [DokumenController::class,'edit'])->name(name: "edit_dokumen")->middleware('auth');;
 Route::post('/update_dokumen/{slug}', [DokumenController::class,'update'])->name(name: "update_dokumen")->middleware('auth');
 Route::get('/upload_dokumen', [BukuKerjaController::class,'dokumen'])->name(name: "dokumen")->middleware('auth');
-Route::delete('/delete_dokumen/{id}', [DokumenController::class,'destroy'])->name(name: "delete_dokumen")->middleware('auth');
+Route::get('/delete_dokumen/{id}', [DokumenController::class,'destroy'])->name(name: "delete_dokumen")->middleware('auth');
 Route::get('/bk', [BukuKerjaController::class,'index'])->middleware('auth');
 Route::get('/bk-1', [BukuKerjaController::class,'showBk1'])->middleware('auth');
 Route::get('/bk-2', [BukuKerjaController::class,'showBk2'])->middleware('auth');

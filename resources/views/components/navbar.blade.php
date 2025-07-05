@@ -35,7 +35,7 @@
       <!-- Tombol logout -->
       <a href="#" class="dropdown-item"
          onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+        <i class="fas fa-sign-out-alt mr-2"></i> Keluar
       </a>
 
       <form id="logout-form" action="/logout" method="get" style="display: none;">
