@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -128,6 +130,79 @@ class ProfileController extends Controller
 
         // Redirect ke dashboard dengan notifikasi
         return redirect('/profile')->with('profile', 'Data berhasil diperbarui.');
+    }
+
+    public function uploadPhotos(Request $request, $id){
+        dd($request->all(), $id);
+    }
+    public function uploadPhoto(Request $request, $id)
+    {
+        // Validasi file foto
+        $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048', // max 2MB
+        ]);
+
+        // Ambil user
+        $user = User::find($id);
+
+        // Ambil file yang di-upload
+        $file = $request->file('photo');
+
+        // Buat nama file baru
+        $fileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
+
+        // Path folder upload
+        $uploadPath = public_path('uploads/photos');
+
+        // Pastikan folder ada
+        if (!File::exists($uploadPath)) {
+            File::makeDirectory($uploadPath, 0777, true);
+        }
+
+        // Hapus file lama jika ada
+        if ($user->photo) {
+            $oldPhotoPath = $uploadPath . '/' . $user->photo;
+            if (File::exists($oldPhotoPath)) {
+                File::delete($oldPhotoPath);
+            }
+        }
+
+        // Pindahkan file baru
+        $file->move($uploadPath, $fileName);
+
+        // Simpan nama file baru ke database
+        $user->photo = $fileName;
+        $user->save();
+
+        // Redirect kembali
+        return back()->with('success', 'Foto berhasil di-upload!');
+    }
+
+    public function deletePhoto($id)
+    {
+        // Ambil user
+        $user = User::find($id);
+
+        if (!$user) {
+            return back()->with('error', 'User tidak ditemukan.');
+        }
+
+        // Path folder penyimpanan foto
+        $uploadPath = public_path('uploads/photos');
+
+        // Cek dan hapus file jika ada
+        if ($user->photo) {
+            $photoPath = $uploadPath . '/' . $user->photo;
+            if (File::exists($photoPath)) {
+                File::delete($photoPath);
+            }
+
+            // Kosongkan field photo di database
+            $user->photo = null;
+            $user->save();
+        }
+
+        return back()->with('success', 'Foto berhasil dihapus.');
     }
 
     /**

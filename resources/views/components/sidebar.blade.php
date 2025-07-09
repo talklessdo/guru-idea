@@ -21,7 +21,7 @@
     <!-- User Panel -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="{{ 'img/person.png' }}" class="img-circle elevation-2" alt="User Image">
+        <img src="{{ auth()->user()->photo !== null ? 'uploads/photos/'.auth()->user()->photo : 'img/person.png'}}" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
         <a href="/profile" class="d-block name-wrap">{{ $user->name }}</a>

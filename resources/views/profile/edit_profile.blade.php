@@ -216,6 +216,30 @@
           background-color: #a14b2c;
         }
 
+        .delete-photo-danger {
+            background-color: #d32f2f;  /* Merah terang untuk menunjukkan bahaya */
+            color: white;
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .delete-photo-danger i {
+            font-size: 1.1rem;
+        }
+
+        .delete-photo-danger:hover {
+            background-color: #c2185b;  /* Merah lebih gelap saat hover */
+        }
+
+
 
         .close {
           position: absolute;
@@ -234,7 +258,7 @@
     <section class="card" aria-describedby="desc-detail-akun">
       
       <img 
-        src="{{ 'img/person.png' }}" 
+        src="{{ $dataGuru->photo !== null ? 'uploads/photos/'.$dataGuru->photo : 'img/person.png'}}" 
         alt="Foto profil pengguna dengan latar belakang netral, memperlihatkan wajah jelas" 
         class="profile-img" 
         width="200" height="200"
@@ -247,11 +271,26 @@
 
         <!-- Tombol Ganti Foto -->
         <div style="text-align: center; margin-top: 1rem;">
-          <button type="button" class="change-photo-btn">
+          <button type="button" onclick="document.getElementById('fileInput').click()" class="change-photo-btn">
             <i class="fas fa-camera"></i> Ganti Foto
           </button>
+          <form id="uploadForm" action="{{ route('upload.photo', ['id' => $dataGuru->id]) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+              <input 
+                  type="file" 
+                  id="fileInput" 
+                  style="display: none;" 
+                  name="photo"
+                  accept=".jpg, .jpeg, .png" 
+                  onchange="ganti()"
+              />
+            </form>
         </div>
-
+        <div style="text-align: center; margin-top: 1rem;">
+          <button type="button" class="delete-photo-danger {{ $dataGuru->photo == null ? 'd-none' : ''}}" data-id="{{ $dataGuru->id }}" onclick="deletePhoto(this)">
+            <i class="fas fa-trash"></i> Hapus Foto
+          </button>
+        </div>
       </div>
       <form action="/update-profile" method="POST">
         @csrf
@@ -357,29 +396,7 @@
                 @enderror
             </div>
 
-            {{-- Mata Pelajaran --}}
-            {{-- <div class="detail-item">
-                <label class="detail-label">Mata Pelajaran</label>
-                <select name="mata_pelajaran" class="detail-value" disabled>
-                    <option value="">-- Pilih Mapel --</option>
-                    @php
-                    $mapelList = [
-                        'Bahasa Indonesia','Bahasa Inggris','Matematika','Matematika Tingkat Lanjut',
-                        'Fisika','Kimia','Biologi','Ekonomi','Akidah Akhlak','Fiqih','Al-Qur\'an Hadits',
-                        'Bahasa Arab','Penjaskes','Informatika','Seni Budaya','Sejarah Kebudayaan Islam',
-                        'Sejarah Indonesia','Pendidikan Pancasila','Prakarya','Bahasa Sunda'
-                    ];
-                    @endphp
-                    @foreach ($mapelList as $mapel)
-                    <option value="{{ $mapel }}" {{ old('mata_pelajaran', $dataGuru->mata_pelajaran) == $mapel ? 'selected' : '' }}>
-                        {{ $mapel }}
-                    </option>
-                    @endforeach
-                </select>
-                @error('mata_pelajaran')
-                    <span style="color: red" class="text-sm">{{ $message }}</span>
-                @enderror
-            </div> --}}
+      
 
             <div class="detail-item">
                 <label class="detail-label">Penempatan</label>
@@ -408,6 +425,15 @@
     </section>
     
   </main>
+  @if (session('success'))
+      <script>
+        Swal.fire({
+          title: "Berhasil!",
+          text: `{{ session('success') }}`,
+          icon: "success"
+        });
+      </script>
+  @endif
   <script>
     function openModal(src) {
       const modal = document.getElementById("imgModal");
@@ -418,6 +444,30 @@
 
     function closeModal() {
       document.getElementById("imgModal").style.display = "none";
+    }
+
+    function ganti() {
+      // Submit form secara otomatis saat file dipilih
+      document.getElementById('uploadForm').submit();
+    }
+    
+
+    function deletePhoto(hapus){
+      const id = hapus.getAttribute('data-id');
+      Swal.fire({
+        title: "Apakah Anda yakin?",
+        text: "Foto profil akan dihapus!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus!",
+        cancelButtonText: "Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = '/delete-photo/' + id;
+        }
+      });
     }
   </script>
 

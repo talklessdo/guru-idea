@@ -45,3 +45,5 @@ Route::post('/store_akun', [GuruController::class,'store'])->middleware('auth');
 Route::get('/profile', [ProfileController::class,'index'])->middleware('auth');
 Route::get('/edit-profile', [ProfileController::class,'edit'])->middleware('auth');
 Route::post('/update-profile', [ProfileController::class,'update'])->middleware('auth');
+Route::post('/update-photo/{id}', [ProfileController::class,'uploadPhoto'])->name('upload.photo')->middleware('auth');
+Route::get('/delete-photo/{id}', [ProfileController::class,'deletePhoto'])->middleware('auth');

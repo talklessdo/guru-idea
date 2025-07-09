@@ -92,11 +92,31 @@
             color: #2a4d69;
         }
 
+        /* Default style: horizontal layout */
         .filters {
             display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 20px;  /* Spacing between select elements */
+            justify-content: center;  /* Menempatkan elemen select di tengah secara horizontal */
+            align-items: center;  /* Vertically center items */
+            margin: 0 auto;  /* Centring the container */
+            max-width: 80%;  /* Optional: limit the width of the container */
+        }
+
+        .opsi {
+            width: 200px;  /* Width of each select element */
+        }
+
+        /* For small screens, make the selects stack vertically */
+        @media (max-width: 600px) {
+            .filters {
+                flex-direction: column;
+                align-items: stretch;  /* Ensures the selects fill the width */
+            }
+
+            .opsi {
+                width: 100%;  /* Makes the select elements fill the container */
+                margin-bottom: 10px;  /* Optional: Adds spacing between selects */
+            }
         }
 
         select {

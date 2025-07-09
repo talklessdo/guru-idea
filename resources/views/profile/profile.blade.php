@@ -234,7 +234,7 @@
     <section class="card" aria-describedby="desc-detail-akun">
       
       <img 
-        src="{{ 'img/person.png' }}" 
+        src="{{ auth()->user()->photo !== null ? 'uploads/photos/'.auth()->user()->photo : 'img/person.png'}}" 
         alt="Foto profil pengguna dengan latar belakang netral, memperlihatkan wajah jelas" 
         class="profile-img" 
         width="200" height="200"

@@ -23,7 +23,7 @@
   .login-box {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 48%;
     transform: translate(-50%, -50%);
     width: 100%;
     max-width: 400px; /* Sesuaikan ukuran card */
@@ -44,7 +44,7 @@
 
 </style>
 <body class="hold-transition login-page">
-<div class="login-box">
+<div class="login-box mx-2 p-3">
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
