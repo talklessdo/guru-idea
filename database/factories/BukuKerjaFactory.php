@@ -19,15 +19,17 @@ class BukuKerjaFactory extends Factory
      */
     public function definition(): array
     {
-        $guruId = 4;
-        // $guruId = Arr::random(array_diff(range(5, 10), [1, 8, 11]));
+        // Ambil id user yang benar-benar ada dan role guru, kecuali id 1, 8, 11
+        $guruIds = User::where('role', 'guru')->whereNotIn('id', [1, 8, 11])->pluck('id')->toArray();
+        $guruId = !empty($guruIds) ? $this->faker->randomElement($guruIds) : null;
         $indikatorId = rand(1, 29);
         $kategoriKode = Indikator::find($indikatorId)?->kategori;
 
+        $status = $this->faker->randomElement(['approve', 'pending', 'decline']);
+
         return [
-            'nama_guru' => User::find($guruId)?->name ?? 'N/A',
+            'nama_guru' => $guruId ? User::find($guruId)?->name ?? 'N/A' : 'N/A',
             'judul' => $this->faker->sentence(),
-            // 'mata_pelajaran' => 'Sejara Indonesia',
             'mata_pelajaran' => $this->faker->randomElement([
                 'Bahasa Indonesia',
                 'Bahasa Inggris',
@@ -62,14 +64,14 @@ class BukuKerjaFactory extends Factory
                 '4' => 'bk4',
                 default => 'n/a',
             },
-            'status' => $this->faker->randomElement(['approve', 'pending', 'decline']),
+            'status' => $status,
             'kelas' => $this->faker->randomElement(['x', 'xi', 'xii']),
             // 'nama_file' => $this->faker->word() . '.pdf',
             'nama_file' => 'uts-inggris-m-isa-daud-202222011.pdf',
-            'catatan' => $this->faker->text(100),
+            'catatan' => $status === 'pending' ? null : $this->faker->text(100),
             'guru_id' => $guruId, 
             'indikator_id' => $indikatorId,
-            'created_at' => $this->faker->dateTimeBetween('2024-07-01', '2025-07-01'),
+            'created_at' => $this->faker->dateTimeBetween('2024-01-01', now()),
         ];
     }
 }

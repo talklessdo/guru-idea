@@ -73,68 +73,88 @@ class ProfileController extends Controller
         return view('profile.edit_profile', compact('dataGuru'));
     }
 
+    public function editProfile($id)
+    {
+        $akun = User::find($id);
+        return view('profile.profile_edit', compact('akun'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request)
     {
-        // Ambil user_id dari tabel guru
         $id = Auth::user()->id;
-        $userId = DB::table('guru')->where('user_id', $id)->value('user_id');
+        $user = User::find($id);
+        $role = Auth::user()->role;
 
-        // Validasi data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $userId,
-            'status_pegawai' => 'nullable|string|max:100',
-            'jk' => 'required|in:Laki-laki,Perempuan',
-            'nip' => 'nullable|string|max:20',
-            'nik' => 'nullable|string|max:20',
-            'nuptk' => 'nullable|string|max:20',
-            'tempat_lahir' => 'nullable|string|max:100',
-            'tanggal_lahir' => 'nullable|date',
-            'nomor_hp' => 'nullable|string|max:15',
-            'tugas' => 'nullable|string|max:100',
-            'penempatan' => 'nullable|string|max:100',
-            'total_jtm' => 'numeric|min:0',
-        ], [
-            'name.required' => 'Nama harus diisi.',
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah digunakan.',
-            'jk.required' => 'Jenis kelamin wajib dipilih.',
-            'total_jtm.numeric' => 'Total jam harus berupa angka.',
-        ]);
-
-        
-        // Update tabel guru
-        DB::table('guru')->where('user_id', $id)->update([
-            'status_pegawai' => $request->status_pegawai,
-            'jk' => $request->jk,
-            'nip' => $request->nip,
-            'nik' => $request->nik,
-            'nuptk' => $request->nuptk,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'nomor_hp' => $request->nomor_hp,
-            'tugas' => $request->tugas,
-            'penempatan' => $request->penempatan,
-            'total_jtm' => $request->total_jtm,
-        ]);
-
-        // Update tabel users
-        DB::table('users')->where('id', $userId)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
-
-        // Redirect ke dashboard dengan notifikasi
+        if ($role == 'guru') {
+            $userId = DB::table('guru')->where('user_id', $id)->value('user_id');
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $userId,
+                'status_pegawai' => 'nullable|string|max:100',
+                'jk' => 'required|in:Laki-laki,Perempuan',
+                'nip' => 'nullable|string|max:20',
+                'nik' => 'nullable|string|max:20',
+                'nuptk' => 'nullable|string|max:20',
+                'tempat_lahir' => 'nullable|string|max:100',
+                'tanggal_lahir' => 'nullable|date',
+                'nomor_hp' => 'nullable|string|max:15',
+                'tugas' => 'nullable|string|max:100',
+                'penempatan' => 'nullable|string|max:100',
+                'total_jtm' => 'numeric|min:0',
+            ], [
+                'name.required' => 'Nama harus diisi.',
+                'email.required' => 'Email wajib diisi.',
+                'email.email' => 'Format email tidak valid.',
+                'email.unique' => 'Email sudah digunakan.',
+                'jk.required' => 'Jenis kelamin wajib dipilih.',
+                'total_jtm.numeric' => 'Total jam harus berupa angka.',
+            ]);
+            // Update tabel guru
+            DB::table('guru')->where('user_id', $id)->update([
+                'status_pegawai' => $request->status_pegawai,
+                'jk' => $request->jk,
+                'nip' => $request->nip,
+                'nik' => $request->nik,
+                'nuptk' => $request->nuptk,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'nomor_hp' => $request->nomor_hp,
+                'tugas' => $request->tugas,
+                'penempatan' => $request->penempatan,
+                'total_jtm' => $request->total_jtm,
+            ]);
+            // Update tabel users
+            DB::table('users')->where('id', $userId)->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+        } else {
+            // Non-guru: validasi password opsional
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $user->id,
+                'password' => 'nullable|string|min:8|confirmed',
+            ], [
+                'name.required' => 'Nama harus diisi.',
+                'email.required' => 'Email wajib diisi.',
+                'email.email' => 'Format email tidak valid.',
+                'email.unique' => 'Email sudah digunakan.',
+                'password.min' => 'Password minimal 8 karakter.',
+                'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            ]);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            if ($request->filled('password')) {
+                $user->password = bcrypt($request->password);
+            }
+            $user->save();
+        }
         return redirect('/profile')->with('profile', 'Data berhasil diperbarui.');
     }
 
-    public function uploadPhotos(Request $request, $id){
-        dd($request->all(), $id);
-    }
     public function uploadPhoto(Request $request, $id)
     {
         // Validasi file foto

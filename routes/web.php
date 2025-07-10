@@ -29,6 +29,9 @@ Route::get('/bk-2', [BukuKerjaController::class,'showBk2'])->middleware('auth');
 Route::get('/bk-3', [BukuKerjaController::class,'showBk3'])->middleware('auth');
 Route::get('/bk-4', [BukuKerjaController::class,'showBk4'])->middleware('auth');
 Route::post('/catatan/{id}', [BukuKerjaController::class,'catatan'])->name('catatan')->middleware('auth');
+Route::get('/tolak-dokumen/{id}', [DokumenController::class,'updateStatus'])->name('tolak_dokumen')->middleware('auth');
+Route::get('/setujui-dokumen/{id}', [DokumenController::class,'setujuiDokumen'])->name('setujui_dokumen')->middleware('auth');
+Route::get('/dokumen_masuk', [DokumenController::class,'dokumenMasuk'])->middleware('auth');
 
 // Guru
 Route::get('/manage_akun', [GuruController::class,'index'])->middleware('auth');
@@ -45,6 +48,11 @@ Route::post('/store_akun', [GuruController::class,'store'])->middleware('auth');
 // profile
 Route::get('/profile', [ProfileController::class,'index'])->middleware('auth');
 Route::get('/edit-profile', [ProfileController::class,'edit'])->middleware('auth');
+Route::get('/edit-profile/{id}', [ProfileController::class,'edit'])->middleware('auth');
 Route::post('/update-profile', [ProfileController::class,'update'])->middleware('auth');
 Route::post('/update-photo/{id}', [ProfileController::class,'uploadPhoto'])->name('upload.photo')->middleware('auth');
 Route::get('/delete-photo/{id}', [ProfileController::class,'deletePhoto'])->middleware('auth');
+Route::get('/edit-profile-nonguru-{id}', [ProfileController::class, 'editProfile'])->middleware('auth');
+
+Route::get('/riwayat', [App\Http\Controllers\KurikulumController::class, 'riwayat'])->middleware('auth');
+Route::get('/progres', [App\Http\Controllers\KurikulumController::class, 'progres'])->middleware('auth');

@@ -289,7 +289,13 @@
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Tanggal Lahir</span>
-            <span class="detail-value">{{ $akun->tanggal_lahir }}</span>
+            <span class="detail-value">
+              @if($akun->tanggal_lahir)
+                {{ \Carbon\Carbon::parse($akun->tanggal_lahir)->translatedFormat('d F Y') }}
+              @else
+                -
+              @endif
+            </span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Nomor HP</span>
@@ -299,10 +305,6 @@
             <span class="detail-label">Tugas</span>
             <span class="detail-value">{{ $akun->tugas }}</span>
           </div>
-          {{-- <div class="detail-item" role="listitem">
-            <span class="detail-label">Mata Pelajaran</span>
-            <span class="detail-value">{{ $akun->mata_pelajaran }}</span>
-          </div> --}}
           <div class="detail-item" role="listitem">
             <span class="detail-label">Penempatan</span>
             <span class="detail-value">{{ $akun->penempatan }}</span>
@@ -340,7 +342,7 @@
             <span class="detail-value">{{ $akun->email }}</span>
           </div>
         </div>
-        <a href="/edit-profile/{{ $akun->id }}" class="btn-edit" aria-label="Edit">
+        <a href="/edit-profile-nonguru-{{ $akun->id }}" class="btn-edit" aria-label="Edit">
           <i class="fas fa-edit" style="margin-right: 0.5rem;"></i> Edit
         </a>
     

@@ -21,7 +21,7 @@
     <!-- User Panel -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="{{ auth()->user()->photo !== null ? 'uploads/photos/'.auth()->user()->photo : 'img/person.png'}}" class="img-circle elevation-2" alt="User Image">
+        <img src="{{ auth()->user()->photo !== null ? 'uploads/photos/'.auth()->user()->photo : 'img/person.png'}}" class="img-circle elevation-2" alt="User Image" style="width:48px; height:48px; object-fit:cover; border-radius:50%; aspect-ratio:1/1;">
       </div>
       <div class="info">
         <a href="/profile" class="d-block name-wrap">{{ $user->name }}</a>
@@ -86,9 +86,9 @@
 
         {{-- KURIKULUM --}}
         @elseif($role === 'kurikulum')
-          <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-inbox"></i><p>Dokumen Masuk</p></a></li>
-          <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-history"></i><p>Riwayat Persetujuan</p></a></li>
-          <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-chart-pie"></i><p>Laporan Progres</p></a></li>
+          <li class="nav-item"><x-sidelink href="/dokumen_masuk" :active="request()->is('dokumen_masuk')"><i class="nav-icon fas fa-inbox"></i><p>Dokumen Masuk</p></x-sidelink></li>
+          <li class="nav-item"><x-sidelink href="/riwayat" :active="request()->is('riwayat')"><i class="nav-icon fas fa-history"></i><p>Riwayat Persetujuan</p></x-sidelink></li>
+          <li class="nav-item"><x-sidelink href="/progres" :active="request()->is('progres')"><i class="nav-icon fas fa-chart-bar"></i><p>Progres Dokumen</p></x-sidelink></li>
 
         {{-- KEPALA SEKOLAH --}}
         @elseif($role === 'kepala_sekolah')

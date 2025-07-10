@@ -95,7 +95,7 @@
             </div>
 
             <div class="card">
-                <div class="card-icon" style="background: #2196f3;"><i class="fas fa-book"></i></div>
+                <div class="card-icon" onclick="totalBk()" style="background: #2196f3;"><i class="fas fa-book"></i></div>
                 <div class="card-content">
                 <p class="card-title">Buku Kerja</p>
                 <p class="card-value">{{ $jmlBk }}</p>
@@ -177,9 +177,11 @@
       function totalGuru(){
         window.location.href = '/manage_akun';
       }
-      
+      function totalBk(){
+        window.location.href = '/bk';
+      }
     </script>
-    </x-layout>
+  </x-layout>
     {{-- End Admin --}}
 @elseif (auth()->user()->role == 'kurikulum')
     {{-- Kurikulum --}}
@@ -218,148 +220,184 @@
 
     <div class="app-wrapper">
         <section class="content">
-        <div class="container-fluid">
-            <div class="dashboard-header text-center">
-            <h1>Dashboard Kurikulum</h1>
-            <p>Kelola dan tinjau dokumen buku kerja guru</p>
-            </div>
-
-            {{-- Daftar Dokumen Masuk --}}
-            <div class="mb-5">
-              <h4>📥 Dokumen Menunggu Persetujuan</h4>
-              <div class="table-responsive">
-                  <table class="table table-bordered table-hover">
-                  <thead class="thead-light">
-                      <tr>
-                      <th>#</th>
-                      <th>Nama Guru</th>
-                      <th>Judul Dokumen</th>
-                      <th>Kategori</th>
-                      <th>Catatan</th>
-                      <th>Aksi</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                    @foreach ($bkPending as $nomor => $data)
-                    @php
-                        $nomor += 1
-                    @endphp
-                    <tr>
-                      <td>{{ $nomor }}</td>
-                      <td>{{ $data->nama_guru }}</td>
-                      <td>{{ $data->judul }}</td>
-                      <td>{{ $data->kategori }}</td>
-                      <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal"  onclick="">Lihat</button></td>
-                      <td>
-                        <div class="btn-group">
-                            <button type="button" id="dropdownMenuButton" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Aksi
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item text-success" href="#"><i class="fas fa-check"></i> Setujui</a>
-                                <a class="dropdown-item text-danger" href="#"><i class="fas fa-times"></i> Tolak</a>
+          <div class="card shadow-sm p-3">
+            <div class="container-fluid">
+                <div class="dashboard-header text-center">
+                <h1>Dashboard</h1>
+                <p>Kelola dan tinjau dokumen buku kerja guru</p>
+                </div>
+    
+                {{-- Daftar Dokumen Masuk --}}
+                <div class="mb-5">
+                  <h4>📥 Dokumen Menunggu Persetujuan</h4>
+                  <div class="table-responsive">
+                      <table class="table table-bordered table-hover">
+                      <thead class="thead-light">
+                          <tr>
+                          <th>#</th>
+                          <th>Nama Guru</th>
+                          <th>Judul Dokumen</th>
+                          <th>Kategori</th>
+                          <th>Catatan</th>
+                          <th>Aksi</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        @foreach ($bkPendingNow as $nomor => $data)
+                        @php
+                            $nomor += 1
+                        @endphp
+                        <tr>
+                          <td>{{ $nomor }}</td>
+                          <td>{{ $data->nama_guru }}</td>
+                          <td>{{ $data->judul }}</td>
+                          <td>{{ $data->kategori }}</td>
+                          <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal"  onclick="">Lihat</button></td>
+                          <td>
+                            <div class="btn-group">
+                                <button type="button" id="dropdownMenuButton" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Aksi
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item text-success" style="cursor: pointer;" onclick="setujuiDokumen({{ $data->id }})"><i class="fas fa-check"></i> Setujui</a>
+                                    <a onclick="tolakDokumen({{ $data->id }})" class="dropdown-item text-danger" style="cursor: pointer;"><i class="fas fa-times"></i> Tolak</a>
+                                </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <!-- Modal Catatan -->
+                        <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <form id="formCatatan" action="{{ route('catatan', ['id' => $data->id]) }}" method="POST">
+                                    @csrf
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="noteModalLabel">Catatan / Komentar</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span>&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <textarea id="catatan-text" name="catatan" class="form-control">{{ $data->catatan }}</textarea>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Tutup</button>
+                                            <button id="btnSaveNote" type="submit" class="btn btn-primary">Simpan</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                      </td>
-                    </tr>
-                    <!-- Modal Catatan -->
-                    <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <form id="formCatatan" action="{{ route('catatan', ['id' => $data->id]) }}" method="POST">
-                                @csrf
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="noteModalLabel">Catatan / Komentar</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span>&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <textarea id="catatan-text" name="catatan" class="form-control">{{ $data->catatan }}</textarea>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Tutup</button>
-                                        <button id="btnSaveNote" type="submit" class="btn btn-primary">Simpan</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    @endforeach
-                  </tbody>
-                  </table>
-              </div>
-            </div>
-            
-            {{-- Riwayat Persetujuan --}}
-            <div class="mb-5">
-            <h4>📜 Riwayat Persetujuan</h4>
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                    <th>#</th>
-                    <th>Nama Guru</th>
-                    <th>Dokumen</th>
-                    <th>Status</th>
-                    <th>Tanggal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <td>1</td>
-                    <td>Sri Wulandari</td>
-                    <td>RPP Bahasa Indonesia</td>
-                    <td><span class="badge badge-success">Disetujui</span></td>
-                    <td>2025-05-15</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Budi Hermawan</td>
-                    <td>Silabus Matematika</td>
-                    <td><span class="badge badge-danger">Ditolak</span></td>
-                    <td>2025-05-14</td>
-                    </tr>
-                </tbody>
-                </table>
-            </div>
+                        @endforeach
+                      </tbody>
+                      </table>
+                  </div>
+                </div>
+                
+                {{-- Riwayat Persetujuan --}}
+                <div class="mb-5">
+                <h4>📜 Riwayat Persetujuan</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                        <th>#</th>
+                        <th>Nama Guru</th>
+                        <th>Dokumen</th>
+                        <th>Status</th>
+                        <th>Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($bkNow as $nomor => $data)
+                        @php
+                            $nomor += 1
+                        @endphp
+                        <tr>
+                          <td>{{ $nomor }}</td>
+                          <td>{{ $data->nama_guru }}</td>
+                          <td>{{ $data->judul }}</td>
+                          @if ($data->status == 'approve')
+                            <td><span class="badge badge-success">Disetujui</span></td>
+                          @elseif ($data->status == 'pending')
+                            <td><span class="badge badge-warning">Menunggu</span></td>
+                          @else
+                            <td><span class="badge badge-danger">Ditolak</span></td>
+                          @endif
+                          <td>{{ \Carbon\Carbon::parse($data->created_at)->translatedFormat('d F Y') }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+    
+                {{-- Progres Dokumen --}}
+                <div>
+                  <h4>📈 Progres Buku Kerja Guru</h4>
+                  <div class="table-responsive">
+                      <table class="table table-responsive table-sm">
+                      <thead>
+                          <tr>
+                          <th>Guru</th>
+                          <th>Total Dokumen</th>
+                          <th>Disetujui</th>
+                          <th>Ditolak</th>
+                          <th>Pending</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          @foreach($progresGuru as $row)
+                          <tr>
+                              <td>{{ $row['nama'] }}</td>
+                              <td>{{ $row['total'] }}</td>
+                              <td>{{ $row['approve'] }}</td>
+                              <td>{{ $row['decline'] }}</td>
+                              <td>{{ $row['pending'] }}</td>
+                          </tr>
+                          @endforeach
+                      </tbody>
+                      </table>
+                  </div>
+                </div>
             </div>
 
-            {{-- Progres Dokumen --}}
-            <div>
-            <h4>📈 Progres Buku Kerja Guru</h4>
-            <div class="table-responsive">
-                <table class="table table-borderless table-sm">
-                <thead>
-                    <tr>
-                    <th>Guru</th>
-                    <th>Total Dokumen</th>
-                    <th>Disetujui</th>
-                    <th>Ditolak</th>
-                    <th>Pending</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <td>Rina Oktaviani</td>
-                    <td>10</td>
-                    <td>7</td>
-                    <td>1</td>
-                    <td>2</td>
-                    </tr>
-                    <tr>
-                    <td>Wawan Setiawan</td>
-                    <td>8</td>
-                    <td>8</td>
-                    <td>0</td>
-                    <td>0</td>
-                    </tr>
-                </tbody>
-                </table>
-            </div>
-            </div>
-        </div>
+          </div>
         </section>
+        <script>
+          function tolakDokumen(id){
+            Swal.fire({
+              title: 'Apakah Anda yakin?',
+              text: 'Dokumen akan ditolak!',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Ya, tolak!',
+              cancelButtonText: 'Batal',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = '/tolak-dokumen/' + id;
+              }
+            });
+          }
+          function setujuiDokumen(id){
+            Swal.fire({
+              title: 'Apakah Anda yakin?',
+              text: 'Dokumen akan disetujui!',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Ya, setujui!',
+              cancelButtonText: 'Batal',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = '/setujui-dokumen/' + id;
+              }
+            });
+          }
+      </script>
     </div>
 
     </x-layout>

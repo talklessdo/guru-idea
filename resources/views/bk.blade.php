@@ -135,7 +135,13 @@
                             @else
                                 <td><span class="badge badge-danger">Ditolak</span></td>
                             @endif
-                            <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal"  onclick="catatan('{{ $item->catatan }}')">Lihat</button></td>
+                            <td style="text-align: center;">
+                                @if ($item->catatan !== null)
+                                    <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal"  onclick="catatan('{{ $item->catatan }}')">Lihat</button>
+                                @else
+                                    -
+                                @endif
+                            </td>
                             <td>
                                 <!-- Tombol Lihat -->
                                 <a href="{{ asset('uploads/dokumen/' . $item->nama_file) }}" target="_blank" class="btn btn-info btn-sm" title="Lihat">
@@ -148,7 +154,7 @@
                                 </a>
     
                                 <!-- Tombol Hapus -->
-                                <a href="{{ route('delete_dokumen', ['id' => $item->id]) }}" class="btn btn-danger btn-sm" title="Hapus">
+                                <a onclick="hapusDokumen({{ $item->id }})" class="btn btn-danger btn-sm" title="Hapus">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
@@ -224,6 +230,23 @@
   function catatan(data){
     const modalBody = document.getElementById("catatan-text");
     modalBody.textContent = data || 'Tidak ada catatan.';
+  }
+
+  function hapusDokumen(id){
+    Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: 'Dokumen akan dihapus!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, hapus!',
+      cancelButtonText: 'Batal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = '/delete_dokumen/' + id;
+      }
+    });
   }
 </script>
 </x-layout>

@@ -163,8 +163,9 @@ class DokumenController extends Controller
             'semester'       => 'required',
             'tp'             => 'required',
             'kategori'       => 'required|string|in:bk1,bk2,bk3,bk4',
-            'file'           => 'nullable|mimes:pdf|max:5000', // gunakan "file" sesuai input form
+            'file'           => 'nullable|mimes:pdf|max:5000',
             'indikator_id'   => 'required',
+            'catatan'        => 'nullable|string',
         ]);
 
         // Update slug jika judul berubah
@@ -175,21 +176,18 @@ class DokumenController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
 
-            // Buat nama file baru: ganti spasi jadi strip (-)
             $originalName = $file->getClientOriginalName();
             $cleanName = preg_replace('/\s+/', '-', $originalName);
             $fileName =  time() . '_' . $cleanName;
 
             $destinationPath = public_path('uploads/dokumen');
 
-            // Buat folder jika belum ada
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0755, true);
             }
 
             $targetPath = $destinationPath . DIRECTORY_SEPARATOR . $fileName;
 
-            // Cek duplikat berdasarkan isi file jika file dengan nama sama ada
             if (file_exists($targetPath)) {
                 $existingContent = file_get_contents($targetPath);
                 $newContent = file_get_contents($file->getRealPath());
@@ -199,20 +197,20 @@ class DokumenController extends Controller
                 }
             }
 
-            // Hapus file lama jika ada
             $oldPath = public_path('uploads/dokumen/' . $dokumen->nama_file);
             if ($dokumen->nama_file && file_exists($oldPath)) {
                 unlink($oldPath);
             }
 
-            // Pindahkan file baru ke folder public/uploads/dokumen
             $file->move($destinationPath, $fileName);
 
-            // Simpan path relatif ke database
             $validatedData['file_path'] = 'uploads/dokumen/' . $fileName;
             $validatedData['nama_file'] = $fileName;
-            $validatedData['status'] = 'pending'; // reset status jika diperbarui
+            $validatedData['status'] = 'pending';
         }
+
+        // Pastikan catatan selalu null setelah update
+        $validatedData['catatan'] = null;
 
         // Update data ke database
         $dokumen->update($validatedData);
@@ -225,17 +223,21 @@ class DokumenController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroys($id)
+    public function updateStatus($id)
     {
-        // Ambil data guru berdasarkan ID
-        $bk = BukuKerja::findOrFail($id);
+        $dokumen = BukuKerja::find($id);
+        $dokumen->status = 'decline';
+        $dokumen->save();
 
-dd($bk);
-        // // Hapus data
-        // $bk->delete();
+        return redirect()->back()->with('success', 'Dokumen berhasil ditolak!');
+    }
 
+    public function setujuiDokumen($id){
+        $dokumen = BukuKerja::find($id);
+        $dokumen->status = 'approve';
+        $dokumen->save();
 
-        // return redirect('/bk')->with('hapus','berhasil dihapus');
+        return redirect()->back()->with('success', 'Dokumen berhasil disetujui!');
     }
 
    public function destroy($id)
@@ -258,6 +260,11 @@ dd($bk);
         $bukuKerja->delete();
 
         return redirect()->back()->with('success', 'Dokumen berhasil dihapus.');
+    }
+
+    public function dokumenMasuk(){
+        $dokumenMasuk = BukuKerja::where('status', 'pending')->get();
+        return view('kurikulum.dokumen_masuk', compact('dokumenMasuk'));
     }
 
 

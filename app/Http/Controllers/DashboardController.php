@@ -47,8 +47,29 @@ class DashboardController extends Controller
 
         $dataBk = BukuKerja::whereDate('created_at', Carbon::today())->get();
         $bkPending = BukuKerja::where('status', '=', 'pending')->get();
+        $bkPendingNow = BukuKerja::where('status', '=', 'pending')
+        ->whereDate('created_at', Carbon::today())
+        ->get();
+        $bkNow = BukuKerja::whereDate('created_at', Carbon::today())
+        ->get();
+        $bkDeclineNow = BukuKerja::where('status', '=', 'decline')
+        ->whereDate('created_at', Carbon::today())
+        ->get();
         $jml_tugas_selesai = BukuKerja::where('status', '=', 'approve')->count();
         $jml_waiting = BukuKerja::where('status', '=', 'pending')->count();
+        // Progres Buku Kerja Guru
+        $progresGuruData = BukuKerja::selectRaw('nama_guru, COUNT(*) as total, SUM(status = "approve") as approve, SUM(status = "decline") as decline, SUM(status = "pending") as pending')
+            ->groupBy('nama_guru')
+            ->get();
+        $progresGuru = $progresGuruData->map(function($row) {
+            return [
+                'nama' => $row->nama_guru,
+                'total' => (int)$row->total,
+                'approve' => (int)$row->approve,
+                'decline' => (int)$row->decline,
+                'pending' => (int)$row->pending,
+            ];
+        });
         return view("dashboard", 
         compact(
             "jmlGuru", 
@@ -60,6 +81,10 @@ class DashboardController extends Controller
         "jmlBkGuruPending",
         "jmlBkGuruDecline",
         'bkPending',
+        'bkPendingNow',
+        'bkNow',
+        'bkDeclineNow',
+        'progresGuru',
         ));
     }
 
