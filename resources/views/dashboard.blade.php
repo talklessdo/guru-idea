@@ -226,44 +226,71 @@
 
             {{-- Daftar Dokumen Masuk --}}
             <div class="mb-5">
-            <h4>📥 Dokumen Menunggu Persetujuan</h4>
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                <thead class="thead-light">
+              <h4>📥 Dokumen Menunggu Persetujuan</h4>
+              <div class="table-responsive">
+                  <table class="table table-bordered table-hover">
+                  <thead class="thead-light">
+                      <tr>
+                      <th>#</th>
+                      <th>Nama Guru</th>
+                      <th>Judul Dokumen</th>
+                      <th>Kategori</th>
+                      <th>Catatan</th>
+                      <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($bkPending as $nomor => $data)
+                    @php
+                        $nomor += 1
+                    @endphp
                     <tr>
-                    <th>#</th>
-                    <th>Nama Guru</th>
-                    <th>Judul Dokumen</th>
-                    <th>Tanggal Upload</th>
-                    <th>Aksi</th>
+                      <td>{{ $nomor }}</td>
+                      <td>{{ $data->nama_guru }}</td>
+                      <td>{{ $data->judul }}</td>
+                      <td>{{ $data->kategori }}</td>
+                      <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal"  onclick="">Lihat</button></td>
+                      <td>
+                        <div class="btn-group">
+                            <button type="button" id="dropdownMenuButton" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Aksi
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item text-success" href="#"><i class="fas fa-check"></i> Setujui</a>
+                                <a class="dropdown-item text-danger" href="#"><i class="fas fa-times"></i> Tolak</a>
+                            </div>
+                        </div>
+                      </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <td>1</td>
-                    <td>Ahmad Fauzi</td>
-                    <td>Program Semester</td>
-                    <td>2025-05-17</td>
-                    <td>
-                        <button class="btn btn-sm btn-approve"><i class="fas fa-check"></i> Setujui</button>
-                        <button class="btn btn-sm btn-reject"><i class="fas fa-times"></i> Tolak</button>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Lina Marlina</td>
-                    <td>Silabus IPS</td>
-                    <td>2025-05-16</td>
-                    <td>
-                        <button class="btn btn-sm btn-approve"><i class="fas fa-check"></i> Setujui</button>
-                        <button class="btn btn-sm btn-reject"><i class="fas fa-times"></i> Tolak</button>
-                    </td>
-                    </tr>
-                </tbody>
-                </table>
+                    <!-- Modal Catatan -->
+                    <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <form id="formCatatan" action="{{ route('catatan', ['id' => $data->id]) }}" method="POST">
+                                @csrf
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="noteModalLabel">Catatan / Komentar</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span>&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <textarea id="catatan-text" name="catatan" class="form-control">{{ $data->catatan }}</textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Tutup</button>
+                                        <button id="btnSaveNote" type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    @endforeach
+                  </tbody>
+                  </table>
+              </div>
             </div>
-            </div>
-
+            
             {{-- Riwayat Persetujuan --}}
             <div class="mb-5">
             <h4>📜 Riwayat Persetujuan</h4>

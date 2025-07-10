@@ -28,6 +28,7 @@ Route::get('/bk-1', [BukuKerjaController::class,'showBk1'])->middleware('auth');
 Route::get('/bk-2', [BukuKerjaController::class,'showBk2'])->middleware('auth');
 Route::get('/bk-3', [BukuKerjaController::class,'showBk3'])->middleware('auth');
 Route::get('/bk-4', [BukuKerjaController::class,'showBk4'])->middleware('auth');
+Route::post('/catatan/{id}', [BukuKerjaController::class,'catatan'])->name('catatan')->middleware('auth');
 
 // Guru
 Route::get('/manage_akun', [GuruController::class,'index'])->middleware('auth');

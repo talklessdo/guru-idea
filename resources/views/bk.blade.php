@@ -64,6 +64,13 @@
             }
         }
 
+        #catatan-text {
+            white-space: pre-wrap; /* Mengizinkan teks multi-baris */
+            word-wrap: break-word; /* Membatasi kata agar tidak keluar dari container */
+            word-break: break-word; /* Memecah kata yang panjang menjadi beberapa baris */
+            overflow-wrap: break-word; /* Menjaga kata yang panjang agar tidak memanjang ke luar */
+        }
+
         
     </style>
 
@@ -77,7 +84,7 @@
             {{-- Daftar Dokumen Guru --}}
             <div class="card mt-4">
             <div class="card-header bg-warning text-white">
-                <strong>📚 Dokumen Saya</strong>
+                <strong>📚 Dokumen</strong>
             </div>
             <div class="card-body table-responsive">
                 <div class="table-responsive">

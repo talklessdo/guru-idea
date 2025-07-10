@@ -43,9 +43,7 @@
         {{-- ADMIN --}}
         @if($role === 'admin')
           <li class="nav-item"><x-sidelink href="/manage_akun" :active="request()->is('manage_akun')"><i class="nav-icon fas fa-users"></i><p>Manajemen Akun</p></x-sidelink></li>
-          <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-book"></i><p>Buku Kerja</p></a></li>
-          <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-check-square"></i><p>Penilaian</p></a></li>
-          <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-cogs"></i><p>Pengaturan</p></a></li>
+          <li class="nav-item"><x-sidelink href="/bk" :active="request()->is('bk')"><i class="nav-icon fas fa-book-open"></i><p>Buku Kerja</p></x-sidelink></li>          
 
         {{-- GURU --}}
         @elseif($role === 'guru')

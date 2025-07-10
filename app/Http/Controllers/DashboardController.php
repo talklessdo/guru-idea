@@ -46,6 +46,7 @@ class DashboardController extends Controller
 
 
         $dataBk = BukuKerja::whereDate('created_at', Carbon::today())->get();
+        $bkPending = BukuKerja::where('status', '=', 'pending')->get();
         $jml_tugas_selesai = BukuKerja::where('status', '=', 'approve')->count();
         $jml_waiting = BukuKerja::where('status', '=', 'pending')->count();
         return view("dashboard", 
@@ -58,6 +59,7 @@ class DashboardController extends Controller
         "jmlBkGuruApprove",
         "jmlBkGuruPending",
         "jmlBkGuruDecline",
+        'bkPending',
         ));
     }
 

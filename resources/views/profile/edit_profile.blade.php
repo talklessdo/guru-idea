@@ -236,7 +236,7 @@
         }
 
         .delete-photo-danger:hover {
-            background-color: #c2185b;  /* Merah lebih gelap saat hover */
+            background-color: #b71c1c;  /* Merah lebih gelap saat hover */
         }
 
 

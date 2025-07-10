@@ -21,6 +21,7 @@ class BukuKerjaController extends Controller
         ->orderBy('created_at','desc')
         ->get();
 
+        $dataBk = BukuKerja::all();
 
         
         if (Auth::user()->role == 'guru') {
@@ -30,7 +31,10 @@ class BukuKerjaController extends Controller
                 "data" => $data,
             ]);
         }else{
-            return view("index");
+            return view("bk", 
+            [
+                "data" => $dataBk,
+            ]);
 
         }
     }
@@ -187,10 +191,34 @@ class BukuKerjaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function catatan(Request $request, $id)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'catatan' => 'nullable|string',  // 'nullable' memungkinkan nilai kosong
+        ]);
+
+        // Ambil nilai catatan dari input
+        $catatan = $request->input('catatan');
+
+        // Temukan data BukuKerja berdasarkan ID
+        $dataBk = BukuKerja::find($id);
+
+        // Jika catatan kosong, set null
+        if (empty($catatan)) {
+            $dataBk->catatan = null;
+        } else {
+            // Jika ada catatan, simpan nilai baru
+            $dataBk->catatan = $catatan;
+        }
+
+        // Simpan perubahan
+        $dataBk->save();
+
+        // Kembali ke halaman sebelumnya dengan pesan sukses
+        return redirect()->back()->with('success', 'Catatan berhasil disimpan!');
     }
+
 
     /**
      * Update the specified resource in storage.

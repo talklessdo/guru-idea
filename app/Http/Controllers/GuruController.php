@@ -80,7 +80,7 @@ class GuruController extends Controller
     {
         $guru = DB::table('guru')
         ->join('users', 'guru.user_id', '=', 'users.id')
-        ->select('guru.*', 'users.name', 'users.email', 'users.role')
+        ->select('guru.*', 'users.name', 'users.email', 'users.role', 'users.photo')
         ->where('users.id', $id)
         ->first();
 
@@ -123,7 +123,6 @@ class GuruController extends Controller
         'tanggal_lahir' => 'nullable|date',
         'nomor_hp' => 'nullable|string|max:15',
         'tugas' => 'nullable|string|max:100',
-        'mata_pelajaran' => 'required|string',
         'penempatan' => 'nullable|string|max:100',
         'total_jtm' => 'required|numeric|min:0',
     ], [
@@ -149,7 +148,6 @@ class GuruController extends Controller
         'tanggal_lahir' => $request->tanggal_lahir,
         'nomor_hp' => $request->nomor_hp,
         'tugas' => $request->tugas,
-        'mata_pelajaran' => $request->mata_pelajaran,
         'penempatan' => $request->penempatan,
         'total_jtm' => $request->total_jtm,
     ]);

@@ -103,6 +103,7 @@ class DokumenController extends Controller
             'file_path'      => $relativePath,
             'nama_file'      => $filename,
             'status'         => 'pending',
+            'catatan'         => null,
         ]);
 
         if ($saved) {

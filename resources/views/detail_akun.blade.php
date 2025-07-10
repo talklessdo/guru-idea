@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Detail Guru">
   <style>
     /* Container */
     .container {
@@ -216,6 +216,29 @@
           background-color: #a14b2c;
         }
 
+        .delete-photo-danger {
+            background-color: #d32f2f;  /* Merah terang untuk menunjukkan bahaya */
+            color: white;
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .delete-photo-danger i {
+            font-size: 1.1rem;
+        }
+
+        .delete-photo-danger:hover {
+            background-color: #d32f2f8f;  /* Merah lebih gelap saat hover */
+        }
+
 
         .close {
           position: absolute;
@@ -234,13 +257,12 @@
     <section class="card" aria-describedby="desc-detail-akun">
       
       <img 
-        src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7596e646-8c8f-4087-8b21-f1eb653654ef.png" 
+        src="{{ $guru->photo !== null ? 'uploads/photos/'.$guru->photo : 'img/person.png'}}"
         alt="Foto profil pengguna dengan latar belakang netral, memperlihatkan wajah jelas" 
         class="profile-img" 
         width="200" height="200"
         loading="lazy"
         onclick="openModal(this.src)"
-        onerror="this.onerror=null;this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/586e165e-5b02-4353-aa39-0469b4cca578.png';"
       />
       <div id="imgModal" class="modal" onclick="closeModal(event)">
         <span class="close" onclick="closeModal(event)">&times;</span>
@@ -288,7 +310,7 @@
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Tanggal Lahir</span>
-            <span class="detail-value">{{ $guru->tanggal_lahir }}</span>
+            <span class="detail-value">{{ \Carbon\Carbon::parse($guru->tanggal_lahir)->translatedFormat('d F Y') }}</span>
           </div>
           <div class="detail-item" role="listitem">
             <span class="detail-label">Nomor HP</span>
