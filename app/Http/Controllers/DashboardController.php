@@ -70,6 +70,10 @@ class DashboardController extends Controller
                 'pending' => (int)$row->pending,
             ];
         });
+
+        $dokumenKepsek = BukuKerja::where('status', 'approve')
+        ->orderByDesc('updated_at')
+        ->get();
         return view("dashboard", 
         compact(
             "jmlGuru", 
@@ -85,16 +89,14 @@ class DashboardController extends Controller
         'bkNow',
         'bkDeclineNow',
         'progresGuru',
+        'dokumenKepsek'
         ));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    
 
     /**
      * Display the specified resource.

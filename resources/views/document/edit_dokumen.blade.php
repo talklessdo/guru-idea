@@ -108,7 +108,8 @@
                                 <small class="form-text text-muted">Biarkan kosong jika tidak ingin mengganti file.</small>
                             </div>
 
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Perbarui Dokumen</button>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Perbarui</button>
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary ml-2"><i class="fas fa-arrow-left"></i> Kembali</a>
                         </form>
                     </div>
                 </div>

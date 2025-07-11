@@ -64,8 +64,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
@@ -153,6 +152,7 @@
     </style>
 
     <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         let selectedPoin = null;
         let selectedNama = '';
@@ -223,8 +223,9 @@
                             <a href="${item.editUrl}" class="btn btn-warning btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="${item.hapusUrl}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <form action="${item.hapusUrl}" method="POST" style="display:inline;" class="form-hapus">
+                                @csrf
+                                @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -239,8 +240,26 @@
         // Tabel
         
         document.addEventListener('DOMContentLoaded', function () {
-            // Contoh data
-            
+            // SweetAlert2 untuk konfirmasi hapus
+            document.body.addEventListener('submit', function(e) {
+                if (e.target.classList.contains('form-hapus')) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: 'Dokumen yang dihapus tidak dapat dikembalikan!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            e.target.submit();
+                        }
+                    });
+                }
+            });
         });
 
 

@@ -240,6 +240,15 @@ class DokumenController extends Controller
         return redirect()->back()->with('success', 'Dokumen berhasil disetujui!');
     }
 
+    public function validasi(Request $request, $id){
+        $dokumen = BukuKerja::find($id);
+        $dokumen->status = $request->action;
+        $dokumen->catatan = $request->catatan_kepsek;
+        $dokumen->save();
+
+        return redirect()->back()->with('success', 'Dokumen berhasil disetujui!');
+    }
+
    public function destroy($id)
     {
         $bukuKerja = BukuKerja::find($id);

@@ -223,8 +223,9 @@
                             <a href="${item.editUrl}" class="btn btn-warning btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="${item.hapusUrl}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <form action="${item.hapusUrl}" method="POST" style="display:inline;" class="form-hapus">
+                                @csrf
+                                @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
                                     <i class="fas fa-trash"></i>
                                 </button>

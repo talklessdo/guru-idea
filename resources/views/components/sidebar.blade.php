@@ -91,10 +91,14 @@
           <li class="nav-item"><x-sidelink href="/progres" :active="request()->is('progres')"><i class="nav-icon fas fa-chart-bar"></i><p>Progres Dokumen</p></x-sidelink></li>
 
         {{-- KEPALA SEKOLAH --}}
-        @elseif($role === 'kepala_sekolah')
-          <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-file-signature"></i><p>Dokumen Final</p></a></li>
+        @elseif($role === 'kepsek' || $role === 'kepala_sekolah')
+          <li class="nav-item">
+            <x-sidelink href="{{ route('lembar_pengesahan') }}" :active="request()->is('lembar_pengesahan')">
+              <i class="nav-icon fas fa-file-signature"></i>
+              <p>Pengesahan Dokumen</p>
+            </x-sidelink>
+          </li>
           <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-book-reader"></i><p>Laporan Buku Kerja</p></a></li>
-          <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-user-cog"></i><p>Profil</p></a></li>
         @endif
 
       </ul>
