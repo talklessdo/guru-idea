@@ -295,21 +295,18 @@
 
       <form action="/update_guru/{{ $dataGuru->id }}" method="POST">
         @csrf
-        {{-- @method('PUT') --}}
-        @if ($errors->any())
-    <div class="alert alert-danger">
-        <strong>Terjadi kesalahan!</strong>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
         <div class="profile-info">
         <h1 class="profile-name">Edit Akun</h1>
-        <p class="profile-email">{{ $dataGuru->role }}</p>
+        <label class="detail-label">Role</label>
+        <select name="role" class="detail-value" id="roleSelect" onchange="toggleGuruFields()">
+            <option value="admin" {{ old('role', $dataGuru->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+            <option value="guru" {{ old('role', $dataGuru->role) == 'guru' ? 'selected' : '' }}>Guru</option>
+            <option value="kepsek" {{ old('role', $dataGuru->role) == 'kepsek' ? 'selected' : '' }}>Kepsek</option>
+            <option value="kurikulum" {{ old('role', $dataGuru->role) == 'kurikulum' ? 'selected' : '' }}>Kurikulum</option>
+        </select>
+        @error('role')
+            <span style="color: red" class="text-sm">{{ $message }}</span>
+        @enderror
 
         <div class="details-grid">
             <div class="detail-item">
@@ -401,7 +398,7 @@
 
             <div class="detail-item">
                 <label class="detail-label">Tugas</label>
-                <input type="text" name="tugas" class="detail-value" value="{{ old('tugas', $dataGuru->tugas) }}">
+                <input type="text" name="tugas" id="tugasInput" class="detail-value" value="{{ old('tugas', $dataGuru->tugas) }}">
                 @error('tugas')
                     <span style="color: red" class="text-sm">{{ $message }}</span>
                 @enderror
@@ -409,7 +406,7 @@
 
             <div class="detail-item">
                 <label class="detail-label">Penempatan</label>
-                <input type="text" name="penempatan" class="detail-value" value="{{ old('penempatan', $dataGuru->penempatan) }}">
+                <input type="text" name="penempatan" id="penempatanInput" class="detail-value" value="{{ old('penempatan', $dataGuru->penempatan) }}">
                 @error('penempatan')
                     <span style="color: red" class="text-sm">{{ $message }}</span>
                 @enderror
@@ -417,7 +414,7 @@
 
             <div class="detail-item">
                 <label class="detail-label">Total Jam</label>
-                <input type="text" inputmode="numeric" pattern="[0-9]*"  oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="total_jtm" class="detail-value" value="{{ old('total_jtm', $dataGuru->total_jtm) }}">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="total_jtm" id="totalJtmInput" class="detail-value" value="{{ old('total_jtm', $dataGuru->total_jtm) }}">
                 @error('total_jtm')
                     <span style="color: red" class="text-sm">{{ $message }}</span>
                 @enderror
@@ -477,6 +474,24 @@
         }
       });
     }
+
+    function toggleGuruFields() {
+      const role = document.getElementById('roleSelect').value;
+      const isGuru = role === 'guru';
+      document.getElementById('tugasInput').disabled = !isGuru;
+      document.getElementById('penempatanInput').disabled = !isGuru;
+      document.getElementById('totalJtmInput').disabled = !isGuru;
+      // Optionally clear value if not guru
+      if (!isGuru) {
+        document.getElementById('tugasInput').value = '';
+        document.getElementById('penempatanInput').value = '';
+        document.getElementById('totalJtmInput').value = '';
+      }
+    }
+    // Jalankan saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+      toggleGuruFields();
+    });
   </script>
 
 </x-layout>

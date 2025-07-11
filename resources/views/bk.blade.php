@@ -83,89 +83,91 @@
 
             {{-- Daftar Dokumen Guru --}}
             <div class="card mt-4">
-            <div class="card-header bg-warning text-white">
-                <strong>📚 Dokumen</strong>
-            </div>
-            <div class="card-body table-responsive">
-                <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-hover" >
-                    <thead>
-                        <tr class="text-center">
-                            <th>#</th>
-                            <th>Judul</th>
-                            <th>Mata Pelajaran</th>
-                            <th>Kelas</th>
-                            <th>Kategori</th>
-                            <th>Tanggal</th>
-                            <th>Status</th>
-                            <th>Catatan</th>
-                            <th>Tindakan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($data as $no => $item)
-                        <tr>
-                            <td><?= $no + 1; ?></td>
-                            <td>{{ $item->judul }}</td>
-                            <td>{{ $item->mata_pelajaran }}</td>
-                            <td class="text-center">{{ strtoupper($item->kelas) }}</td>
-                            @if ($item->kategori == 'bk1')
-                                <td>Buku Kerja 1</td>
-                            @elseif ($item->kategori == 'bk2')
-                                <td>Buku Kerja 2</td> 
-                            @elseif ($item->kategori == 'bk3')
-                                <td>Buku Kerja 3</td> 
-                            @else
-                                <td>Buku Kerja 4</td> 
-                            @endif
-                            @php
-                                $tglString = new DateTime($item->created_at);
-                                $locale = 'id_ID'; // Bahasa Indonesia
-                                $fmt = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE);
-                                $fmt->setPattern('EEEE, dd MMMM yyyy');
-                            @endphp
-                            <td>{{ $fmt->format($tglString) }}</td>
-    
-                            @if ($item->status == "pending")
-                                <td><span class="badge badge-warning">Menunggu</span></td>
-                            @elseif ($item->status == "approve")
-                                <td><span class="badge badge-success">Disetujui</span></td>
-                            @elseif ($item->status == "validate")
-                                <td><span class="badge badge-primary">Disahkan</span></td>
-                            @else
-                                <td><span class="badge badge-danger">Ditolak</span></td>
-                            @endif
-                            <td style="text-align: center;">
-                                @if ($item->catatan !== null)
-                                    <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal"  onclick="catatan('{{ $item->catatan }}')">Lihat</button>
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>
-                                <!-- Tombol Lihat -->
-                                <a href="{{ asset('uploads/dokumen/' . $item->nama_file) }}" target="_blank" class="btn btn-info btn-sm" title="Lihat">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                
-                                <!-- Tombol Edit -->
-                                <a href="{{ route('edit_dokumen', ['slug' => $item->slug]) }}" class="btn btn-warning btn-sm" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-    
-                                <!-- Tombol Hapus -->
-                                <a onclick="hapusDokumen({{ $item->id }})" class="btn btn-danger btn-sm" title="Hapus">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                            
-                        @endforeach
-                    </tbody>
-                    </table>
-
+                <div class="card-header bg-warning text-white">
+                    <strong>📚 Dokumen</strong>
                 </div>
-            </div>
+                <div class="card-body table-responsive">
+                    <div class="table-responsive">
+                        <table id="example1" class="table table-bordered table-hover" >
+                        <thead>
+                            <tr class="text-center">
+                                <th>#</th>
+                                <th class="{{ auth()->user()->role == 'guru' ? 'd-none' : '' }}">Nama Guru</th>
+                                <th>Judul</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Kelas</th>
+                                <th>Kategori</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th>Catatan</th>
+                                <th>Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($data as $no => $item)
+                            <tr>
+                                <td><?= $no + 1; ?></td>
+                                <td class="{{ auth()->user()->role == 'guru' ? 'd-none' : '' }}">{{ $item->nama_guru }}</td>
+                                <td>{{ $item->judul }}</td>
+                                <td>{{ $item->mata_pelajaran }}</td>
+                                <td class="text-center">{{ strtoupper($item->kelas) }}</td>
+                                @if ($item->kategori == 'bk1')
+                                    <td>Buku Kerja 1</td>
+                                @elseif ($item->kategori == 'bk2')
+                                    <td>Buku Kerja 2</td> 
+                                @elseif ($item->kategori == 'bk3')
+                                    <td>Buku Kerja 3</td> 
+                                @else
+                                    <td>Buku Kerja 4</td> 
+                                @endif
+                                @php
+                                    $tglString = new DateTime($item->created_at);
+                                    $locale = 'id_ID'; // Bahasa Indonesia
+                                    $fmt = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE);
+                                    $fmt->setPattern('EEEE, dd MMMM yyyy');
+                                @endphp
+                                <td>{{ $fmt->format($tglString) }}</td>
+        
+                                @if ($item->status == "pending")
+                                    <td><span class="badge badge-warning">Menunggu</span></td>
+                                @elseif ($item->status == "approve")
+                                    <td><span class="badge badge-success">Disetujui</span></td>
+                                @elseif ($item->status == "validate")
+                                    <td><span class="badge badge-primary">Disahkan</span></td>
+                                @else
+                                    <td><span class="badge badge-danger">Ditolak</span></td>
+                                @endif
+                                <td style="text-align: center;">
+                                    @if ($item->catatan !== null)
+                                        <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal"  onclick="catatan('{{ $item->catatan }}')">Lihat</button>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    <!-- Tombol Lihat -->
+                                    <a href="{{ asset('uploads/dokumen/' . $item->nama_file) }}" target="_blank" class="btn btn-info btn-sm" title="Lihat">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    
+                                    <!-- Tombol Edit -->
+                                    <a href="{{ route('edit_dokumen', ['slug' => $item->slug]) }}" class="btn btn-warning btn-sm" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+        
+                                    <!-- Tombol Hapus -->
+                                    <a onclick="hapusDokumen({{ $item->id }})" class="btn btn-danger btn-sm" title="Hapus">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                                
+                            @endforeach
+                        </tbody>
+                        </table>
+
+                    </div>
+                </div>
             </div>
         </div>
         <!-- Modal Catatan -->

@@ -125,6 +125,7 @@ class GuruController extends Controller
         'tugas' => 'nullable|string|max:100',
         'penempatan' => 'nullable|string|max:100',
         'total_jtm' => 'required|numeric|min:0',
+        'role' => 'required|in:admin,guru,kepsek,kurikulum',
     ], [
         'name.required' => 'Nama harus diisi.',
         'email.required' => 'Email wajib diisi.',
@@ -134,9 +135,16 @@ class GuruController extends Controller
         'mata_pelajaran.required' => 'Mata pelajaran wajib dipilih.',
         'total_jtm.required' => 'Total jam harus diisi.',
         'total_jtm.numeric' => 'Total jam harus berupa angka.',
+        'role.required' => 'Role harus dipilih.',
+        'role.in' => 'Role harus salah satu dari: admin, guru, kepsek, atau kurikulum.',
     ]);
 
     
+    // Jika role bukan guru, set tugas, penempatan, dan total_jtm ke null
+    $tugas = $request->role === 'guru' ? $request->tugas : null;
+    $penempatan = $request->role === 'guru' ? $request->penempatan : null;
+    $total_jtm = $request->role === 'guru' ? $request->total_jtm : null;
+
     // Update tabel guru
     DB::table('guru')->where('user_id', $id)->update([
         'status_pegawai' => $request->status_pegawai,
@@ -147,15 +155,16 @@ class GuruController extends Controller
         'tempat_lahir' => $request->tempat_lahir,
         'tanggal_lahir' => $request->tanggal_lahir,
         'nomor_hp' => $request->nomor_hp,
-        'tugas' => $request->tugas,
-        'penempatan' => $request->penempatan,
-        'total_jtm' => $request->total_jtm,
+        'tugas' => $tugas,
+        'penempatan' => $penempatan,
+        'total_jtm' => $total_jtm,
     ]);
 
     // Update tabel users
     DB::table('users')->where('id', $userId)->update([
         'name' => $request->name,
         'email' => $request->email,
+        'role' => $request->role,
     ]);
 
     // Redirect ke dashboard dengan notifikasi

@@ -68,7 +68,7 @@ class KurikulumController extends Controller
      */
     public function riwayat()
     {
-        $riwayat = BukuKerja::orderBy('created_at', 'desc')->get();
+        $riwayat = BukuKerja::where('status', '!=', 'pending')->orderBy('created_at', 'desc')->get();
         return view('kurikulum.riwayat', compact('riwayat'));
     }
 
