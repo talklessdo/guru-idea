@@ -342,7 +342,7 @@
             <span class="detail-value">{{ $akun->email }}</span>
           </div>
         </div>
-        <a href="/edit-profile-nonguru-{{ $akun->id }}" class="btn-edit" aria-label="Edit">
+        <a href="/edit-profile" class="btn-edit" aria-label="Edit">
           <i class="fas fa-edit" style="margin-right: 0.5rem;"></i> Edit
         </a>
     

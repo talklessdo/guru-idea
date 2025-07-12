@@ -53,11 +53,10 @@ Route::get('/edit-profile/{id}', [ProfileController::class,'edit'])->middleware(
 Route::post('/update-profile', [ProfileController::class,'update'])->middleware('auth');
 Route::post('/update-photo/{id}', [ProfileController::class,'uploadPhoto'])->name('upload.photo')->middleware('auth');
 Route::get('/delete-photo/{id}', [ProfileController::class,'deletePhoto'])->middleware('auth');
-Route::get('/edit-profile-nonguru-{id}', [ProfileController::class, 'editProfile'])->middleware('auth');
 
 Route::get('/riwayat', [App\Http\Controllers\KurikulumController::class, 'riwayat'])->middleware('auth');
 Route::get('/progres', [App\Http\Controllers\KurikulumController::class, 'progres'])->middleware('auth');
 
 // Pengesahan Kepala Sekolah
-Route::get('/lembar_pengesahan', [KepsekController::class, 'index'])->name('lembar_pengesahan')->middleware('auth');Route::post('/kepsek/pengesahan', [App\Http\Controllers\KepsekController::class, 'prosesPengesahan'])->name('kepsek.pengesahan')->middleware('auth');
+Route::get('/list_pengesahan', [KepsekController::class, 'index'])->name('list_pengesahan')->middleware('auth');Route::post('/kepsek/pengesahan', [App\Http\Controllers\KepsekController::class, 'prosesPengesahan'])->name('kepsek.pengesahan')->middleware('auth');
 Route::post('/validasi/{id}', [DokumenController::class, 'validasi'])->name('validasi')->middleware('auth');

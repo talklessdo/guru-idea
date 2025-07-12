@@ -63,21 +63,29 @@ class ProfileController extends Controller
      */
     public function edit()
     {
-        $userId = Auth::user()->id;
-        $dataGuru = DB::table('guru')
-        ->join('users', 'guru.user_id', '=', 'users.id')
-        ->select('guru.*', 'users.*') // Pilih kolom yang dibutuhkan
-        ->where('users.id', $userId)
-        ->first();
+        $user = Auth::user();
+        $role = $user->role;
 
-        return view('profile.edit_profile', compact('dataGuru'));
+        if ($role === 'guru') {
+            $dataGuru = DB::table('guru')
+                ->join('users', 'guru.user_id', '=', 'users.id')
+                ->select('guru.id as guru_id', 'guru.nip', 'guru.alamat', 'users.id as user_id', 'users.name', 'users.email') // Pilih kolom eksplisit
+                ->where('users.id', $user->id)
+                ->first();
+
+            return view('profile.edit_profile', compact('dataGuru'));
+
+        } else {
+            return $this->editProfile($user->id);
+        }
     }
 
     public function editProfile($id)
     {
-        $akun = User::find($id);
+        $akun = User::findOrFail($id); // Gunakan findOrFail agar error otomatis tertangani jika user tidak ditemukan
         return view('profile.profile_edit', compact('akun'));
     }
+
 
     /**
      * Update the specified resource in storage.

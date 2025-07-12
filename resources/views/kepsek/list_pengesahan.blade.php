@@ -100,6 +100,7 @@
                                           data-guru="{{ $data->nama_guru }}"
                                           data-dokumen="{{ $data->judul }}"
                                           data-status="{{ $data->status }}"
+                                          data-catatan="{{ $data->catatan }}"
                                           onclick="showData(this)"
                                           data-file="{{ asset('uploads/dokumen/' . $data->nama_file) }}">
                                   <i class="fas fa-check"></i> Disahkan
@@ -121,37 +122,37 @@
                         <input type="hidden" name="document_id" id="principal-modal-document-id">
                         <div class="modal-content">
                             <div class="modal-header">
-                            <h5 class="modal-title" id="principalApprovalLabel">Pengesahan Dokumen</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                              <h5 class="modal-title" id="principalApprovalLabel">Pengesahan Dokumen</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
                             </div>
                             <div class="modal-body">
-                            <div class="mb-3">
-                                <label>Nama Guru:</label>
-                                <p id="principal-modal-guru-name" class="font-weight-bold text-primary"></p>
-                            </div>
-                            <div class="mb-3">
-                                <label>Judul Dokumen:</label>
-                                <p id="principal-modal-dokumen-title" class="font-weight-bold text-dark"></p>
-                            </div>
-                            <div class="mb-3">
-                                <label for="catatan-kepsek">Catatan Kepala Sekolah:</label>
-                                <textarea name="catatan_kepsek" id="catatan-kepsek" class="form-control" rows="3" placeholder="Tambahkan catatan jika perlu..."></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label>Berkas Dokumen:</label>
-                                <div id="principal-modal-file-link"></div>
-                            </div>
+                              <div class="mb-3">
+                                  <label>Nama Guru:</label>
+                                  <p id="principal-modal-guru-name" class="font-weight-bold text-primary"></p>
+                              </div>
+                              <div class="mb-3">
+                                  <label>Judul Dokumen:</label>
+                                  <p id="principal-modal-dokumen-title" class="font-weight-bold text-dark"></p>
+                              </div>
+                              <div class="mb-3">
+                                  <label for="catatan-kepsek">Catatan:</label>
+                                  <textarea disabled name="catatan_kepsek" id="catatan-kepsek" class="form-control" rows="3" placeholder="-"></textarea>
+                              </div>
+                              <div class="mb-3">
+                                  <label>Berkas Dokumen:</label>
+                                  <div id="principal-modal-file-link"></div>
+                              </div>
                             </div>
                             <div class="modal-footer">
-                            <button type="submit" name="action" value="validate" class="btn btn-success">
-                                <i class="fas fa-check"></i> Sahkan
-                            </button>
-                            <button type="submit" name="action" value="decline" class="btn btn-danger">
-                                <i class="fas fa-times"></i> Tolak
-                            </button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                              <button type="submit" name="action" value="validate" class="btn btn-success">
+                                  <i class="fas fa-check"></i> Sahkan
+                              </button>
+                              <button type="submit" name="action" value="decline" class="btn btn-danger">
+                                  <i class="fas fa-times"></i> Tolak
+                              </button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                             </div>
                         </div>
                         </form>
@@ -159,26 +160,6 @@
                   </div>
                 </div>
               </div>
-                  <!-- Modal Catatan -->
-              <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                      <h5 class="modal-title" id="noteModalLabel">Catatan / Komentar</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span>&times;</span>
-                      </button>
-                      </div>
-                      <div class="modal-body">
-                      <p id="catatan-text" class="text-dark font-weight-normal"></p>
-                      </div>
-                      <div class="modal-footer">
-                      <button class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                      </div>
-                  </div>
-                  </div>
-              </div>
-
             </section>
         </div>
         
@@ -192,11 +173,13 @@
             const form = document.getElementById('principal-approval-form');
             const tindakan = document.querySelectorAll('button[name="action"]');
             const route = "{{ route('validasi', ['id' => 'ID_REPLACE']) }}".replace('ID_REPLACE', documentId);
+            const catatan = data.getAttribute('data-catatan');
 
             document.getElementById('principal-modal-guru-name').textContent = guruName;
             document.getElementById('principal-modal-dokumen-title').textContent = dokumenTitle;
             document.getElementById('principal-modal-file-link').innerHTML = `<a href="${fileLink}" target="_blank">Lihat Dokumen</a>`;
             document.getElementById('principal-modal-document-id').value = documentId;
+            document.getElementById('catatan-kepsek').value = catatan;
             form.action = route;
             if (status !== 'approve') {
               tindakan.forEach(tindakan => {

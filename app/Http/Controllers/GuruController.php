@@ -15,7 +15,9 @@ class GuruController extends Controller
      */
     public function index()
     {
-        $user = User::where('role', '!=','admin')->get();
+        $user = User::where('role', '!=','admin')
+        ->orderByDesc('created_at')
+        ->get();
         // dd($user);
         return view("operator.manage_akun", compact("user"));
     }

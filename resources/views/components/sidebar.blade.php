@@ -12,16 +12,26 @@
 
 <aside class="main-sidebar sidebar-dark-warning elevation-4">
   <!-- Brand -->
-  <a href="/" class="brand-link ">
+  <a href="/" class="brand-link" style="background: white; border-radius: 8px; margin: 10px;  box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
     <img src="{{ asset('img/icon-quantum.png') }}" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-light">GuruIDEA</span>
+    <span class="brand-text font-weight-bold" style="
+      background: linear-gradient(135deg, #e29a36, #6b120e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      position: relative;
+    ">Guru<span style="color: #e29a36; -webkit-text-fill-color: #e29a36;">IDEA</span></span>
   </a>
 
   <div class="sidebar">
     <!-- User Panel -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="{{ auth()->user()->photo !== null ? 'uploads/photos/'.auth()->user()->photo : 'img/person.png'}}" class="img-circle elevation-2" alt="User Image" style="width:48px; height:48px; object-fit:cover; border-radius:50%; aspect-ratio:1/1;">
+        <img src="{{ auth()->user()->photo !== null ? 'uploads/photos/'.auth()->user()->photo : 'img/person.png'}}" class="img-circle elevation-2" alt="User Image" style="width:40px; height:40px; object-fit:cover; border-radius:50%; aspect-ratio:1/1;">
       </div>
       <div class="info">
         <a href="/profile" class="d-block name-wrap">{{ $user->name }}</a>
@@ -93,14 +103,24 @@
         {{-- KEPALA SEKOLAH --}}
         @elseif($role === 'kepsek' || $role === 'kepala_sekolah')
           <li class="nav-item">
-            <x-sidelink href="{{ route('lembar_pengesahan') }}" :active="request()->is('lembar_pengesahan')">
+            <x-sidelink href="{{ route('list_pengesahan') }}" :active="request()->is('list_pengesahan')">
               <i class="nav-icon fas fa-file-signature"></i>
-              <p>Pengesahan Dokumen</p>
+              <p>Riwayat Pengesahan</p>
             </x-sidelink>
           </li>
           <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-book-reader"></i><p>Laporan Buku Kerja</p></a></li>
         @endif
 
+        {{-- Menu Keluar untuk semua role --}}
+        <li class="nav-item">
+          <form method="get" action="/logout" id="logout-form" style="display: none;">
+            @csrf
+          </form>
+          <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <i class="nav-icon fas fa-sign-out-alt"></i>
+            <p>Keluar</p>
+          </a>
+        </li>
       </ul>
     </nav>
   </div>
