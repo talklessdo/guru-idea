@@ -1,6 +1,26 @@
 <x-layout title="BuKer 2">
     <div class="container card bg-white">
-        <h1 class="title text-warning">📘 Buku Kerja 2</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Daftar Rencana Pembelajaran -->
+                <div class="card equal-height">
+                    <h1 class="title text-warning">📘 Buku Kerja 2</h1>
+                    <div class="card-body">
+                        <ul>
+                        <li>Kode Etik Guru</li>
+                            <li>Ikrar Guru</li>
+                            <li>Tata Tertib</li>
+                            <li>Pembiasaan Guru</li>
+                            <li>Kalender Pendidikan</li>
+                            <li>Analisis Alokasi Waktu</li>
+                            <li>Program Tahunan</li>
+                            <li>Program Semester</li>
+                            <li>Jurnal Agenda Guru</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Kelas dan Semester Filter -->
         <div class="filters">

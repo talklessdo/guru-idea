@@ -16,6 +16,8 @@
 
                             <input type="hidden" name="nama_guru" value="{{ auth()->user()->name }}">
                             <input type="hidden" name="guru_id" value="{{ auth()->user()->id }}">
+                            <input type="hidden" name="catatan" value="">
+                            <input type="hidden" name="status" value="pending">
 
                             <div class="form-group">
                                 <label for="judul">Judul Dokumen</label>

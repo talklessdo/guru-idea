@@ -1,6 +1,23 @@
 <x-layout title="BuKer 1">
     <div class="container card bg-white">
-        <h1 class="title text-warning">📘 Buku Kerja 1</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Daftar Rencana Pembelajaran -->
+                <div class="card equal-height">
+                    <h1 class="title text-warning">📘 Buku Kerja 1</h1>
+                    <div class="card-body">
+                        <ul>
+                            <li>Capaian Pembelajaran (CP)</li>
+                            <li>Tujuan Pembelajaran (TP)</li>
+                            <li>Alur Tujuan Pembelajaran (ATP)</li>
+                            <li>Modul Pembelajaran</li>
+                            <li>Kriteria Ketercapaian Tujuan Pembelajaran</li>
+                            <li>Program Remedial Pengayaan</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Kelas dan Semester Filter -->
         <div class="filters">
@@ -65,7 +82,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>

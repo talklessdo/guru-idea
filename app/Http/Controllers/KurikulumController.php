@@ -85,7 +85,8 @@ class KurikulumController extends Controller
             COUNT(*) as total, 
             SUM(status = "approve") as approve, 
             SUM(status = "decline") as decline, 
-            SUM(status = "pending") as pending')
+            SUM(status = "pending") as pending,
+            SUM(status = "validate") as validate')
             ->whereYear('created_at', $tahunTerpilih)
             ->groupBy('nama_guru')
             ->get();
@@ -96,6 +97,7 @@ class KurikulumController extends Controller
                 'approve' => (int)$row->approve,
                 'decline' => (int)$row->decline,
                 'pending' => (int)$row->pending,
+                'validate' => (int)$row->validate,
             ];
         })->toArray();
         return view('kurikulum.progres', compact('progres', 'tahunList', 'tahunTerpilih'));

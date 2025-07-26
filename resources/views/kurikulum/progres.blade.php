@@ -71,6 +71,7 @@
                                                 <th>Disetujui</th>
                                                 <th>Ditolak</th>
                                                 <th>Pending</th>
+                                                <th>Disahkan</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -81,6 +82,7 @@
                                                 <td>{{ $row['approve'] }}</td>
                                                 <td>{{ $row['decline'] }}</td>
                                                 <td>{{ $row['pending'] }}</td>
+                                                <td>{{ $row['validate'] }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -92,7 +94,7 @@
                     <div class="mb-5">
                         <div class="card shadow-sm">
                             <div class="card-header bg-success text-white">
-                                <h5 class="mb-0">Grafik Progres Dokumen Guru</h5>
+                                <h5 class="mb-0">Progres Dokumen Guru Tahun {{ $tahunTerpilih }}</h5>
                             </div>
                             <div class="card-body">
                                 <div class="d-none d-md-block">
@@ -116,7 +118,7 @@
             const approve = @json(array_column($progres, 'approve'));
             const decline = @json(array_column($progres, 'decline'));
             const pending = @json(array_column($progres, 'pending'));
-
+            const validate = @json(array_column($progres, 'validate'));
             const ctx = document.getElementById('progresChart').getContext('2d');
             window.progresChart = new Chart(ctx, {
                 type: 'bar',
@@ -149,6 +151,13 @@
                             data: pending,
                             backgroundColor: 'rgba(255, 193, 7, 0.7)',
                             borderColor: 'rgba(255, 193, 7, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Disahkan',
+                            data: validate,
+                            backgroundColor: 'rgba(0, 0, 128, 0.7)', // navy
+                            borderColor: 'rgba(0, 0, 128, 1)', // navy
                             borderWidth: 1
                         }
                     ]

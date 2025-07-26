@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Riwayat Pengesahan">
         <style>
             .app-wrapper {
             font-family: 'Poppins', sans-serif;
@@ -36,7 +36,7 @@
               <div class="container-fluid">
                 <div class="card shadow-sm p-3">
                   <div class="dashboard-header text-center">
-                    <h1>Dashboard</h1>
+                    <h1>Riwayat Pengesahan</h1>
                   </div>
 
                   {{-- Tampilan Role: Kepala Sekolah --}}

@@ -238,7 +238,10 @@
                           <th>Nama Guru</th>
                           <th>Judul Dokumen</th>
                           <th>Kategori</th>
-                          <th>Catatan</th>
+                          <th>Kelas</th>
+                          <th>Semester</th>
+                          <th>TP</th>
+                          <th>Indikator</th>
                           <th>Aksi</th>
                           </tr>
                       </thead>
@@ -250,9 +253,24 @@
                         <tr>
                           <td>{{ $nomor }}</td>
                           <td>{{ $data->nama_guru }}</td>
-                          <td>{{ $data->judul }}</td>
-                          <td>{{ $data->kategori }}</td>
-                          <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal"  onclick="">Lihat</button></td>
+                          <td>
+                            <a href="{{ asset('uploads/dokumen/' . $data->nama_file) }}" target="_blank">
+                              {{ $data->judul }}
+                            </a>
+                          </td>
+                          @if ($data->kategori == 'bk1')
+                          <td>Buku Kerja 1</td>
+                          @elseif ($data->kategori == 'bk2')
+                          <td>Buku Kerja 2</td>
+                          @elseif ($data->kategori == 'bk3')
+                          <td>Buku Kerja 3</td>
+                          @else
+                          <td>Buku Kerja 4</td>
+                          @endif
+                          <td>{{ $data->kelas }}</td>
+                          <td>{{ $data->semester }}</td>
+                          <td>{{ $data->tp }}</td>
+                          <td>{{ $data->nama_indikator }}</td>
                           <td>
                             <div class="btn-group">
                                 <button type="button" id="dropdownMenuButton" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -589,7 +607,7 @@
       <!-- Info Boxes for Buku Kerja Guru -->
       <div class="row" style="cursor: pointer">
         <!-- Info Box: Dokumen Disetujui -->
-        <div class="col-12 col-sm-6 col-md-4">
+        <div class="col-12 col-sm-6 col-md-3">
           <div class="info-box">
             <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check-circle"></i></span>
             <div class="info-box-content">
@@ -599,9 +617,19 @@
             </div>
           </div>
         </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-check-circle"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Disahkan</span>
+              <span class="info-box-number">{{ $jmlBkGuruValidate }} Dokumen</span>
+              
+            </div>
+          </div>
+        </div>
 
         <!-- Info Box: Dokumen Menunggu Persetujuan -->
-        <div class="col-12 col-sm-6 col-md-4">
+        <div class="col-12 col-sm-6 col-md-3">
           <div class="info-box mb-3">
             <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-clock"></i></span>
             <div class="info-box-content">
@@ -613,7 +641,7 @@
         </div>
 
         <!-- Info Box: Dokumen Ditolak -->
-        <div class="col-12 col-sm-6 col-md-4">
+        <div class="col-12 col-sm-6 col-md-3">
           <div class="info-box mb-3">
             <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times-circle"></i></span>
             <div class="info-box-content">
@@ -632,7 +660,7 @@
           <!-- Grafik Penilaian Siswa -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Grafik Penilaian Kompetensi Siswa</h3>
+              <h3 class="card-title">Grafik Dokumen Buku Kerja</h3>
             </div>
             <div class="card-body">
               <canvas id="gradingChart" height="180"></canvas>
@@ -724,7 +752,7 @@
       data: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
         datasets: [{
-          label: 'Penilaian Kompetensi Siswa (%)',
+          label: 'Grafik Dokumen Buku Kerja (%)',
           data: [75, 80, 85, 90, 88, 92],
           borderColor: 'rgba(75, 192, 192, 1)',
           backgroundColor: 'rgba(75, 192, 192, 0.2)',

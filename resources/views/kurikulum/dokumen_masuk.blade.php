@@ -49,8 +49,11 @@
                           <th>#</th>
                           <th>Nama Guru</th>
                           <th>Judul Dokumen</th>
-                          <th>Status</th>
-                          <th>Catatan</th>
+                          <th>Kategori</th>
+                          <th>Indikator</th>
+                          <th>Kelas</th>
+                          <th>Semester</th>
+                          <th>TP</th>
                           <th>Aksi</th>
                           </tr>
                       </thead>
@@ -62,15 +65,24 @@
                         <tr>
                           <td>{{ $nomor }}</td>
                           <td>{{ $data->nama_guru }}</td>
-                          <td>{{ $data->judul }}</td>
-                          @if($data->status == 'pending')
-                          <td><span class="badge badge-warning">Menunggu</span></td>
-                          @elseif($data->status == 'approve')
-                          <td><span class="badge badge-success">Disetujui</span></td>
-                          @elseif($data->status == 'decline')
-                          <td><span class="badge badge-danger">Ditolak</span></td>
+                          <td>
+                            <a href="{{ asset('uploads/dokumen/' . $data->nama_file) }}" target="_blank">
+                              {{ $data->judul }}
+                            </a>
+                          </td>
+                          @if ($data->kategori == 'bk1')
+                          <td>Buku Kerja 1</td>
+                          @elseif ($data->kategori == 'bk2')
+                          <td>Buku Kerja 2</td>
+                          @elseif ($data->kategori == 'bk3')
+                          <td>Buku Kerja 3</td>
+                          @else
+                          <td>Buku Kerja 4</td>
                           @endif
-                          <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal"  onclick="">Lihat</button></td>
+                          <td>{{ $data->nama_indikator }}</td>
+                          <td>{{ $data->kelas }}</td>
+                          <td>{{ $data->semester }}</td>
+                          <td>{{ $data->tp }}</td>
                           <td>
                             <div class="btn-group">
                                 <button type="button" id="dropdownMenuButton" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

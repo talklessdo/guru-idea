@@ -68,13 +68,19 @@
                                         <tr>
                                             <td>{{ $nomor }}</td>
                                             <td>{{ $data->nama_guru }}</td>
-                                            <td>{{ $data->judul }}</td>
+                                            <td>
+                                                <a href="{{ asset('uploads/dokumen/' . $data->nama_file) }}" target="_blank">
+                                                {{ $data->judul }}
+                                                </a>
+                                            </td>
                                             @if ($data->status == 'approve')
                                                 <td><span class="badge badge-success">Disetujui</span></td>
                                             @elseif ($data->status == 'pending')
                                                 <td><span class="badge badge-warning">Menunggu</span></td>
-                                            @else
+                                            @elseif ($data->status == 'decline')
                                                 <td><span class="badge badge-danger">Ditolak</span></td>
+                                            @elseif ($data->status == 'validate')
+                                                <td><span class="badge badge-info">Disahkan</span></td>
                                             @endif
                                             <td>{{ \Carbon\Carbon::parse($data->created_at)->translatedFormat('d F Y') }}</td>
                                         </tr>

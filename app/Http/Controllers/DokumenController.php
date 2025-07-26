@@ -107,7 +107,7 @@ class DokumenController extends Controller
         ]);
 
         if ($saved) {
-            return redirect()->back()->with('success', 'Dokumen berhasil diunggah!');
+            return redirect('/bk')->with('success', 'Dokumen berhasil diunggah!');
         }
     }
 
@@ -166,6 +166,7 @@ class DokumenController extends Controller
             'file'           => 'nullable|mimes:pdf|max:5000',
             'indikator_id'   => 'required',
             'catatan'        => 'nullable|string',
+            'status'         => 'required|string|in:pending,approve,validate,decline',
         ]);
 
         // Update slug jika judul berubah
@@ -206,12 +207,7 @@ class DokumenController extends Controller
 
             $validatedData['file_path'] = 'uploads/dokumen/' . $fileName;
             $validatedData['nama_file'] = $fileName;
-            $validatedData['status'] = 'pending';
         }
-
-        // Pastikan catatan selalu null setelah update
-        $validatedData['catatan'] = null;
-
         // Update data ke database
         $dokumen->update($validatedData);
 

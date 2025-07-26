@@ -1,6 +1,19 @@
 <x-layout title="BuKer 4">
     <div class="container card bg-white">
-        <h1 class="title text-warning">📘 Buku Kerja 4</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Daftar Rencana Pembelajaran -->
+                <div class="card equal-height">
+                    <h1 class="title text-warning">📘 Buku Kerja 4</h1>
+                    <div class="card-body">
+                        <ul>
+                            <li>Daftar Evaluasi Diri Kerja Guru</li>
+                            <li>Program Tindak Lanjut Kinerja</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Kelas dan Semester Filter -->
         <div class="filters">
@@ -65,7 +78,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>

@@ -1,6 +1,29 @@
 <x-layout title="BuKer 3">
     <div class="container card bg-white">
-        <h1 class="title text-warning">📘 Buku Kerja 3</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Daftar Rencana Pembelajaran -->
+                <div class="card equal-height">
+                    <h1 class="title text-warning">📘 Buku Kerja 3</h1>
+                    <div class="card-body">
+                        <ul>
+                        <li>Daftar Hadir Siswa</li>
+                            <li>Daftar Nilai</li>
+                            <li>Penilaian Kepribadian Siswa</li>
+                            <li>Analisis Hasil Penilaian</li>
+                            <li>Program Remedial dan Pengayaan</li>
+                            <li>Daftar Buku Guru & Siswa</li>
+                            <li>Jadwal Mengajar</li>
+                            <li>Daya Serap Siswa</li>
+                            <li>Kumpulan Kisi Kisi Soal</li>
+                            <li>Kumpulan Soal</li>
+                            <li>Analisis Butir Soal</li>
+                            <li>Perbaikan Soal</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Kelas dan Semester Filter -->
         <div class="filters">
@@ -65,7 +88,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>

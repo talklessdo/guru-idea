@@ -138,7 +138,7 @@
                                     <td><span class="badge badge-danger">Ditolak</span></td>
                                 @endif
                                 <td style="text-align: center;">
-                                    @if ($item->catatan !== null)
+                                    @if ($item->catatan !== null && $item->catatan !== '')
                                         <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#noteModal"  onclick="catatan('{{ $item->catatan }}')">Lihat</button>
                                     @else
                                         -
@@ -146,12 +146,52 @@
                                 </td>
                                 <td>
                                     <!-- Tombol Lihat -->
-                                    <a href="{{ asset('uploads/dokumen/' . $item->nama_file) }}" target="_blank" class="btn btn-info btn-sm" title="Lihat">
+                                    <a href="{{ asset('uploads/dokumen/' . $item->nama_file) }}" target="_blank" class="btn btn-primary btn-sm" title="Lihat">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     
+
+                                    <!-- Tombol Detail -->
+                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#detailModal" title="Detail">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="detailModalLabel">Detail Dokumen</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><strong>Judul:</strong> {{ $item->judul }}</p>
+                                                <p><strong>Mata Pelajaran:</strong> {{ $item->mata_pelajaran }}</p>
+                                                <p><strong>Semester:</strong> {{ $item->semester }}</p>
+                                                <p><strong>Tahun Pelajaran:</strong> {{ $item->tp }}</p>
+                                                @if ($item->kategori == 'bk1')
+                                                    <p><strong>Kategori:</strong> Buku Kerja 1</p>
+                                                @elseif ($item->kategori == 'bk2')
+                                                    <p><strong>Kategori:</strong> Buku Kerja 2</p>
+                                                @elseif ($item->kategori == 'bk3')
+                                                    <p><strong>Kategori:</strong> Buku Kerja 3</p>
+                                                @else
+                                                    <p><strong>Kategori:</strong> Buku Kerja 4</p>
+                                                @endif
+                                                <p><strong>Indikator:</strong> {{ $item->nama_indikator }}</p>
+                                                <p><strong>Kelas:</strong> {{ strtoupper($item->kelas) }}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <!-- Tombol Edit -->
-                                    <a href="{{ route('edit_dokumen', ['slug' => $item->slug]) }}" class="btn btn-warning btn-sm" title="Edit">
+                                    <a href="{{ route('edit_dokumen', ['slug' => $item->slug]) }}" class="btn btn-warning btn-sm {{ $item->status == 'validate' || $item->status == 'approve' ? 'd-none' : '' }}" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
         
@@ -196,7 +236,7 @@
 @if (session('error'))
     <script>
         Swal.fire({
-            title: "Good job!",
+            title: "Berhasil!",
             text: "{{ session('error') }}",
             icon: "success"
         });
@@ -204,30 +244,22 @@
     @elseif (session('warning'))
     <script>
         Swal.fire({
-            title: "Good job!",
+            title: "Berhasil!",
             text: "{{ session('warning') }}",
+            icon: "success"
+        });
+    </script>
+    @elseif (session('success'))
+    <script>
+        Swal.fire({
+            title: "Berhasil!",
+            text: "{{ session('success') }}",
             icon: "success"
         });
     </script>
 @endif
 
 <script>
-    
-    $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
 
   function catatan(data){
     const modalBody = document.getElementById("catatan-text");

@@ -17,8 +17,9 @@ class BukuKerjaController extends Controller
     {
         $user = Auth::user()->id;
         $data = DB::table('buku_kerja')
+        ->join('indikator', 'buku_kerja.indikator_id', '=', 'indikator.id')
         ->select('*')->where('guru_id', $user)
-        ->orderBy('created_at','desc')
+        ->orderBy('buku_kerja.created_at','desc')
         ->get();
 
         $dataBk = BukuKerja::all();
@@ -71,6 +72,7 @@ class BukuKerjaController extends Controller
         $id = Auth::user()->id;
         $dataBk = BukuKerja::where('guru_id', $id)
         ->where('kategori','bk1')
+        ->where('status','=','validate')
         ->get();
         $data = [];
 
@@ -100,6 +102,7 @@ class BukuKerjaController extends Controller
         $id = Auth::user()->id;
         $dataBk = BukuKerja::where('guru_id', $id)
         ->where('kategori','bk2')
+        ->where('status','=','validate')
         ->get();
         $data = [];
 
@@ -129,6 +132,7 @@ class BukuKerjaController extends Controller
         $id = Auth::user()->id;
         $dataBk = BukuKerja::where('guru_id', $id)
         ->where('kategori','bk3')
+        ->where('status','=','validate')
         ->get();
         $data = [];
 
@@ -158,6 +162,7 @@ class BukuKerjaController extends Controller
         $id = Auth::user()->id;
         $dataBk = BukuKerja::where('guru_id', $id)
         ->where('kategori','bk4')
+        ->where('status','=','validate')
         ->get();
         $data = [];
 

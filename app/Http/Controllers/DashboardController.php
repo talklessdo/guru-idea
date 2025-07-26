@@ -7,6 +7,7 @@ use App\Models\Guru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -39,7 +40,9 @@ class DashboardController extends Controller
         $jmlBkGuruDecline = BukuKerja::where('guru_id', $idGuru)
         ->where('status','decline')
         ->count();
-
+        $jmlBkGuruValidate = BukuKerja::where('guru_id', $idGuru)
+        ->where('status','validate')
+        ->count();
 
 
 
@@ -47,8 +50,10 @@ class DashboardController extends Controller
 
         $dataBk = BukuKerja::whereDate('created_at', Carbon::today())->get();
         $bkPending = BukuKerja::where('status', '=', 'pending')->get();
-        $bkPendingNow = BukuKerja::where('status', '=', 'pending')
-        ->whereDate('created_at', Carbon::today())
+        $bkPendingNow = DB::table('buku_kerja')
+        ->join('indikator', 'buku_kerja.indikator_id', '=', 'indikator.id')
+        ->where('buku_kerja.status', '=', 'pending')
+        ->whereDate('buku_kerja.created_at', Carbon::today())
         ->get();
         $bkNow = BukuKerja::whereDate('created_at', Carbon::today())
         ->get();
@@ -89,7 +94,8 @@ class DashboardController extends Controller
         'bkNow',
         'bkDeclineNow',
         'progresGuru',
-        'dokumenKepsek'
+        'dokumenKepsek',
+        'jmlBkGuruValidate'
         ));
     }
 

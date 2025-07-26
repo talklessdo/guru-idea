@@ -108,7 +108,6 @@
               <p>Riwayat Pengesahan</p>
             </x-sidelink>
           </li>
-          <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-book-reader"></i><p>Laporan Buku Kerja</p></a></li>
         @endif
 
         {{-- Menu Keluar untuk semua role --}}
