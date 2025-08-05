@@ -24,5 +24,6 @@ class BukuKerja extends Model
         'kategori',
         'tp',
         'semester',
+        'catatan',
     ];
 }

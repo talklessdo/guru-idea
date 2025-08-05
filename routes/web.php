@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
-Route::get("/", [DashboardController::class,"index"])->middleware("guest");
+Route::get("/", [DashboardController::class,"index"])->middleware("auth");
 Route::get("/dashboard", [DashboardController::class,"dashboard"])->middleware("auth");
 Route::get("/login", [LoginController::class,"index"])->name("login")->middleware('guest');
 Route::post('/login', [LoginController::class,'otentikasi']);

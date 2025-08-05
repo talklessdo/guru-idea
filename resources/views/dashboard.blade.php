@@ -653,124 +653,60 @@
         </div>
       </div>
 
-
-      <!-- Additional row for interactive components -->
-      <div class="row">
-        <div class="col-md-12">
-          <!-- Grafik Penilaian Siswa -->
+      <!-- Grafik Pie Chart Dokumen -->
+      <div class="row mb-4">
+        <div class="col-12 col-md-8 mx-auto">
           <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Grafik Dokumen Buku Kerja</h3>
+            <div class="card-header bg-white">
+              <h5 class="card-title mb-0">Grafik Status Dokumen</h5>
             </div>
             <div class="card-body">
-              <canvas id="gradingChart" height="180"></canvas>
+              <canvas id="dokumenPieChart" height="120"></canvas>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Row for Lesson Plan & Activity Section -->
-      <div class="row">
-        <div class="col-md-6">
-          <!-- Daftar Rencana Pembelajaran -->
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Rencana Pembelajaran (RPP)</h3>
-            </div>
-            <div class="card-body">
-              <ul>
-                <li>Matematika - Pembahasan Persamaan Linear</li>
-                <li>Bahasa Indonesia - Menulis Esai Naratif</li>
-                <li>IPA - Eksperimen Pengaruh Cahaya terhadap Tumbuhan</li>
-                <li>IPS - Diskusi Sejarah Perjuangan Nasional</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <!-- Aktivitas Kelas -->
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Aktivitas Kelas</h3>
-            </div>
-            <div class="card-body">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Nama Kegiatan</th>
-                    <th>Durasi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Pemaparan Materi</td>
-                    <td>60 Menit</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Diskusi Kelompok</td>
-                    <td>30 Menit</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Tugas Mandiri</td>
-                    <td>15 Menit</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Row for Reflection and Evaluation -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Refleksi Pembelajaran</h3>
-            </div>
-            <div class="card-body">
-              <textarea class="form-control" rows="4" placeholder="Tuliskan refleksi mengenai pembelajaran hari ini..."></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          var ctx = document.getElementById('dokumenPieChart').getContext('2d');
+          var dokumenPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: ['Disetujui', 'Disahkan', 'Menunggu', 'Ditolak'],
+              datasets: [{
+                data: [
+                  {{ $jmlBkGuruApprove }},
+                  {{ $jmlBkGuruValidate }},
+                  {{ $jmlBkGuruPending }},
+                  {{ $jmlBkGuruDecline }}
+                ],
+                backgroundColor: [
+                  '#28a745', // Disetujui - green
+                  '#007bff', // Disahkan - blue
+                  '#ffc107', // Menunggu - yellow
+                  '#dc3545'  // Ditolak - red
+                ],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'bottom'
+                },
+                tooltip: {
+                  enabled: true
+                }
+              }
+            }
+          });
+        });
+      </script>
     </div><!--/. container-fluid -->
   </section>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // Grafik Penilaian Kompetensi Siswa
-    var ctx = document.getElementById('gradingChart').getContext('2d');
-    var gradingChart = new Chart(ctx, {
-      type: 'line', // Grafik garis
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        datasets: [{
-          label: 'Grafik Dokumen Buku Kerja (%)',
-          data: [75, 80, 85, 90, 88, 92],
-          borderColor: 'rgba(75, 192, 192, 1)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          fill: true
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true,
-          }
-        }
-      }
-    });
-
-    
-  </script>
 </x-layout>
 
 

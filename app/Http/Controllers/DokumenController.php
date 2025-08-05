@@ -148,6 +148,7 @@ class DokumenController extends Controller
      * Update the specified resource in storage.
      */
 
+    
     public function update(Request $request, $slug)
     {
         $id = Auth::id();
@@ -208,6 +209,7 @@ class DokumenController extends Controller
             $validatedData['file_path'] = 'uploads/dokumen/' . $fileName;
             $validatedData['nama_file'] = $fileName;
         }
+
         // Update data ke database
         $dokumen->update($validatedData);
 

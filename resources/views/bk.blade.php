@@ -111,11 +111,11 @@
                                 <td>{{ $item->judul }}</td>
                                 <td>{{ $item->mata_pelajaran }}</td>
                                 <td class="text-center">{{ strtoupper($item->kelas) }}</td>
-                                @if ($item->kategori == 'bk1')
+                                @if ($item->kategori == '1')
                                     <td>Buku Kerja 1</td>
-                                @elseif ($item->kategori == 'bk2')
+                                @elseif ($item->kategori == '2')
                                     <td>Buku Kerja 2</td> 
-                                @elseif ($item->kategori == 'bk3')
+                                @elseif ($item->kategori == '3')
                                     <td>Buku Kerja 3</td> 
                                 @else
                                     <td>Buku Kerja 4</td> 
@@ -171,11 +171,11 @@
                                                 <p><strong>Mata Pelajaran:</strong> {{ $item->mata_pelajaran }}</p>
                                                 <p><strong>Semester:</strong> {{ $item->semester }}</p>
                                                 <p><strong>Tahun Pelajaran:</strong> {{ $item->tp }}</p>
-                                                @if ($item->kategori == 'bk1')
+                                                @if ($item->kategori == '1')
                                                     <p><strong>Kategori:</strong> Buku Kerja 1</p>
-                                                @elseif ($item->kategori == 'bk2')
+                                                @elseif ($item->kategori == '2')
                                                     <p><strong>Kategori:</strong> Buku Kerja 2</p>
-                                                @elseif ($item->kategori == 'bk3')
+                                                @elseif ($item->kategori == '3')
                                                     <p><strong>Kategori:</strong> Buku Kerja 3</p>
                                                 @else
                                                     <p><strong>Kategori:</strong> Buku Kerja 4</p>
@@ -189,16 +189,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if (auth()->user()->role == 'guru')
                                     
-                                    <!-- Tombol Edit -->
-                                    <a href="{{ route('edit_dokumen', ['slug' => $item->slug]) }}" class="btn btn-warning btn-sm {{ $item->status == 'validate' || $item->status == 'approve' ? 'd-none' : '' }}" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-        
-                                    <!-- Tombol Hapus -->
-                                    <a onclick="hapusDokumen({{ $item->id }})" class="btn btn-danger btn-sm" title="Hapus">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                        <!-- Tombol Edit -->
+                                        <a href="{{ route('edit_dokumen', ['slug' => $item->slug]) }}" class="btn btn-warning btn-sm {{ $item->status == 'validate' || $item->status == 'approve' ? 'd-none' : '' }}" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+            
+                                        <!-- Tombol Hapus -->
+                                        <a onclick="hapusDokumen({{ $item->idBK }},'{{ $item->judul }}')" class="btn btn-danger btn-sm" title="Hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                                 
@@ -266,10 +268,10 @@
     modalBody.textContent = data || 'Tidak ada catatan.';
   }
 
-  function hapusDokumen(id){
+  function hapusDokumen(id, judul){
     Swal.fire({
       title: 'Apakah Anda yakin?',
-      text: 'Dokumen akan dihapus!',
+      html: '<strong>' + judul + '</strong> akan dihapus!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

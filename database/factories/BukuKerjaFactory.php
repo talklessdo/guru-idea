@@ -77,4 +77,4 @@ class BukuKerjaFactory extends Factory
 }
 
 // jalankan dengan php artisan tinker
-// App\Models\BukuKerja::factory()->count(4)->create();
+// App\Models\BukuKerja::factory()->count(70)->create();
