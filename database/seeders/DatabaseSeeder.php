@@ -95,7 +95,8 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Rosmawati M',
                 'email' => 'biapunya2021@gmail.com',
                 'password' => bcrypt('rosmawati123'),
-            ],]);
+            ],
+        ]);
         // ])->each(fn ($data) => User::factory()->create($data));
         $users->each(function ($data) {
             $user = User::factory()->create($data);

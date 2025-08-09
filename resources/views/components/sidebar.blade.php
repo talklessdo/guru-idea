@@ -58,6 +58,12 @@
         {{-- GURU --}}
         @elseif($role === 'guru')
           <li class="nav-item"><x-sidelink href="/bk" :active="request()->is('bk')"><i class="nav-icon fas fa-book-open"></i><p>Buku Kerja Saya</p></x-sidelink></li>
+          <li class="nav-item">
+            <x-sidelink href="/upload_dokumen" :active="request()->is('upload_dokumen')">
+              <i class="nav-icon fas fa-upload"></i>
+              <p>Upload Dokumen</p>
+            </x-sidelink>
+          </li>
           <li class="nav-item {{ request()->is('bk-1') || request()->is('bk-2') || request()->is('bk-3') || request()->is('bk-4') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link"><i class="nav-icon fas fa-file-alt"></i><p>Laporan<i class="right fas fa-angle-left"></i></p></a>
             <ul class="nav nav-treeview">
@@ -86,12 +92,6 @@
                 </x-sidelink>
               </li>
             </ul>
-          </li>
-          <li class="nav-item">
-            <x-sidelink href="/upload_dokumen" :active="request()->is('upload_dokumen')">
-              <i class="nav-icon fas fa-upload"></i>
-              <p>Upload Dokumen</p>
-            </x-sidelink>
           </li>
 
         {{-- KURIKULUM --}}

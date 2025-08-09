@@ -52,6 +52,7 @@ class DashboardController extends Controller
         $bkPending = BukuKerja::where('status', '=', 'pending')->get();
         $bkPendingNow = DB::table('buku_kerja')
         ->join('indikator', 'buku_kerja.indikator_id', '=', 'indikator.id')
+        ->select('*', 'buku_kerja.id AS idBk')
         ->where('buku_kerja.status', '=', 'pending')
         ->whereDate('buku_kerja.created_at', Carbon::today())
         ->get();

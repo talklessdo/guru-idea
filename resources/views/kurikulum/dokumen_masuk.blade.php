@@ -132,15 +132,29 @@
             Swal.fire({
               title: 'Apakah Anda yakin?',
               text: 'Dokumen akan ditolak!',
+              input: 'textarea',
+              inputLabel: 'Catatan (wajib diisi)',
+              inputPlaceholder: 'Tulis catatan di sini...',
+              inputAttributes: {
+                'aria-label': 'Tulis catatan di sini'
+              },
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
               confirmButtonText: 'Ya, tolak!',
               cancelButtonText: 'Batal',
+              preConfirm: (catatan) => {
+                if (!catatan || catatan.trim() === '') {
+                  Swal.showValidationMessage('Catatan tidak boleh kosong!');
+                  return false;
+                }
+                return catatan;
+              }
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location.href = '/tolak-dokumen/' + id;
+                let catatan = encodeURIComponent(result.value);
+                window.location.href = '/tolak-dokumen/' + id + '?catatan=' + catatan;
               }
             });
           }

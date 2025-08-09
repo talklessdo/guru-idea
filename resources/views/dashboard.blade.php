@@ -81,7 +81,7 @@
         <div class="container-fluid">
             <div class="dashboard-header text-center">
             <h1>Dashboard Admin</h1>
-            <p>Kontrol panel untuk administrasi buku kerja guru</p>
+            <!-- <p>Kontrol panel untuk administrasi buku kerja guru</p> -->
             </div>
 
             {{-- Cards --}}
@@ -94,8 +94,8 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-icon" onclick="totalBk()" style="background: #2196f3;"><i class="fas fa-book"></i></div>
+            <div class="card" onclick="totalBk()">
+                <div class="card-icon" style="background: #2196f3;"><i class="fas fa-book"></i></div>
                 <div class="card-content">
                 <p class="card-title">Buku Kerja</p>
                 <p class="card-value">{{ $jmlBk }}</p>
@@ -277,8 +277,8 @@
                                     Aksi
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item text-success" style="cursor: pointer;" onclick="setujuiDokumen({{ $data->id }})"><i class="fas fa-check"></i> Setujui</a>
-                                    <a onclick="tolakDokumen({{ $data->id }})" class="dropdown-item text-danger" style="cursor: pointer;"><i class="fas fa-times"></i> Tolak</a>
+                                    <a class="dropdown-item text-success" style="cursor: pointer;" onclick="setujuiDokumen({{ $data->idBk }})"><i class="fas fa-check"></i> Setujui</a>
+                                    <a onclick="tolakDokumen({{ $data->idBk }})" class="dropdown-item text-danger" style="cursor: pointer;"><i class="fas fa-times"></i> Tolak</a>
                                 </div>
                             </div>
                           </td>
@@ -313,7 +313,7 @@
                 </div>
                 
                 {{-- Riwayat Persetujuan --}}
-                <div class="mb-5">
+                <!-- <div class="mb-5">
                 <h4>📜 Riwayat Persetujuan</h4>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
@@ -348,7 +348,7 @@
                     </tbody>
                     </table>
                 </div>
-                </div>
+                </div> -->
     
                 {{-- Progres Dokumen --}}
                 <div>
@@ -387,15 +387,29 @@
             Swal.fire({
               title: 'Apakah Anda yakin?',
               text: 'Dokumen akan ditolak!',
+              input: 'textarea',
+              inputLabel: 'Catatan (wajib diisi)',
+              inputPlaceholder: 'Tulis catatan di sini...',
+              inputAttributes: {
+                'aria-label': 'Tulis catatan di sini'
+              },
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
               confirmButtonText: 'Ya, tolak!',
               cancelButtonText: 'Batal',
+              preConfirm: (catatan) => {
+                if (!catatan || catatan.trim() === '') {
+                  Swal.showValidationMessage('Catatan tidak boleh kosong!');
+                  return false;
+                }
+                return catatan;
+              }
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location.href = '/tolak-dokumen/' + id;
+                let catatan = encodeURIComponent(result.value);
+                window.location.href = '/tolak-dokumen/' + id + '?catatan=' + catatan;
               }
             });
           }

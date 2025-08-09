@@ -346,10 +346,10 @@
                 icon: "success"
             });
         </script> --}}
-    @if (session('delete'))
+    @if (session('hapus'))
         <script>
             Swal.fire({
-                title: "Good job!",
+                title: "Berhasil!",
                 text: `{{ session('hapus') }}`,
                 icon: "success"
             });
@@ -357,7 +357,7 @@
     @elseif(session('store'))
         <script>
             Swal.fire({
-                title: "Good job!",
+                title: "Berhasil!",
                 text: `{{ session('store') }}`,
                 icon: "success"
             });

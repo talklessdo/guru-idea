@@ -30,7 +30,7 @@ Route::get('/bk-2', [BukuKerjaController::class,'showBk2'])->middleware('auth');
 Route::get('/bk-3', [BukuKerjaController::class,'showBk3'])->middleware('auth');
 Route::get('/bk-4', [BukuKerjaController::class,'showBk4'])->middleware('auth');
 Route::post('/catatan/{id}', [BukuKerjaController::class,'catatan'])->name('catatan')->middleware('auth');
-Route::get('/tolak-dokumen/{id}', [DokumenController::class,'updateStatus'])->name('tolak_dokumen')->middleware('auth');
+Route::get('/tolak-dokumen/{id}', [DokumenController::class,'tolakDokumen'])->name('tolak_dokumen')->middleware('auth');
 Route::get('/setujui-dokumen/{id}', [DokumenController::class,'setujuiDokumen'])->name('setujui_dokumen')->middleware('auth');
 Route::get('/dokumen_masuk', [DokumenController::class,'dokumenMasuk'])->middleware('auth');
 

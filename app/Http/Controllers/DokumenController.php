@@ -221,10 +221,12 @@ class DokumenController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function updateStatus($id)
+    public function tolakDokumen(Request $request, $id)
     {
         $dokumen = BukuKerja::find($id);
+        $catatan = $request->query('catatan');
         $dokumen->status = 'decline';
+        $dokumen->catatan = $catatan;
         $dokumen->save();
 
         return redirect()->back()->with('success', 'Dokumen berhasil ditolak!');
