@@ -89,8 +89,8 @@
                                     Aksi
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item text-success" style="cursor: pointer;" onclick="setujuiDokumen({{ $data->id }})"><i class="fas fa-check"></i> Setujui</a>
-                                    <a onclick="tolakDokumen({{ $data->id }})" class="dropdown-item text-danger" style="cursor: pointer;"><i class="fas fa-times"></i> Tolak</a>
+                                    <a class="dropdown-item text-success" style="cursor: pointer;" onclick="setujuiDokumen({{ $data->idBk }})"><i class="fas fa-check"></i> Setujui</a>
+                                    <a onclick="tolakDokumen({{ $data->idBk }})" class="dropdown-item text-danger" style="cursor: pointer;"><i class="fas fa-times"></i> Tolak</a>
                                 </div>
                             </div>
                           </td>
@@ -98,7 +98,7 @@
                         <!-- Modal Catatan -->
                         <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
-                                <form id="formCatatan" action="{{ route('catatan', ['id' => $data->id]) }}" method="POST">
+                                <form id="formCatatan" action="{{ route('catatan', ['id' => $data->idBk]) }}" method="POST">
                                     @csrf
                                     <div class="modal-content">
                                         <div class="modal-header">

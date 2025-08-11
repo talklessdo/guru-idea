@@ -171,6 +171,23 @@
                         title: {
                             display: true,
                             text: 'Progres Buku Kerja Guru'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    // pastikan angka bulat
+                                    if (Number.isFinite(context.parsed.y)) {
+                                        label += Math.round(context.parsed.y);
+                                    } else {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
+                                }
+                            }
                         }
                     },
                     scales: {
@@ -179,7 +196,14 @@
                         },
                         y: {
                             beginAtZero: true,
-                            stacked: true
+                            stacked: true,
+                            ticks: {
+                                // pastikan angka bulat di sumbu y
+                                callback: function(value) {
+                                    return Number.isInteger(value) ? value : '';
+                                },
+                                    stepSize: 1
+                            }
                         }
                     }
                 }

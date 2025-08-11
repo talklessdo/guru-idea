@@ -18,11 +18,15 @@ class BukuKerjaController extends Controller
         $user = Auth::user()->id;
         $data = DB::table('buku_kerja')
         ->join('indikator', 'buku_kerja.indikator_id', '=', 'indikator.id')
-        ->select('*','buku_kerja.id AS idBK')->where('guru_id', $user)
+        ->select('*','buku_kerja.id AS idBK', 'indikator.kategori AS indikatorBk')->where('guru_id', $user)
         ->orderBy('buku_kerja.created_at','desc')
         ->get();
 
-        $dataBk = BukuKerja::all();
+        $dataBk = DB::table('buku_kerja')
+        ->join('indikator', 'buku_kerja.indikator_id', '=', 'indikator.id')
+        ->select('*','buku_kerja.id AS idBK', 'indikator.kategori AS indikatorBk')
+        ->orderBy('buku_kerja.created_at','desc')
+        ->get();
 
         
         if (Auth::user()->role == 'guru') {

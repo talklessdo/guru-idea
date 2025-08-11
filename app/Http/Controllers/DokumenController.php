@@ -272,7 +272,10 @@ class DokumenController extends Controller
     }
 
     public function dokumenMasuk(){
-        $dokumenMasuk = BukuKerja::where('status', 'pending')->get();
+        // $dokumenMasuk = BukuKerja::where('status', 'pending')->get();
+        $dokumenMasuk = DB::table('buku_kerja')->join('indikator', 'buku_kerja.indikator_id','=', 'indikator.id')
+        ->select('*', 'buku_kerja.id AS idBk')
+        ->where('status','pending')->get();
         return view('kurikulum.dokumen_masuk', compact('dokumenMasuk'));
     }
 
